@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingConstraints">
+
+    <ImageView
+        android:id="@+id/imageSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_setting" />
+
+    <ImageView
+        android:id="@+id/imagePlayAndStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:src="@mipmap/icon_play"
+        app:layout_constraintStart_toEndOf="@+id/imageSetting"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textTestResultTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="测试结果："
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/imageSetting" />
+
+    <TextView
+        android:id="@+id/textTestResultValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PASS"
+        android:textColor="@color/grey"
+        app:layout_constraintStart_toEndOf="@+id/textTestResultTitle"
+        app:layout_constraintTop_toTopOf="@+id/textTestResultTitle" />
+
+    <TextView
+        android:id="@+id/textTestTimesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="测试次数："
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/textTestResultTitle" />
+
+    <TextView
+        android:id="@+id/textTestTimesValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0次"
+        android:textColor="@color/grey"
+        app:layout_constraintStart_toEndOf="@+id/textTestTimesTitle"
+        app:layout_constraintTop_toTopOf="@+id/textTestTimesTitle" />
+
+    <TextView
+        android:id="@+id/textTestErrorTimesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="出错次数："
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/textTestTimesTitle" />
+
+    <TextView
+        android:id="@+id/textTestErrorTimesValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0次"
+        android:textColor="@color/grey"
+        app:layout_constraintStart_toEndOf="@+id/textTestErrorTimesTitle"
+        app:layout_constraintTop_toTopOf="@+id/textTestErrorTimesTitle" />
+
+    <TextView
+        android:id="@+id/textTestErrorCodeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="错  误  码："
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/textTestErrorTimesTitle" />
+
+    <TextView
+        android:id="@+id/textTestErrorCodeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0次"
+        android:textColor="@color/grey"
+        app:layout_constraintStart_toEndOf="@+id/textTestErrorCodeTitle"
+        app:layout_constraintTop_toTopOf="@+id/textTestErrorCodeTitle" />
+
+    <TextView
+        android:id="@+id/textTestDurationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="测试时长："
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/textTestErrorCodeTitle" />
+
+    <TextView
+        android:id="@+id/textTestDurationValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2天"
+        android:textColor="@color/grey"
+        app:layout_constraintStart_toEndOf="@+id/textTestDurationTitle"
+        app:layout_constraintTop_toTopOf="@+id/textTestDurationTitle" />
+
+    <TextView
+        android:id="@+id/textErrorDetailsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_50"
+        android:text="错误详情"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/imagePlayAndStop" />
+
+    <TextView
+        android:id="@+id/textErrorDetails"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/text_background"
+        android:textColor="@color/black"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="@+id/textErrorDetailsTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textErrorDetailsTitle"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <TextView
+        android:id="@+id/textLogDetailsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_50"
+        android:text="LOG详情"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/textErrorDetails" />
+
+    <TextView
+        android:id="@+id/textLogDetails"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/text_background"
+        android:textColor="@color/black"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
+        app:layout_constraintTop_toTopOf="@+id/textErrorDetails"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <TextView
+        android:id="@+id/textPortRateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/string_port_rate1"
+        app:layout_constraintStart_toStartOf="@+id/textLogDetails"
+        app:layout_constraintTop_toBottomOf="@+id/textLogDetails" />
+
+    <Spinner
+        android:id="@+id/spinnerPortRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        app:layout_constraintStart_toEndOf="@+id/textPortRateTitle"
+        app:layout_constraintTop_toTopOf="@+id/textPortRateTitle" />
+
+    <TextView
+        android:id="@+id/textPortTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/string_port"
+        app:layout_constraintStart_toStartOf="@+id/textLogDetails"
+        app:layout_constraintTop_toBottomOf="@+id/textPortRateTitle" />
+
+    <Spinner
+        android:id="@+id/spinnerPortValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        app:layout_constraintStart_toEndOf="@+id/textPortTitle"
+        app:layout_constraintTop_toTopOf="@+id/textPortTitle" />
+
+    <TextView
+        android:id="@+id/textCMDTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/string_cmd"
+        app:layout_constraintStart_toStartOf="@+id/textPortTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textPortTitle" />
+
+    <Spinner
+        android:id="@+id/spinnerCMDValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        app:layout_constraintStart_toEndOf="@+id/textCMDTitle"
+        app:layout_constraintTop_toTopOf="@+id/textCMDTitle" />
+
+    <EditText
+        android:id="@+id/textCmdInput"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/dp_20"
+        android:background="@color/text_background"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/spinnerCMDValue"
+        app:layout_constraintTop_toTopOf="@+id/textPortRateTitle"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintHeight_percent="0.1"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送"
+        android:background="@drawable/btn_corner"
+        app:layout_constraintStart_toEndOf="@+id/textCmdInput"
+        app:layout_constraintTop_toTopOf="@+id/textCmdInput"
+        android:layout_marginStart="@dimen/dp_20"
+        app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

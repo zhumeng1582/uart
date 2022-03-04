@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">uart</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="string_home_title">触觉智能-自动测试平台</string>
+    <string name="string_uart_test">UART可靠性测试</string>
+    <string name="string_device_no">设备号:</string>
+    <string name="string_port_rate">波特率:</string>
+    <string name="string_port_rate1">波&#32;&#32;特&#32;&#32;率:</string>
+    <string name="string_check_bit">校验位:</string>
+    <string name="string_uart_type">类型:</string>
+    <string name="string_start">开始</string>
+    <string name="string_port">串&#12288;&#12288;口:</string>
+    <string name="string_cmd">快捷命令:</string>
+
+</resources>
