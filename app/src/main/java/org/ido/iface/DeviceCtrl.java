@@ -1,4 +1,4 @@
-package com.industio.uart.utils.iface;
+package org.ido.iface;
 
 public class DeviceCtrl {
     public native int  get_lcd_density();//-1：未获取到密度值

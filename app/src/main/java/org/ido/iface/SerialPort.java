@@ -1,4 +1,4 @@
-package com.industio.uart.utils.iface;
+package org.ido.iface;
 
 import java.io.File;
 import java.io.FileInputStream;
