@@ -31,13 +31,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.getId() == binding.btnTerminal.getId()) {
-            ;
+
         } else if (view.getId() == binding.btnAutoTest.getId()) {
             startActivity(new Intent(this, ComDataActivity.class));;
         } else if (view.getId() == binding.btnUARTTest.getId()) {
             startActivity(new Intent(this, URATTestActivity.class));
         } else if (view.getId() == binding.btnETHTest.getId()) {
-            startActivity(new Intent(this, ShutUpDownActivity.class));
+
         } else if (view.getId() == binding.btnCANTest.getId()) {
             ;
         }

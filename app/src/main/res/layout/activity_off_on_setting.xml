@@ -27,17 +27,11 @@
             android:text="上下电设置"
             android:textColor="@color/black" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_corner"
-            android:text="确认" />
-
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
         tools:ignore="MissingConstraints">
 
@@ -49,7 +43,7 @@
             android:textColor="@color/black" />
 
         <EditText
-            android:id="@+id/textProjectNameValue"
+            android:id="@+id/textDeviceNameValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="EVB3586"
@@ -73,64 +67,66 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/textAccessSelectTitle"
-            app:layout_constraintStart_toStartOf="@+id/textProjectNameValue"
+            app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
             app:layout_constraintTop_toTopOf="@+id/textAccessSelectTitle">
 
             <RadioButton
+                android:id="@+id/rbAccess1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="通道1" />
 
             <RadioButton
+                android:id="@+id/rbAccess2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="通道2" />
 
             <RadioButton
+                android:id="@+id/rbAccess3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="通道3" />
 
             <RadioButton
+                android:id="@+id/rbAccess4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="通道4" />
 
             <RadioButton
+                android:id="@+id/rbAccess5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="通道5" />
         </RadioGroup>
+
         <CheckBox
+            android:id="@+id/cbShutTimesSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_20"
-            app:layout_constraintBottom_toBottomOf="@+id/textAccessSelectTitle"
-            app:layout_constraintStart_toEndOf="@+id/rgAccessSelectValue"
-            app:layout_constraintTop_toTopOf="@+id/textAccessSelectTitle"
-            android:text="取消选择"/>
-        <CheckBox
-            android:id="@+id/cbPower"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/textPeriodCount"
+            android:text="电源波动"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
-            android:text="电源波动"/>
+            app:layout_constraintTop_toTopOf="@+id/textPeriodCount" />
+
         <TextView
             android:id="@+id/textPeriodCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_40"
-            app:layout_constraintTop_toBottomOf="@+id/textAccessSelectTitle"
-            app:layout_constraintStart_toStartOf="@+id/textProjectNameValue"
-            android:text="周期数"/>
+            android:text="周期数"
+            app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
+            app:layout_constraintTop_toBottomOf="@+id/textAccessSelectTitle" />
+
         <EditText
-            android:id="@+id/textPeriodCountValue"
-            android:layout_width="@dimen/dp_50"
+            android:id="@+id/textShutTimes"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"
-            android:text="10"
-            android:textColor="@color/grey"
             android:layout_marginStart="@dimen/dp_20"
+            android:text="10"
+            android:inputType="number"
+            android:lines="1"
+            android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textPeriodCount"
             app:layout_constraintStart_toEndOf="@+id/textPeriodCount"
             app:layout_constraintTop_toTopOf="@+id/textPeriodCount" />
@@ -140,152 +136,180 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintTop_toBottomOf="@+id/textPeriodCount"
+            android:text="上电时间"
             app:layout_constraintStart_toStartOf="@+id/textPeriodCount"
-            android:text="上电时间"/>
+            app:layout_constraintTop_toBottomOf="@+id/textPeriodCount" />
+
         <EditText
-            android:id="@+id/textShoutUpTimeValue"
-            android:layout_width="@dimen/dp_50"
+            android:id="@+id/textShoutUpDurValue"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"
-            android:text="10"
-            android:textColor="@color/grey"
             android:layout_marginStart="@dimen/dp_20"
+            android:text="10"
+            android:inputType="number"
+            android:lines="1"
+            android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
             app:layout_constraintStart_toEndOf="@+id/textShoutUpTime"
             app:layout_constraintTop_toTopOf="@+id/textShoutUpTime" />
+
         <TextView
             android:id="@+id/textShoutUpTimeUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
             android:text="毫秒"
             android:textColor="@color/black"
-            android:layout_marginStart="@dimen/dp_10"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
-            app:layout_constraintStart_toEndOf="@+id/textShoutUpTimeValue"
+            app:layout_constraintStart_toEndOf="@+id/textShoutUpDurValue"
             app:layout_constraintTop_toTopOf="@+id/textShoutUpTime" />
+
         <TextView
             android:id="@+id/textShoutDownTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_20"
+            android:text="下电时间"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
             app:layout_constraintStart_toEndOf="@+id/textShoutUpTimeUnit"
-            app:layout_constraintTop_toTopOf="@+id/textShoutUpTime"
-            android:text="下电时间"/>
+            app:layout_constraintTop_toTopOf="@+id/textShoutUpTime" />
+
         <EditText
-            android:id="@+id/textShoutDownTimeValue"
-            android:layout_width="@dimen/dp_50"
+            android:id="@+id/textShoutDownDurValue"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"
-            android:text="10"
-            android:textColor="@color/grey"
             android:layout_marginStart="@dimen/dp_20"
+            android:text="10"
+            android:inputType="number"
+            android:lines="1"
+            android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
             app:layout_constraintStart_toEndOf="@+id/textShoutDownTime"
             app:layout_constraintTop_toTopOf="@+id/textShoutUpTime" />
+
         <TextView
             android:id="@+id/textShoutDownTimeUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
             android:text="毫秒"
             android:textColor="@color/black"
-            android:layout_marginStart="@dimen/dp_10"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
-            app:layout_constraintStart_toEndOf="@+id/textShoutDownTimeValue"
+            app:layout_constraintStart_toEndOf="@+id/textShoutDownDurValue"
             app:layout_constraintTop_toTopOf="@+id/textShoutUpTime" />
+
         <TextView
             android:id="@+id/textIsShoutUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="足额上电："
             android:layout_marginTop="@dimen/dp_40"
-            app:layout_constraintTop_toBottomOf="@+id/cbPower"
-            android:textColor="@color/black" />
+            android:text="足额上电："
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/cbShutTimesSwitch" />
+
         <CheckBox
-            android:id="@+id/cbIsShoutUp"
+            android:id="@+id/cbFullShutUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="是"
             app:layout_constraintBottom_toBottomOf="@+id/textIsShoutUp"
-            app:layout_constraintStart_toStartOf="@+id/textProjectNameValue"
-            app:layout_constraintTop_toTopOf="@+id/textIsShoutUp"
-            android:text="是"/>
+            app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
+            app:layout_constraintTop_toTopOf="@+id/textIsShoutUp" />
+
         <TextView
             android:id="@+id/textShoutUpDurTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="持续上电"
             android:layout_marginStart="@dimen/dp_20"
-            app:layout_constraintBottom_toBottomOf="@+id/textIsShoutUp"
-            app:layout_constraintStart_toEndOf="@+id/cbIsShoutUp"
-            app:layout_constraintTop_toTopOf="@+id/textIsShoutUp"
-            android:textColor="@color/grey" />
-        <EditText
-            android:id="@+id/editShoutUpDurTime"
-            android:layout_width="@dimen/dp_50"
-            android:layout_height="wrap_content"
-            android:text="10"
+            android:text="持续上电"
             android:textColor="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@+id/textIsShoutUp"
+            app:layout_constraintStart_toEndOf="@+id/cbFullShutUp"
+            app:layout_constraintTop_toTopOf="@+id/textIsShoutUp" />
+
+        <EditText
+            android:id="@+id/editFullShutUpDur"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
+            android:text="10"
+            android:inputType="number"
+            android:lines="1"
+            android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textIsShoutUp"
             app:layout_constraintStart_toEndOf="@+id/textShoutUpDurTime"
             app:layout_constraintTop_toTopOf="@+id/textIsShoutUp" />
+
         <TextView
             android:id="@+id/textShoutUpDurTimeS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="毫秒"
             android:layout_marginStart="@dimen/dp_10"
+            android:text="毫秒"
+            android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textIsShoutUp"
-            app:layout_constraintStart_toEndOf="@+id/editShoutUpDurTime"
-            app:layout_constraintTop_toTopOf="@+id/textIsShoutUp"
-            android:textColor="@color/grey" />
+            app:layout_constraintStart_toEndOf="@+id/editFullShutUpDur"
+            app:layout_constraintTop_toTopOf="@+id/textIsShoutUp" />
+
         <TextView
             android:id="@+id/textError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="出错处理："
             android:layout_marginTop="@dimen/dp_40"
-            app:layout_constraintTop_toBottomOf="@+id/textIsShoutUp"
-            android:textColor="@color/black" />
+            android:text="出错处理："
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/textIsShoutUp" />
+
         <CheckBox
-            android:id="@+id/cbError"
+            android:id="@+id/cbErrorContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="继续"
             app:layout_constraintBottom_toBottomOf="@+id/textError"
-            app:layout_constraintStart_toStartOf="@+id/textProjectNameValue"
-            app:layout_constraintTop_toTopOf="@+id/textError"
-            android:text="继续"/>
+            app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
+            app:layout_constraintTop_toTopOf="@+id/textError" />
+
         <TextView
             android:id="@+id/textSound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="报警声音："
             android:layout_marginTop="@dimen/dp_40"
-            app:layout_constraintTop_toBottomOf="@+id/textError"
-            android:textColor="@color/black" />
+            android:text="报警声音："
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/textError" />
+
         <CheckBox
-            android:id="@+id/cbSound"
+            android:id="@+id/cbAlarmSound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="是"
             app:layout_constraintBottom_toBottomOf="@+id/textSound"
-            app:layout_constraintStart_toStartOf="@+id/textProjectNameValue"
-            app:layout_constraintTop_toTopOf="@+id/textSound"
-            android:text="是"/>
+            app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
+            app:layout_constraintTop_toTopOf="@+id/textSound" />
+
         <TextView
             android:id="@+id/textLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LOG保存："
             android:layout_marginTop="@dimen/dp_40"
-            app:layout_constraintTop_toBottomOf="@+id/textSound"
-            android:textColor="@color/black" />
+            android:text="LOG保存："
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/textSound" />
+
         <CheckBox
-            android:id="@+id/cbLog"
+            android:id="@+id/cbSaveLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="是"
             app:layout_constraintBottom_toBottomOf="@+id/textLog"
-            app:layout_constraintStart_toStartOf="@+id/textProjectNameValue"
-            app:layout_constraintTop_toTopOf="@+id/textLog"
-            android:text="是"/>
+            app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
+            app:layout_constraintTop_toTopOf="@+id/textLog" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/btn_corner"
+        android:text="保存" />
 </LinearLayout>
