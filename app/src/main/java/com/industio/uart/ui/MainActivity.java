@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.ClickUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.industio.uart.databinding.ActivityMainBinding;
+import com.industio.uart.utils.DataProtocol;
 
 import java.util.List;
 
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        LogUtils.d("----->"+ DataProtocol.END);
         PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
             @Override
             public void onGranted() {

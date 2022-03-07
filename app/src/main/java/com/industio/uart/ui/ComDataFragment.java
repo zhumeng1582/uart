@@ -128,9 +128,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         binding.textErrorDetails.setText("");
         SerialControl serialControl = new SerialControl() {
             @Override
-            protected void read(final byte[] buf, final int len) {
+            protected void read(byte[] buf, int len) {
 
                 ThreadUtils.runOnUiThread(() -> {
+
                     if (buf[1] == DataProtocol.END && !bootPara.isErrorContinue()) {
                         if (testDeviceThread != null) {
                             testDeviceThread.interrupt();
