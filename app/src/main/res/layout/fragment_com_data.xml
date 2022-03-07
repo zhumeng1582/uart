@@ -12,12 +12,12 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/icon_setting" />
 
-    <ImageView
+    <CheckedTextView
         android:id="@+id/imagePlayAndStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_20"
-        android:src="@mipmap/icon_play"
+        android:background="@drawable/btn_play_stop"
         app:layout_constraintStart_toEndOf="@+id/imageSetting"
         tools:ignore="MissingConstraints" />
 
