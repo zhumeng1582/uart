@@ -23,6 +23,7 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.industio.uart.bean.BootPara;
 import com.industio.uart.cache.BootParaInstance;
 import com.industio.uart.databinding.FragmentComDataBinding;
+import com.industio.uart.utils.DataAnalysis;
 import com.industio.uart.utils.DataProtocol;
 
 import org.ido.iface.SerialControl;
@@ -73,8 +74,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             } else {
                 testDevice();
                 binding.imagePlayAndStop.setChecked(true);
-
-
             }
 
         }
@@ -144,6 +143,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             playAlarmSound();
                         }
                     }
+                    binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
+
                 });
             }
         };
