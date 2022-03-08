@@ -98,7 +98,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                         //足额上电
                         if (bootPara.isFullShutUp()) {
                             setPower(true);
-                            Thread.sleep(bootPara.getFullShutUpDur());
+                            Thread.sleep(bootPara.getFullShutUpDur()*1000);
                         }
 
                     } catch (InterruptedException e) {

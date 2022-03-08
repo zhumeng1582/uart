@@ -245,7 +245,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
-            android:text="毫秒"
+            android:text="秒"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textIsShoutUp"
             app:layout_constraintStart_toEndOf="@+id/editFullShutUpDur"
