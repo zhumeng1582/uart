@@ -40,7 +40,7 @@
             android:id="@+id/textProjectNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="测试项目名称："
+            android:text="名称为："
             android:textColor="@color/black" />
 
         <EditText
