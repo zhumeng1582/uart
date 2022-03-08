@@ -8,14 +8,14 @@
 
     <ImageView
         android:id="@+id/imageSetting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
         android:src="@mipmap/icon_setting" />
 
     <CheckedTextView
         android:id="@+id/imagePlayAndStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
         android:layout_marginStart="@dimen/dp_20"
         android:background="@drawable/btn_play_stop"
         app:layout_constraintStart_toEndOf="@+id/imageSetting"
