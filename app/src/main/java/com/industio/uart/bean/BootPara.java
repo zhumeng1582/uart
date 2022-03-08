@@ -12,7 +12,7 @@ public class BootPara implements Serializable {
     private int shutUpDur = 1000;
     private int shutDownDur = 1000;
     private boolean fullShutUp = true;
-    private int fullShutUpDur = 10000;
+    private int fullShutUpDur = 60;
     private boolean errorContinue = true;
     private boolean alarmSound = true;
     private boolean saveLog = true;

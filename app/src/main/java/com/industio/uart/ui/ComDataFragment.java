@@ -14,9 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.FileIOUtils;
-import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
@@ -34,12 +32,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 public class ComDataFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "ComDataFragment";
     private FragmentComDataBinding binding;
     private BootPara bootPara;
     private Thread testDeviceThread;
+    private int testCount = 0;
+    private int errorCount = 0;
+    private long testTimeLong = 0;
 
     @Nullable
     @Override
@@ -73,8 +75,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             if (binding.imagePlayAndStop.isChecked()) {
                 binding.imagePlayAndStop.setChecked(false);
                 if (testDeviceThread != null) {
-                    testDeviceThread.isInterrupted();
+                    testDeviceThread.interrupt();
                 }
+                durTime.cancel();
             } else {
 
                 testDevice();
@@ -85,7 +88,11 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     }
 
     private void testDevice() {
+        testCount = 0;
+        errorCount = 0;
+        testTimeLong = 0;
         initErrorInfoSerial();
+
         testDeviceThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -103,18 +110,45 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                         //足额上电
                         if (bootPara.isFullShutUp()) {
                             setPower(true);
-                            Thread.sleep(bootPara.getFullShutUpDur()*1000);
+                            Thread.sleep(bootPara.getFullShutUpDur() * 1000);
                         }
+                        testCount ++;
+                        binding.textTestTimesValue.setText(testCount+"次");
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-
             }
         });
+
+        durTime =  new ThreadUtils.Task<Object>() {
+            @Override
+            public Object doInBackground() throws Throwable {
+                return null;
+            }
+
+            @Override
+            public void onSuccess(Object result) {
+                testTimeLong ++;
+                binding.textTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(testTimeLong));
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onFail(Throwable t) {
+
+            }
+        };
+
         testDeviceThread.start();
+        ThreadUtils.executeByCachedAtFixRate(durTime,1, TimeUnit.SECONDS);
     }
+
 
     //上下电设置
     private void setPower(boolean on) {
@@ -154,7 +188,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     //初始化错误串口
     private void initErrorInfoSerial() {
 
-        int portRate = (int) binding.spinnerPortRate.getSelectedItem();
         binding.textErrorDetails.setText("");
         SerialControl serialControl = new SerialControl() {
             @Override
@@ -162,25 +195,28 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                 ThreadUtils.runOnUiThread(() -> {
 
-                    if (buf[1] == DataProtocol.END && !bootPara.isErrorContinue()) {
+                    //不为END 即代表出错，判断是否需要终止线程
+                    if (buf[1] != DataProtocol.END && !bootPara.isErrorContinue()) {
                         if (testDeviceThread != null) {
                             testDeviceThread.interrupt();
+                            durTime.cancel();
                             binding.imagePlayAndStop.setChecked(false);
                         }
-                    }
-
-                    if (buf[1] == DataProtocol.END) {
+                    }else if (buf[1] == DataProtocol.END) {
                         if (bootPara.isAlarmSound()) {
                             playAlarmSound();
                         }
+                        errorCount++;
+                        binding.textTestErrorTimesValue.setText(errorCount +"次");
+                        binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
+
                     }
-                    binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
 
                 });
             }
         };
         String portName = bootPara.getAccessPort().getPort();
-        if (serialControl.init(portName, portRate, 8, 'N', 1, 0, 10)) {//接收100ms粘包
+        if (serialControl.init(portName, 9600, 8, 'N', 1, 0, 10)) {
             //ToastUtils.showShort("打开成功:"+portName);
             Toast.makeText(getContext(), "打开成功:" + portName, Toast.LENGTH_LONG).show();
         } else {
@@ -215,7 +251,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             }
         };
         String portName = (String) binding.spinnerPortValue.getSelectedItem();
-        if (serialControl.init(portName, portRate, 8, 'N', 1, 0, 10)) {//接收100ms粘包
+        if (serialControl.init(portName, portRate, 8, 'N', 1, 0, 0)) {
             //ToastUtils.showShort("打开成功:"+portName);
             Toast.makeText(getContext(), "打开成功:" + portName, Toast.LENGTH_LONG).show();
         } else {
@@ -239,4 +275,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
     }
+    private ThreadUtils.Task<Object> durTime;
+
 }
