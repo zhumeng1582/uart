@@ -126,7 +126,12 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             Thread.sleep(bootPara.getFullShutUpDur() * 1000);
                         }
                         testCount ++;
-                        binding.textTestTimesValue.setText(testCount+"次");
+                        ThreadUtils.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.textTestTimesValue.setText(testCount+"次");
+                            }
+                        });
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
