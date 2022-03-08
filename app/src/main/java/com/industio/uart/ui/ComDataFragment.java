@@ -79,7 +79,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == binding.imageSetting) {
-            if(binding.imagePlayAndStop.isChecked()){
+            if (binding.imagePlayAndStop.isChecked()) {
                 ToastUtils.showShort("请先停止测试");
                 return;
             }
@@ -130,8 +130,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             setPower(true);
                             Thread.sleep(bootPara.getFullShutUpDur() * 1000);
                         }
-                        testCount ++;
-                        binding.textTestTimesValue.setText(testCount+"次");
+                        testCount++;
+                        binding.textTestTimesValue.setText(testCount + "次");
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -140,7 +140,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        durTime =  new ThreadUtils.Task<Object>() {
+        durTime = new ThreadUtils.Task<Object>() {
             @Override
             public Object doInBackground() throws Throwable {
                 return null;
@@ -148,7 +148,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onSuccess(Object result) {
-                testTimeLong ++;
+                testTimeLong++;
                 binding.textTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(testTimeLong));
             }
 
@@ -164,7 +164,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         };
 
         testDeviceThread.start();
-        ThreadUtils.executeByCachedAtFixRate(durTime,1, TimeUnit.SECONDS);
+        ThreadUtils.executeByCachedAtFixRate(durTime, 1, TimeUnit.SECONDS);
     }
 
 
@@ -226,7 +226,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             }
                             errorCount++;
                             binding.textTestErrorTimesValue.setText(errorCount + "次");
-                            binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
+                            String errorText = DataAnalysis.analysis(buf[1], buf[2]) + "\n";
+
+                            binding.textErrorDetails.setText(binding.textErrorDetails.getText().toString() + errorText);
 
                         }
                     }

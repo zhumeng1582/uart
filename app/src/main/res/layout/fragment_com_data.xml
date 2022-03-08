@@ -108,7 +108,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:background="@color/text_background"
-        android:textColor="@color/black"
+        android:textColor="@color/red"
         app:layout_constraintHeight_percent="0.8"
         app:layout_constraintStart_toStartOf="@+id/textErrorDetailsTitle"
         app:layout_constraintTop_toBottomOf="@+id/textErrorDetailsTitle"
