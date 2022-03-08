@@ -126,12 +126,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             Thread.sleep(bootPara.getFullShutUpDur() * 1000);
                         }
                         testCount ++;
-                        ThreadUtils.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                binding.textTestTimesValue.setText(testCount+"次");
-                            }
-                        });
+                        binding.textTestTimesValue.setText(testCount+"次");
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -212,22 +207,23 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             protected void read(byte[] buf, int len) {
 
                 ThreadUtils.runOnUiThread(() -> {
+                    if (buf[0] == DataProtocol.START_FRAME && buf[3] == DataProtocol.END_FRAME) {
+                        //不为END 即代表出错，判断是否需要终止线程
+                        if (buf[1] != DataProtocol.END && !bootPara.isErrorContinue()) {
+                            if (testDeviceThread != null) {
+                                testDeviceThread.interrupt();
+                                durTime.cancel();
+                                binding.imagePlayAndStop.setChecked(false);
+                            }
+                        } else if (buf[1] == DataProtocol.END) {
+                            if (bootPara.isAlarmSound()) {
+                                playAlarmSound();
+                            }
+                            errorCount++;
+                            binding.textTestErrorTimesValue.setText(errorCount + "次");
+                            binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
 
-                    //不为END 即代表出错，判断是否需要终止线程
-                    if (buf[1] != DataProtocol.END && !bootPara.isErrorContinue()) {
-                        if (testDeviceThread != null) {
-                            testDeviceThread.interrupt();
-                            durTime.cancel();
-                            binding.imagePlayAndStop.setChecked(false);
                         }
-                    }else if (buf[1] == DataProtocol.END) {
-                        if (bootPara.isAlarmSound()) {
-                            playAlarmSound();
-                        }
-                        errorCount++;
-                        binding.textTestErrorTimesValue.setText(errorCount +"次");
-                        binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
-
                     }
 
                 });

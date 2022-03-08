@@ -1,6 +1,8 @@
 package com.industio.uart.utils;
 
 public class DataProtocol {
+    public final static int START_FRAME =  0xFE;
+    public final static int END_FRAME =  0xFD;
     //RTC：0x10,未识别：0x01/写失败：0x02
     public final static int TRC = 0x10, TRC_UNKNOWN = 0x01, TRC_WRITE_ERROR = 0x02;
     //音频:0x15,未识别Codec：0x01,未识别耳机：0x02
@@ -56,5 +58,5 @@ public class DataProtocol {
     //自定义2:0xED,0x00-0xEF
     //自定义3:0xEF,0x00-0xEF
     //结束符：0xF0,0x00
-    public static int END =  0xF0;
+    public final static int END =  0xF0;
 }
