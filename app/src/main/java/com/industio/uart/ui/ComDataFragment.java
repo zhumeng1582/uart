@@ -109,8 +109,12 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
     private void testDevice() {
         testCount = 0;
+        binding.textTestTimesValue.setText(testCount+"次");
         errorCount = 0;
+        binding.textTestErrorTimesValue.setText(errorCount + "次");
         testTimeLong = 0;
+        binding.textTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(testTimeLong));
+
         initErrorInfoSerial();
 
         testDeviceThread = new Thread(new Runnable() {
@@ -131,10 +135,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             }
                         }
 
-                        testCount ++;
                         ThreadUtils.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                testCount ++;
                                 binding.textTestTimesValue.setText(testCount+"次");
                             }
                         });
