@@ -34,6 +34,7 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
         binding = ActivityOffOnSettingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.btnSure.setOnClickListener(this);
+        binding.imageBack.setOnClickListener(this);
         init();
     }
 
@@ -104,6 +105,8 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
             } else {
                 BootParaInstance.getInstance().saveBootPara2(bootPara);
             }
+            finish();
+        }else if(view == binding.imageBack){
             finish();
         }
     }

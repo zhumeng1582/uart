@@ -28,7 +28,7 @@ public class URATTestActivity extends AppCompatActivity implements View.OnClickL
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerDeviceNo.setAdapter(adapter);
 
-        String[] portRate = {"9600", "12300"};
+        String[] portRate = {"115200", "1500000"};
         ArrayAdapter<String> adapterPortRate = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, portRate);
         adapterPortRate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerPortRate.setAdapter(adapterPortRate);
@@ -44,10 +44,17 @@ public class URATTestActivity extends AppCompatActivity implements View.OnClickL
         adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerType.setAdapter(adapterType);
 
+        initView();
+    }
+
+    private void initView() {
+        binding.imageBack.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-
+        if (view == binding.imageBack) {
+            finish();
+        }
     }
 }

@@ -17,12 +17,14 @@ public class ComDataActivity extends AppCompatActivity implements View.OnClickLi
 
         binding = ActivityCommunicationDataBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        binding.imageBack.setOnClickListener(this);
 
     }
 
     @Override
-    public void onClick(View view){
-
+    public void onClick(View view) {
+        if (view == binding.imageBack) {
+            finish();
+        }
     }
 }
