@@ -355,7 +355,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     public void playAlarmSound() {
 
         try {
-            AssetFileDescriptor fdLeft = getActivity().getAssets().openFd("alarm_sound.wav");
+            AssetFileDescriptor fdLeft = getActivity().getAssets().openFd("1K0dBLR.wav");
             MediaPlayer mpLeft = new MediaPlayer();
             mpLeft.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mpLeft.setDataSource(fdLeft.getFileDescriptor(), fdLeft.getStartOffset(), fdLeft.getLength());
