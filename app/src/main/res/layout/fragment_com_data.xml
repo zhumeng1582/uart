@@ -88,7 +88,7 @@
         android:id="@+id/textTestDurationValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2天"
+        android:text="0天0小时0分0秒"
         android:textColor="@color/grey"
         app:layout_constraintStart_toEndOf="@+id/textTestDurationTitle"
         app:layout_constraintTop_toTopOf="@+id/textTestDurationTitle" />
@@ -97,16 +97,16 @@
         android:id="@+id/textErrorDetailsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_50"
+        android:layout_marginStart="@dimen/dp_20"
         android:text="错误详情"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/imagePlayAndStop" />
+        app:layout_constraintStart_toEndOf="@+id/textTestDurationValue" />
 
     <TextView
         android:id="@+id/textErrorDetails"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="12dp"
         android:background="@color/text_background"
         android:textColor="@color/black"
         app:layout_constraintHeight_percent="0.8"
@@ -195,7 +195,7 @@
         app:layout_constraintStart_toEndOf="@+id/spinnerCMDValue"
         app:layout_constraintTop_toTopOf="@+id/textPortRateTitle"
         app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintHeight_percent="0.2"/>
+        app:layout_constraintHeight_percent="0.1"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"

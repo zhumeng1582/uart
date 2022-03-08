@@ -40,7 +40,7 @@
             android:id="@+id/textProjectNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="名称为："
+            android:text="名 称 为："
             android:textColor="@color/black" />
 
         <EditText
@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:text="EVB3586"
             android:textColor="@color/grey"
+            android:layout_marginLeft="@dimen/dp_50"
             app:layout_constraintBottom_toBottomOf="@+id/textProjectNameTitle"
             app:layout_constraintStart_toEndOf="@+id/textProjectNameTitle"
             app:layout_constraintTop_toTopOf="@+id/textProjectNameTitle" />
@@ -121,7 +122,7 @@
 
         <EditText
             android:id="@+id/textShutTimes"
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="@dimen/dp_50"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_20"
             android:text="10"
@@ -210,7 +211,7 @@
 
         <EditText
             android:id="@+id/editFullShutUpDur"
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="@dimen/dp_50"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
             android:text="10"
@@ -218,7 +219,7 @@
             android:lines="1"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpDurTime"
-            app:layout_constraintStart_toEndOf="@+id/textShoutUpDurTime"
+            app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
             app:layout_constraintTop_toTopOf="@+id/textShoutUpDurTime" />
         <TextView
             android:id="@+id/textShoutUpDurTimeS"
