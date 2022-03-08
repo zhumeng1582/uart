@@ -4,6 +4,7 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,14 @@ import com.industio.uart.utils.DataProtocol;
 
 import org.ido.iface.SerialControl;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 
 public class ComDataFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "ComDataFragment";
     private FragmentComDataBinding binding;
     private BootPara bootPara;
     private Thread testDeviceThread;
@@ -72,6 +76,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                     testDeviceThread.isInterrupted();
                 }
             } else {
+
                 testDevice();
                 binding.imagePlayAndStop.setChecked(true);
             }
@@ -116,6 +121,31 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         ThreadUtils.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                String path = bootPara.getAccessPort().getGpio();
+
+                if (new File(path).exists()) {
+                    FileWriter writer = null;
+                    try {
+                        writer = new FileWriter(path);
+                        if (on)
+                            writer.write("1");
+                        else
+                            writer.write("0");
+                        writer.flush();
+                    } catch (Exception ex) {
+                        Log.e(TAG, "" + ex);
+                    } finally {
+                        if (writer != null) {
+                            try {
+                                writer.close();
+                            } catch (IOException ex) {
+                                Log.e(TAG, "" + ex);
+                            }
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "node is not found:" + path);
+                }
 
             }
         });
@@ -149,8 +179,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                 });
             }
         };
-        String portName = "xxx";
-        if (serialControl.init(portName, portRate, 0, 0, 0, 0, 10)) {//接收100ms粘包
+        String portName = bootPara.getAccessPort().getPort();
+        if (serialControl.init(portName, portRate, 8, 'N', 1, 0, 10)) {//接收100ms粘包
             //ToastUtils.showShort("打开成功:"+portName);
             Toast.makeText(getContext(), "打开成功:" + portName, Toast.LENGTH_LONG).show();
         } else {
@@ -184,8 +214,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                 });
             }
         };
-        String portName = "xxx";
-        if (serialControl.init(portName, portRate, 0, 0, 0, 0, 10)) {//接收100ms粘包
+        String portName = (String) binding.spinnerPortValue.getSelectedItem();
+        if (serialControl.init(portName, portRate, 8, 'N', 1, 0, 10)) {//接收100ms粘包
             //ToastUtils.showShort("打开成功:"+portName);
             Toast.makeText(getContext(), "打开成功:" + portName, Toast.LENGTH_LONG).show();
         } else {

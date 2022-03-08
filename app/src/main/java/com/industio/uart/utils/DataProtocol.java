@@ -56,5 +56,5 @@ public class DataProtocol {
     //自定义2:0xED,0x00-0xEF
     //自定义3:0xEF,0x00-0xEF
     //结束符：0xF0,0x00
-    public final static int END =  0xF0;
+    public static int END =  0xF0;
 }

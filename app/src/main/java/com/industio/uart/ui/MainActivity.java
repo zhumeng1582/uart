@@ -37,26 +37,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == binding.btnTerminal.getId()) {
-
-        } else if (view.getId() == binding.btnAutoTest.getId()) {
-            startActivity(new Intent(this, ComDataActivity.class));
-        } else if (view.getId() == binding.btnUARTTest.getId()) {
-            startActivity(new Intent(this, URATTestActivity.class));
-        } else if (view.getId() == binding.btnETHTest.getId()) {
-
-        } else if (view.getId() == binding.btnCANTest.getId()) {
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LogUtils.d("----->"+ DataProtocol.END);
         PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
             @Override
             public void onGranted() {
+                if (view.getId() == binding.btnTerminal.getId()) {
 
+                } else if (view.getId() == binding.btnAutoTest.getId()) {
+                    startActivity(new Intent(MainActivity.this, ComDataActivity.class));
+                } else if (view.getId() == binding.btnUARTTest.getId()) {
+                    startActivity(new Intent(MainActivity.this, URATTestActivity.class));
+                } else if (view.getId() == binding.btnETHTest.getId()) {
+
+                } else if (view.getId() == binding.btnCANTest.getId()) {
+                }
             }
 
             @Override
@@ -64,5 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         }).request();
+
     }
+
 }

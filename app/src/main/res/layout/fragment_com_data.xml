@@ -25,7 +25,7 @@
         android:id="@+id/textTestResultTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_40"
         android:text="测试结果："
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/imageSetting" />
@@ -43,7 +43,7 @@
         android:id="@+id/textTestTimesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
         android:text="测试次数："
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/textTestResultTitle" />
@@ -61,7 +61,7 @@
         android:id="@+id/textTestErrorTimesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
         android:text="出错次数："
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/textTestTimesTitle" />
@@ -76,31 +76,13 @@
         app:layout_constraintTop_toTopOf="@+id/textTestErrorTimesTitle" />
 
     <TextView
-        android:id="@+id/textTestErrorCodeTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:text="错  误  码："
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/textTestErrorTimesTitle" />
-
-    <TextView
-        android:id="@+id/textTestErrorCodeValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0次"
-        android:textColor="@color/grey"
-        app:layout_constraintStart_toEndOf="@+id/textTestErrorCodeTitle"
-        app:layout_constraintTop_toTopOf="@+id/textTestErrorCodeTitle" />
-
-    <TextView
         android:id="@+id/textTestDurationTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
         android:text="测试时长："
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/textTestErrorCodeTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/textTestErrorTimesTitle" />
 
     <TextView
         android:id="@+id/textTestDurationValue"
@@ -127,7 +109,7 @@
         android:layout_marginTop="@dimen/dp_10"
         android:background="@color/text_background"
         android:textColor="@color/black"
-        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintHeight_percent="0.8"
         app:layout_constraintStart_toStartOf="@+id/textErrorDetailsTitle"
         app:layout_constraintTop_toBottomOf="@+id/textErrorDetailsTitle"
         app:layout_constraintWidth_percent="0.3" />
@@ -147,7 +129,7 @@
         android:layout_height="0dp"
         android:background="@color/text_background"
         android:textColor="@color/black"
-        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHeight_percent="0.6"
         app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
         app:layout_constraintTop_toTopOf="@+id/textErrorDetails"
         app:layout_constraintWidth_percent="0.5" />
@@ -213,7 +195,7 @@
         app:layout_constraintStart_toEndOf="@+id/spinnerCMDValue"
         app:layout_constraintTop_toTopOf="@+id/textPortRateTitle"
         app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintHeight_percent="0.1"/>
+        app:layout_constraintHeight_percent="0.2"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
