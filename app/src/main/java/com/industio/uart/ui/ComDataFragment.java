@@ -47,6 +47,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private int errorCount = 0;
     private long testTimeLong = 0;
 
+    private int uartRxDataFlag=0;
+    private boolean testDevThreadRunFlag=false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,19 +92,18 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                 ShutUpDownActivity.startActivity(getActivity(), BootParaInstance.KEY_BOOT_PRAR2);
             }
         } else if (v == binding.imagePlayAndStop) {
-
             if (binding.imagePlayAndStop.isChecked()) {
                 binding.imagePlayAndStop.setChecked(false);
                 if (testDeviceThread != null) {
-                    testDeviceThread.interrupt();
+                    //testDeviceThread.interrupt();
+                    testDevThreadRunFlag = false;
                 }
                 durTime.cancel();
             } else {
-
+                testDevThreadRunFlag = true;
                 testDevice();
                 binding.imagePlayAndStop.setChecked(true);
             }
-
         }
     }
 
@@ -112,10 +114,13 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         initErrorInfoSerial();
 
         testDeviceThread = new Thread(new Runnable() {
+            int timeCnt;
             @Override
             public void run() {
-                while (!testDeviceThread.isInterrupted()) {
+                while (testDevThreadRunFlag) {
                     try {
+                        uartRxDataFlag = 0;
+                        timeCnt = 0;
                         //电源波动
                         if (bootPara.isShutTimesSwitch()) {
                             for (int i = 0; i < bootPara.getShutTimes(); i++) {
@@ -125,17 +130,64 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                 Thread.sleep(bootPara.getShutDownDur());
                             }
                         }
-                        //足额上电
-                        if (bootPara.isFullShutUp()) {
-                            setPower(true);
-                            Thread.sleep(bootPara.getFullShutUpDur() * 1000);
-                        }
-                        testCount++;
-                        binding.textTestTimesValue.setText(testCount + "次");
 
+                        testCount ++;
+                        ThreadUtils.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.textTestTimesValue.setText(testCount+"次");
+                            }
+                        });
+
+                        //持续上电
+                        setPower(true);
+
+                        if (bootPara.isFullShutUp()) {
+                            timeCnt = bootPara.getFullShutUpDur();
+                            while(timeCnt-- > 0) {
+                                Thread.sleep( 1000);
+                                if (testDevThreadRunFlag == false) {//被手动停止
+                                    timeCnt = 0;
+                                }
+                            }
+
+                            if (testDevThreadRunFlag && uartRxDataFlag == 0 && bootPara.isErrorContinue() == false) {//超时判断
+                                //testDeviceThread.interrupt();
+                                testDevThreadRunFlag = false;
+                                durTime.cancel();
+                                binding.imagePlayAndStop.setChecked(false);
+                                binding.textErrorDetails.setText("超时错误！");
+                                if (bootPara.isAlarmSound()) {
+                                    playAlarmSound();
+                                }
+                            }
+                        } else  if (testDevThreadRunFlag) {
+                            timeCnt = 0;
+                            while(uartRxDataFlag != 2) {
+                                Thread.sleep(1000);
+                                timeCnt++;
+
+                                if (bootPara.getFullShutUpDur() == timeCnt) {//超时判断
+                                    if (uartRxDataFlag == 0 && bootPara.isErrorContinue() == false) {
+                                        //testDeviceThread.interrupt();
+                                        testDevThreadRunFlag = false;
+                                        durTime.cancel();
+                                        binding.imagePlayAndStop.setChecked(false);
+                                        binding.textErrorDetails.setText("超时错误！");
+                                        if (bootPara.isAlarmSound()) {
+                                            playAlarmSound();
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                }
+                try {
+                    Thread.sleep(1000);
+                }catch (Exception e) {
                 }
             }
         });
@@ -168,41 +220,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    //上下电设置
-    private void setPower(boolean on) {
-        ThreadUtils.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String path = bootPara.getAccessPort().getGpio();
-
-                if (new File(path).exists()) {
-                    FileWriter writer = null;
-                    try {
-                        writer = new FileWriter(path);
-                        if (on)
-                            writer.write("1");
-                        else
-                            writer.write("0");
-                        writer.flush();
-                    } catch (Exception ex) {
-                        Log.e(TAG, "" + ex);
-                    } finally {
-                        if (writer != null) {
-                            try {
-                                writer.close();
-                            } catch (IOException ex) {
-                                Log.e(TAG, "" + ex);
-                            }
-                        }
-                    }
-                } else {
-                    Log.d(TAG, "node is not found:" + path);
-                }
-
-            }
-        });
-    }
-
     //初始化错误串口
     private void initErrorInfoSerial() {
 
@@ -210,26 +227,39 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         SerialControl serialControl = new SerialControl() {
             @Override
             protected void read(byte[] buf, int len) {
-
                 ThreadUtils.runOnUiThread(() -> {
+                    Log.d(TAG, "ErrorInfoSerial rx:" + len);
                     if (buf[0] == DataProtocol.START_FRAME && buf[3] == DataProtocol.END_FRAME) {
                         //不为END 即代表出错，判断是否需要终止线程
-                        if (buf[1] != DataProtocol.END && !bootPara.isErrorContinue()) {
+                        if (buf[1] != DataProtocol.OK && !bootPara.isErrorContinue()) {
                             if (testDeviceThread != null) {
-                                testDeviceThread.interrupt();
+                                //testDeviceThread.interrupt();
+                                testDevThreadRunFlag = false;
                                 durTime.cancel();
                                 binding.imagePlayAndStop.setChecked(false);
                             }
-                        } else if (buf[1] == DataProtocol.END) {
-                            if (bootPara.isAlarmSound()) {
-                                playAlarmSound();
-                            }
+                            uartRxDataFlag = 2;//接收到OK协议
+                        } else if (buf[1] == DataProtocol.OK) {
                             errorCount++;
                             binding.textTestErrorTimesValue.setText(errorCount + "次");
                             String errorText = DataAnalysis.analysis(buf[1], buf[2]) + "\n";
 
                             binding.textErrorDetails.setText(binding.textErrorDetails.getText().toString() + errorText);
 
+                            uartRxDataFlag = 1;//接收到错误协议
+
+                            if (bootPara.isErrorContinue() == false) {
+                                if (testDeviceThread != null) {
+                                    //testDeviceThread.interrupt();
+                                    testDevThreadRunFlag = false;
+                                    durTime.cancel();
+                                    binding.imagePlayAndStop.setChecked(false);
+                                }
+                            }
+
+                            if (bootPara.isAlarmSound()) {
+                                playAlarmSound();
+                            }
                         }
                     }
 
@@ -281,6 +311,42 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             LogUtils.d("打开失败:" + portName);
         }
     }
+
+    //上下电设置
+    private void setPower(boolean on) {
+        ThreadUtils.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String path = bootPara.getAccessPort().getGpio();
+
+                if (new File(path).exists()) {
+                    FileWriter writer = null;
+                    try {
+                        writer = new FileWriter(path);
+                        if (on)
+                            writer.write("1");
+                        else
+                            writer.write("0");
+                        writer.flush();
+                    } catch (Exception ex) {
+                        Log.e(TAG, "" + ex);
+                    } finally {
+                        if (writer != null) {
+                            try {
+                                writer.close();
+                            } catch (IOException ex) {
+                                Log.e(TAG, "" + ex);
+                            }
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "node is not found:" + path);
+                }
+
+            }
+        });
+    }
+
 
     public void playAlarmSound() {
 
