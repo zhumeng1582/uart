@@ -20,6 +20,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.industio.uart.bean.BootPara;
 import com.industio.uart.cache.BootParaInstance;
 import com.industio.uart.databinding.FragmentComDataBinding;
@@ -78,6 +79,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == binding.imageSetting) {
+            if(binding.imagePlayAndStop.isChecked()){
+                ToastUtils.showShort("请先停止测试");
+                return;
+            }
             if (StringUtils.equals(getTag(), "1")) {
                 ShutUpDownActivity.startActivity(getActivity(), BootParaInstance.KEY_BOOT_PRAR1);
             } else {
