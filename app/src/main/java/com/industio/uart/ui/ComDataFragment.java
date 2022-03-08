@@ -40,6 +40,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private FragmentComDataBinding binding;
     private BootPara bootPara;
     private Thread testDeviceThread;
+    private ThreadUtils.Task<Object> durTime;
+
     private int testCount = 0;
     private int errorCount = 0;
     private long testTimeLong = 0;
@@ -286,6 +288,5 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-    private ThreadUtils.Task<Object> durTime;
 
 }

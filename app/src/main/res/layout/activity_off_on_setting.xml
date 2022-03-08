@@ -200,13 +200,46 @@
             app:layout_constraintTop_toTopOf="@+id/textShoutUpTime" />
 
         <TextView
+            android:id="@+id/textShoutUpDurTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:text="持续上电"
+            app:layout_constraintTop_toBottomOf="@+id/cbShutTimesSwitch"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/editFullShutUpDur"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="10"
+            android:inputType="number"
+            android:lines="1"
+            android:textColor="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@+id/textShoutUpDurTime"
+            app:layout_constraintStart_toEndOf="@+id/textShoutUpDurTime"
+            app:layout_constraintTop_toTopOf="@+id/textShoutUpDurTime" />
+        <TextView
+            android:id="@+id/textShoutUpDurTimeS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="秒"
+            android:textColor="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@+id/textShoutUpDurTime"
+            app:layout_constraintStart_toEndOf="@+id/editFullShutUpDur"
+            app:layout_constraintTop_toTopOf="@+id/textShoutUpDurTime" />
+
+
+        <TextView
             android:id="@+id/textIsShoutUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_40"
             android:text="足额上电："
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/cbShutTimesSwitch" />
+            app:layout_constraintTop_toBottomOf="@+id/textShoutUpDurTime" />
 
         <CheckBox
             android:id="@+id/cbFullShutUp"
@@ -218,46 +251,11 @@
             app:layout_constraintTop_toTopOf="@+id/textIsShoutUp" />
 
         <TextView
-            android:id="@+id/textShoutUpDurTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_20"
-            android:text="持续上电"
-            android:textColor="@color/grey"
-            app:layout_constraintBottom_toBottomOf="@+id/textIsShoutUp"
-            app:layout_constraintStart_toEndOf="@+id/cbFullShutUp"
-            app:layout_constraintTop_toTopOf="@+id/textIsShoutUp" />
-
-        <EditText
-            android:id="@+id/editFullShutUpDur"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:text="10"
-            android:inputType="number"
-            android:lines="1"
-            android:textColor="@color/grey"
-            app:layout_constraintBottom_toBottomOf="@+id/textIsShoutUp"
-            app:layout_constraintStart_toEndOf="@+id/textShoutUpDurTime"
-            app:layout_constraintTop_toTopOf="@+id/textIsShoutUp" />
-
-        <TextView
-            android:id="@+id/textShoutUpDurTimeS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:text="秒"
-            android:textColor="@color/grey"
-            app:layout_constraintBottom_toBottomOf="@+id/textIsShoutUp"
-            app:layout_constraintStart_toEndOf="@+id/editFullShutUpDur"
-            app:layout_constraintTop_toTopOf="@+id/textIsShoutUp" />
-
-        <TextView
             android:id="@+id/textError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_40"
-            android:text="出错处理："
+            android:text="失败继续："
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/textIsShoutUp" />
 
@@ -265,7 +263,7 @@
             android:id="@+id/cbErrorContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="继续"
+            android:text="是"
             app:layout_constraintBottom_toBottomOf="@+id/textError"
             app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
             app:layout_constraintTop_toTopOf="@+id/textError" />
