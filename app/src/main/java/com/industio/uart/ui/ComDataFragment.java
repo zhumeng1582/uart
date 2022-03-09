@@ -242,7 +242,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                         }
 
                                         binding.textErrorDetails.setText("超时错误！\n");
+                                        bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                         binding.textTestErrorTimesValue.setText(errorCount + "");
+                                        binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
                                     }
                                 });
                                 if (bootPara.isErrorContinue() == false)
@@ -270,7 +272,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                                             errorCount++;
                                             binding.textErrorDetails.setText("超时错误！\n");
+                                            bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                             binding.textTestErrorTimesValue.setText(errorCount + "");
+                                            binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
                                         }
                                     });
                                     uartRxDataFlag = -1;
@@ -355,10 +359,14 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             ThreadUtils.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    errorCount++;
-                                    bootPara.setErrorCount(bootPara.getErrorCount() + 1);
+                                    if (binding.imagePlayAndStop.isChecked()) {
+                                        errorCount++;
+                                        bootPara.setErrorCount(bootPara.getErrorCount() + 1);
+                                    }
+
                                     binding.textTestErrorTimesValue.setText(errorCount + "");
                                     binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
+
                                     String errorText = DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF) + "\n";
                                     if (binding.textErrorDetails.getText().toString().contains("测试通过"))
                                         binding.textErrorDetails.setText("");
