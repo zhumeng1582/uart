@@ -83,6 +83,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
 
+        //设置数据后需要刷新页面计数信息
         binding.textTotalTestTimesValue.setText(bootPara.getTestCount() + "次");
         binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "次");
         binding.textTotalTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(bootPara.getTestTimeLong()));
@@ -126,6 +127,14 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         }
         if (testDeviceThread != null && testDeviceThread.isInterrupted()) {
             testDeviceThread.interrupt();
+        }
+
+        //将计数信息保存
+        if (StringUtils.equals(getTag(), "1")) {
+            BootParaInstance.getInstance().saveBootPara1(bootPara);
+        } else {
+            BootParaInstance.getInstance().saveBootPara2(bootPara);
+
         }
     }
 
