@@ -45,7 +45,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private BootPara bootPara;
     private Thread testDeviceThread;
     private ThreadUtils.Task<Object> durTime;
-
+    private SerialControl serialControl;
     private int testCount = 0;
     private int errorCount = 0;
     private long testTimeLong = 0;
@@ -66,7 +66,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             bootPara = BootParaInstance.getInstance().getBootPara2();
         }
 
-        binding.textTerminal.setText("控制台"+getTag());
+        binding.textTerminal.setText("控制台" + getTag());
         binding.imageSetting.setOnClickListener(this);
         binding.imagePlayAndStop.setOnClickListener(this);
 
@@ -174,7 +174,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 while (binding.imagePlayAndStop.isChecked()) {
-                    Log.e(TAG,"testDeviceThread running...");
+                    Log.e(TAG, "testDeviceThread running...");
                     try {
                         uartRxDataFlag = 0;
                         timeCnt = 0;
@@ -214,7 +214,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                 }
                             }
 
-                            if (binding.imagePlayAndStop.isChecked() && uartRxDataFlag == 0 ) {//超时判断
+                            if (binding.imagePlayAndStop.isChecked() && uartRxDataFlag == 0) {//超时判断
                                 if (uartRxDataFlag == 0 && bootPara.isErrorContinue() == false) {
                                     durTime.cancel();
 
@@ -249,9 +249,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             } else if (!binding.imagePlayAndStop.isChecked()) {//被手动停止
                                 break;
                             }
-                        } else  {
+                        } else {
                             timeCnt = 0;
-                            while(uartRxDataFlag == 0) {
+                            while (uartRxDataFlag == 0) {
                                 Thread.sleep(1000);
                                 timeCnt++;
 
@@ -266,7 +266,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                         ThreadUtils.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                errorCount=10000;
+                                                errorCount = 10000;
                                                 binding.imagePlayAndStop.setChecked(false);
                                                 binding.textErrorDetails.setText("超时错误！\n");
                                                 binding.textTestErrorTimesValue.setText(errorCount + "");
@@ -346,13 +346,14 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private void initErrorInfoSerial() {
 
         binding.textErrorDetails.setText("");
+
         SerialControl serialControl = new SerialControl() {
             @Override
             protected void read(byte[] buf, int len) {
                 ThreadUtils.runOnUiThread(() -> {
-                    Log.d(TAG, "ErrorInfoSerial rx:" + len+","+bytesToHexString(buf,len));
-                    if (/*binding.imagePlayAndStop.isChecked() && */(buf[0]&0xFF) == DataProtocol.START_FRAME && (buf[3]&0xFF) == DataProtocol.END_FRAME) {
-                        if ((buf[1]&0xFF) == DataProtocol.OK) {
+                    Log.d(TAG, "ErrorInfoSerial rx:" + len + "," + bytesToHexString(buf, len));
+                    if (/*binding.imagePlayAndStop.isChecked() && */(buf[0] & 0xFF) == DataProtocol.START_FRAME && (buf[3] & 0xFF) == DataProtocol.END_FRAME) {
+                        if ((buf[1] & 0xFF) == DataProtocol.OK) {
                             uartRxDataFlag = 2;//接收到OK协议
                             ThreadUtils.runOnUiThread(new Runnable() {
                                 @Override
@@ -360,8 +361,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     binding.textErrorDetails.setText("测试通过！\n");
                                 }
                             });
-                        } else if ((buf[1]&0xFF) != DataProtocol.OK) {//收到错误码
-                            Log.d(TAG,"err codec:" + bytesToHexString(buf,len));
+                        } else if ((buf[1] & 0xFF) != DataProtocol.OK) {//收到错误码
+                            Log.d(TAG, "err codec:" + bytesToHexString(buf, len));
                             ThreadUtils.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -369,7 +370,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                     binding.textTestErrorTimesValue.setText(errorCount + "");
                                     binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
-                                    String errorText = DataAnalysis.analysis(buf[1]&0xFF, buf[2]&0xFF) + "\n";
+                                    String errorText = DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF) + "\n";
                                     if (binding.textErrorDetails.getText().toString().contains("测试通过")) {
                                         binding.textErrorDetails.setText("");
                                     }
@@ -408,7 +409,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             }
                         }
                     } else {
-                        Log.d(TAG,"not process err code:" + bytesToHexString(buf,len));
+                        Log.d(TAG, "not process err code:" + bytesToHexString(buf, len));
                     }
 
                 });
@@ -423,15 +424,19 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), "打开失败:" + portName, Toast.LENGTH_LONG).show();
             LogUtils.d("打开失败:" + portName);
         }
+        serialControl.close();
     }
 
     //初始化日志串口
     private void initLogSerial() {
-
+        if (serialControl != null) {
+            serialControl.close();
+            serialControl = null;
+        }
         int portRate = Integer.parseInt(binding.spinnerPortRate.getSelectedItem().toString());
-        Log.d(TAG,"portRate:" + portRate);
+        Log.d(TAG, "portRate:" + portRate);
         binding.textLogDetails.setText("");
-        SerialControl serialControl = new SerialControl() {
+        serialControl = new SerialControl() {
             @Override
             protected void read(final byte[] buf, final int len) {
 
@@ -442,7 +447,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                         if (bootPara.isSaveLog()) {
                             SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
                             if (FileUtils.createOrExistsDir("/sdcard/test/")) {
-                                String filePath = "/sdcard/test/"+bootPara.getDeviceName()+"/";
+                                String filePath = "/sdcard/test/" + bootPara.getDeviceName() + "/";
                                 if (FileUtils.createOrExistsDir(filePath)) {
                                     String fileName = filePath + bootPara.getDeviceName() + TimeUtils.getNowString(simpleDateFormat) + ".log";
                                     FileIOUtils.writeFileFromString(fileName, log, true);
@@ -505,7 +510,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         try {
             AssetFileDescriptor fdLeft = getActivity().getAssets().openFd("alarm_sound.wav");
             MediaPlayer mpLeft = new MediaPlayer();
-           // mpLeft.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            // mpLeft.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mpLeft.setDataSource(fdLeft.getFileDescriptor(), fdLeft.getStartOffset(), fdLeft.getLength());
             mpLeft.prepare();
             mpLeft.start();

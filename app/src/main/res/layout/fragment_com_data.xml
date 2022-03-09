@@ -178,7 +178,7 @@
             android:scrollbars="vertical"
             android:textColor="@color/red"
             android:textSize="16sp"
-            app:layout_constraintHeight_percent="0.8"
+            app:layout_constraintHeight_percent="0.9"
             app:layout_constraintStart_toStartOf="@+id/textErrorDetailsTitle"
             app:layout_constraintTop_toBottomOf="@+id/textErrorDetailsTitle"
             app:layout_constraintWidth_percent="0.2" />
@@ -200,7 +200,7 @@
             android:padding="@dimen/dp_10"
             android:scrollbars="vertical"
             android:textColor="@color/black"
-            app:layout_constraintHeight_percent="0.6"
+            app:layout_constraintHeight_percent="0.65"
             app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
             app:layout_constraintTop_toTopOf="@+id/textErrorDetails"
             app:layout_constraintWidth_percent="0.6" />
@@ -241,23 +241,6 @@
             app:layout_constraintStart_toEndOf="@+id/textPortTitle"
             app:layout_constraintTop_toTopOf="@+id/textPortTitle" />
 
-        <TextView
-            android:id="@+id/textCMDTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:text="@string/string_cmd"
-            app:layout_constraintStart_toStartOf="@+id/textPortTitle"
-            app:layout_constraintTop_toBottomOf="@+id/textPortTitle" />
-
-        <Spinner
-            android:id="@+id/spinnerCMDValue"
-            android:layout_width="@dimen/dp_150"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            app:layout_constraintStart_toEndOf="@+id/textCMDTitle"
-            app:layout_constraintTop_toTopOf="@+id/textCMDTitle" />
-
         <EditText
             android:id="@+id/textCmdInput"
             android:layout_width="0dp"
@@ -266,10 +249,28 @@
             android:background="@color/text_background"
             android:padding="@dimen/dp_10"
             android:textColor="@color/black"
-            app:layout_constraintHeight_percent="0.25"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toEndOf="@+id/spinnerPortValue"
             app:layout_constraintTop_toTopOf="@+id/textPortRateTitle"
             app:layout_constraintWidth_percent="0.3" />
+        <TextView
+            android:id="@+id/textCMDTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_cmd"
+            android:layout_marginLeft="@dimen/dp_10"
+            app:layout_constraintTop_toTopOf="@+id/textCmdInput"
+            app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
+            app:layout_constraintStart_toEndOf="@+id/textCmdInput"/>
+
+        <Spinner
+            android:id="@+id/spinnerCMDValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            app:layout_constraintStart_toEndOf="@+id/textCMDTitle"
+            app:layout_constraintTop_toTopOf="@+id/textCMDTitle" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
@@ -278,7 +279,7 @@
             android:background="@drawable/btn_corner"
             android:text="发送"
             app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
-            app:layout_constraintStart_toEndOf="@+id/textCmdInput"
+            app:layout_constraintStart_toEndOf="@+id/spinnerCMDValue"
             app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
