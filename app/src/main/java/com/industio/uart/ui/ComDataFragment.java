@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -66,15 +67,37 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         binding.imageSetting.setOnClickListener(this);
         binding.imagePlayAndStop.setOnClickListener(this);
 
-        String[] deviceNo = {"/dev/ttyS1", "/dev/ttyS2", "/dev/ttyS3", "/dev/ttyS4"};
+        String[] deviceNo = {"/dev/ttyS0", "/dev/ttyS1", "/dev/ttyS3", "/dev/ttyS5"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, deviceNo);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerPortValue.setAdapter(adapter);
+        binding.spinnerPortValue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                initLogSerial();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         String[] portRate = {"115200", "1500000"};
         ArrayAdapter<String> adapterPortRate = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, portRate);
         adapterPortRate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerPortRate.setAdapter(adapterPortRate);
+        binding.spinnerPortRate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                initLogSerial();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -399,7 +422,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     //初始化日志串口
     private void initLogSerial() {
 
-        int portRate = (int) binding.spinnerPortRate.getSelectedItem();
+        int portRate = Integer.parseInt(binding.spinnerPortRate.getSelectedItem().toString());
+        Log.d(TAG,"portRate:" + portRate);
         binding.textLogDetails.setText("");
         SerialControl serialControl = new SerialControl() {
             @Override
