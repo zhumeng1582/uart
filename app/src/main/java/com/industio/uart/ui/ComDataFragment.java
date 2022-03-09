@@ -70,7 +70,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         binding.imageSetting.setOnClickListener(this);
         binding.imagePlayAndStop.setOnClickListener(this);
 
-        String[] deviceNo = {"/dev/ttyS0", "/dev/ttyS1", "/dev/ttyS3", "/dev/ttyS5"};
+        String[] deviceNo = {"/dev/ttyS0", "/dev/ttyS5"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, deviceNo);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerPortValue.setAdapter(adapter);
@@ -89,7 +89,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         binding.textErrorDetails.setMovementMethod(ScrollingMovementMethod.getInstance());
         binding.textLogDetails.setMovementMethod(ScrollingMovementMethod.getInstance());
 
-        String[] portRate = {"115200", "1500000"};
+        String[] portRate = {"1500000", "115200"};
         ArrayAdapter<String> adapterPortRate = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, portRate);
         adapterPortRate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerPortRate.setAdapter(adapterPortRate);
