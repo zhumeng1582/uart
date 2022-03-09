@@ -10,6 +10,6 @@ public class TimeUtils {
         String minute = "" + dur / 60;
         String second = "" + dur % 60;
 
-        return day + "天"+ hour + "小时" + minute + "分" + second + "秒";
+        return day + "天"+ hour + "时" + minute + "分" + second + "秒";
     }
 }
