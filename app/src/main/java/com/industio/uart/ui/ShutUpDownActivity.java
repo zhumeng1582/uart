@@ -7,13 +7,10 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.blankj.utilcode.util.CacheDiskUtils;
 import com.blankj.utilcode.util.StringUtils;
-import com.industio.uart.bean.AccessPara;
 import com.industio.uart.bean.BootPara;
 import com.industio.uart.cache.AccessParaContent;
 import com.industio.uart.cache.BootParaInstance;
-import com.industio.uart.databinding.ActivityCommunicationDataBinding;
 import com.industio.uart.databinding.ActivityOffOnSettingBinding;
 
 public class ShutUpDownActivity extends AppCompatActivity implements View.OnClickListener {

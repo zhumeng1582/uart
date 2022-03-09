@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_40"
-            android:text="周期数"
+            android:text="周期次数"
             app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
             app:layout_constraintTop_toBottomOf="@+id/textAccessSelectTitle" />
 
@@ -126,6 +126,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_20"
             android:text="10"
+            android:maxLength="6"
+            android:maxEms="6"
             android:inputType="number"
             android:lines="1"
             android:textColor="@color/grey"
@@ -144,11 +146,13 @@
 
         <EditText
             android:id="@+id/textShoutUpDurValue"
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_20"
             android:text="10"
             android:inputType="number"
+            android:maxLength="6"
+            android:maxEms="6"
             android:lines="1"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
@@ -178,10 +182,12 @@
 
         <EditText
             android:id="@+id/textShoutDownDurValue"
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_20"
             android:text="10"
+            android:maxLength="6"
+            android:maxEms="6"
             android:inputType="number"
             android:lines="1"
             android:textColor="@color/grey"
@@ -217,6 +223,8 @@
             android:text="10"
             android:inputType="number"
             android:lines="1"
+            android:maxLength="6"
+            android:maxEms="6"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpDurTime"
             app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"

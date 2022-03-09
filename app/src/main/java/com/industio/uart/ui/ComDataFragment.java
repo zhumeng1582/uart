@@ -46,9 +46,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private int testCount = 0;
     private int errorCount = 0;
     private long testTimeLong = 0;
-
     private int uartRxDataFlag = 0;
-    private boolean testDevThreadRunFlag = false;
 
     @Nullable
     @Override
@@ -105,13 +103,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         } else if (v == binding.imagePlayAndStop) {
             if (binding.imagePlayAndStop.isChecked()) {
                 binding.imagePlayAndStop.setChecked(false);
-                if (testDeviceThread != null) {
-                    //testDeviceThread.interrupt();
-                    testDevThreadRunFlag = false;
-                }
                 durTime.cancel();
             } else {
-                testDevThreadRunFlag = true;
                 testDevice();
                 binding.imagePlayAndStop.setChecked(true);
             }
@@ -148,7 +141,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void run() {
-                while (testDevThreadRunFlag) {
+                while (binding.imagePlayAndStop.isChecked()) {
                     try {
                         uartRxDataFlag = 0;
                         timeCnt = 0;
@@ -159,7 +152,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                 Thread.sleep(bootPara.getShutUpDur());
                                 setPower(false);
                                 Thread.sleep(bootPara.getShutDownDur());
-                                if (testDevThreadRunFlag == false) {//被手动停止
+                                if (!binding.imagePlayAndStop.isChecked()) {//被手动停止
                                     break;
                                 }
                             }
@@ -182,15 +175,14 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             timeCnt = bootPara.getFullShutUpDur();
                             while (timeCnt-- > 0) {
                                 Thread.sleep(1000);
-                                if (testDevThreadRunFlag == false) {//被手动停止
+                                if (!binding.imagePlayAndStop.isChecked()) {//被手动停止
                                     timeCnt = 0;
                                     break;
                                 }
                             }
 
-                            if (testDevThreadRunFlag && uartRxDataFlag == 0 && bootPara.isErrorContinue() == false) {//超时判断
-                                //testDeviceThread.interrupt();
-                                testDevThreadRunFlag = false;
+                            if (binding.imagePlayAndStop.isChecked() && uartRxDataFlag == 0 && bootPara.isErrorContinue() == false) {//超时判断
+
                                 durTime.cancel();
                                 ThreadUtils.runOnUiThread(new Runnable() {
                                     @Override
@@ -208,7 +200,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     playAlarmSound();
                                 }
                             }
-                        } else if (testDevThreadRunFlag) {
+                        } else if (binding.imagePlayAndStop.isChecked()) {
                             timeCnt = 0;
                             while (uartRxDataFlag != 2) {
                                 Thread.sleep(1000);
@@ -216,8 +208,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                                 if (bootPara.getFullShutUpDur() == timeCnt) {//超时判断
                                     if (uartRxDataFlag == 0 && bootPara.isErrorContinue() == false) {
-                                        //testDeviceThread.interrupt();
-                                        testDevThreadRunFlag = false;
                                         durTime.cancel();
                                         ThreadUtils.runOnUiThread(new Runnable() {
                                             @Override
@@ -307,7 +297,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                     binding.textTestErrorTimesValue.setText(errorCount + "次");
                                     binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "次");
-                                    binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
+                                    String errorText = DataAnalysis.analysis(buf[1], buf[2]) + "\n";
+                                    binding.textErrorDetails.setText(binding.textErrorDetails.getText().toString() + errorText);
                                 }
                             });
 
@@ -315,8 +306,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                             if (bootPara.isErrorContinue() == false) {
                                 if (testDeviceThread != null) {
-                                    //testDeviceThread.interrupt();
-                                    testDevThreadRunFlag = false;
                                     durTime.cancel();
                                     ThreadUtils.runOnUiThread(new Runnable() {
                                         @Override
@@ -332,7 +321,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             }
 
                             if (!bootPara.isErrorContinue() && testDeviceThread != null) {
-                                testDevThreadRunFlag = false;
                                 durTime.cancel();
                                 binding.imagePlayAndStop.setChecked(false);
                             }
