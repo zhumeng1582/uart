@@ -4,6 +4,7 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
+        binding.textErrorDetails.setMovementMethod(ScrollingMovementMethod.getInstance());
+        binding.textLogDetails.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         String[] portRate = {"115200", "1500000"};
         ArrayAdapter<String> adapterPortRate = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, portRate);
