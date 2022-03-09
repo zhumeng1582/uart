@@ -16,6 +16,33 @@ public class BootPara implements Serializable {
     private boolean errorContinue = true;
     private boolean alarmSound = true;
     private boolean saveLog = true;
+    private int testCount = 0;
+    private int errorCount = 0;
+    private long testTimeLong = 0;
+
+    public int getTestCount() {
+        return testCount;
+    }
+
+    public void setTestCount(int testCount) {
+        this.testCount = testCount;
+    }
+
+    public int getErrorCount() {
+        return errorCount;
+    }
+
+    public void setErrorCount(int errorCount) {
+        this.errorCount = errorCount;
+    }
+
+    public long getTestTimeLong() {
+        return testTimeLong;
+    }
+
+    public void setTestTimeLong(long testTimeLong) {
+        this.testTimeLong = testTimeLong;
+    }
 
     public String getDeviceName() {
         return deviceName;

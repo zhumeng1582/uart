@@ -23,14 +23,74 @@
         tools:layout_editor_absoluteY="0dp" />
 
     <TextView
+        android:id="@+id/textTotalTestTimesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="总测试次数："
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintTop_toBottomOf="@+id/imageSetting" />
+
+    <TextView
+        android:id="@+id/textTotalTestTimesValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0次"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintStart_toEndOf="@+id/textTotalTestTimesTitle"
+        app:layout_constraintTop_toTopOf="@+id/textTotalTestTimesTitle" />
+
+    <TextView
+        android:id="@+id/textTotalTestErrorTimesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="总出错次数："
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintTop_toBottomOf="@+id/textTotalTestTimesValue" />
+
+    <TextView
+        android:id="@+id/textTotalTestErrorTimesValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0次"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintStart_toEndOf="@+id/textTotalTestErrorTimesTitle"
+        app:layout_constraintTop_toTopOf="@+id/textTotalTestErrorTimesTitle" />
+
+    <TextView
+        android:id="@+id/textTotalTestDurationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="总测试时长："
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintTop_toBottomOf="@+id/textTotalTestErrorTimesValue" />
+
+    <TextView
+        android:id="@+id/textTotalTestDurationValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="0天0时0分0秒"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintTop_toBottomOf="@+id/textTotalTestDurationTitle" />
+
+    <TextView
         android:id="@+id/textTestTimesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="测试次数："
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="本次测试次数："
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/imageSetting"
-        tools:layout_editor_absoluteX="0dp" />
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintTop_toBottomOf="@+id/textTotalTestDurationValue" />
 
     <TextView
         android:id="@+id/textTestTimesValue"
@@ -38,6 +98,7 @@
         android:layout_height="wrap_content"
         android:text="0次"
         android:textColor="@color/grey"
+        android:textSize="@dimen/sp_18"
         app:layout_constraintStart_toEndOf="@+id/textTestTimesTitle"
         app:layout_constraintTop_toTopOf="@+id/textTestTimesTitle" />
 
@@ -45,9 +106,10 @@
         android:id="@+id/textTestErrorTimesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:text="出错次数："
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="本次出错次数："
         android:textColor="@color/black"
+        android:textSize="@dimen/sp_18"
         app:layout_constraintTop_toBottomOf="@+id/textTestTimesTitle" />
 
     <TextView
@@ -56,6 +118,7 @@
         android:layout_height="wrap_content"
         android:text="0次"
         android:textColor="@color/grey"
+        android:textSize="@dimen/sp_18"
         app:layout_constraintStart_toEndOf="@+id/textTestErrorTimesTitle"
         app:layout_constraintTop_toTopOf="@+id/textTestErrorTimesTitle" />
 
@@ -63,21 +126,21 @@
         android:id="@+id/textTestDurationTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="测试时长："
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="本次测试时长："
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/textTestErrorTimesTitle"
-        tools:layout_editor_absoluteX="0dp" />
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintTop_toBottomOf="@+id/textTestErrorTimesTitle" />
 
     <TextView
         android:id="@+id/textTestDurationValue"
-        android:layout_width="101dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
         android:text="0天0时0分0秒"
         android:textColor="@color/grey"
-        app:layout_constraintTop_toTopOf="@+id/textTestDurationTitle"
-        tools:layout_editor_absoluteX="0dp" />
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintTop_toBottomOf="@+id/textTestDurationTitle" />
 
     <TextView
         android:id="@+id/textErrorDetailsTitle"
@@ -86,7 +149,7 @@
         android:layout_marginStart="@dimen/dp_20"
         android:text="错误详情"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/textTestDurationValue" />
+        app:layout_constraintStart_toEndOf="@+id/textTestTimesValue" />
 
     <TextView
         android:id="@+id/textErrorDetails"
@@ -98,7 +161,7 @@
         app:layout_constraintHeight_percent="0.8"
         app:layout_constraintStart_toStartOf="@+id/textErrorDetailsTitle"
         app:layout_constraintTop_toBottomOf="@+id/textErrorDetailsTitle"
-        app:layout_constraintWidth_percent="0.3" />
+        app:layout_constraintWidth_percent="0.2" />
 
     <TextView
         android:id="@+id/textLogDetailsTitle"
@@ -118,7 +181,7 @@
         app:layout_constraintHeight_percent="0.6"
         app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
         app:layout_constraintTop_toTopOf="@+id/textErrorDetails"
-        app:layout_constraintWidth_percent="0.5" />
+        app:layout_constraintWidth_percent="0.6" />
 
     <TextView
         android:id="@+id/textPortRateTitle"
@@ -131,9 +194,10 @@
 
     <Spinner
         android:id="@+id/spinnerPortRate"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_150"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
+        android:minWidth="@dimen/dp_100"
         app:layout_constraintStart_toEndOf="@+id/textPortRateTitle"
         app:layout_constraintTop_toTopOf="@+id/textPortRateTitle" />
 
@@ -148,9 +212,10 @@
 
     <Spinner
         android:id="@+id/spinnerPortValue"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_150"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
+        android:minWidth="@dimen/dp_100"
         app:layout_constraintStart_toEndOf="@+id/textPortTitle"
         app:layout_constraintTop_toTopOf="@+id/textPortTitle" />
 
@@ -165,7 +230,7 @@
 
     <Spinner
         android:id="@+id/spinnerCMDValue"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_150"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
         app:layout_constraintStart_toEndOf="@+id/textCMDTitle"
@@ -178,19 +243,20 @@
         android:layout_marginStart="@dimen/dp_20"
         android:background="@color/text_background"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/spinnerCMDValue"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toEndOf="@+id/spinnerPortValue"
+
         app:layout_constraintTop_toTopOf="@+id/textPortRateTitle"
-        app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintHeight_percent="0.1"/>
+        app:layout_constraintWidth_percent="0.3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="发送"
-        android:background="@drawable/btn_corner"
-        app:layout_constraintStart_toEndOf="@+id/textCmdInput"
-        app:layout_constraintTop_toTopOf="@+id/textCmdInput"
         android:layout_marginStart="@dimen/dp_20"
-        app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"/>
+        android:background="@drawable/btn_corner"
+        android:text="发送"
+        app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
+        app:layout_constraintStart_toEndOf="@+id/textCmdInput"
+        app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

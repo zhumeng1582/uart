@@ -13,11 +13,11 @@
     <string name="string_uart_test">UART可靠性测试</string>
     <string name="string_device_no">设备号:</string>
     <string name="string_port_rate">波特率:</string>
-    <string name="string_port_rate1">波&#32;&#32;特&#32;&#32;率:</string>
+    <string name="string_port_rate1">波\u0020\u0020特\u0020\u0020率:</string>
     <string name="string_check_bit">校验位:</string>
     <string name="string_uart_type">类型:</string>
     <string name="string_start">开始</string>
-    <string name="string_port">串&#12288;&#12288;口:</string>
+    <string name="string_port">串\u3000\u3000口:</string>
     <string name="string_cmd">快捷命令:</string>
 
 </resources>

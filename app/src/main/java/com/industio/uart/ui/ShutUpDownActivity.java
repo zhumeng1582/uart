@@ -100,6 +100,10 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
             bootPara.setAlarmSound(binding.cbAlarmSound.isChecked());
             bootPara.setSaveLog(binding.cbSaveLog.isChecked());
 
+            bootPara.setTestTimeLong(0);
+            bootPara.setTestCount(0);
+            bootPara.setErrorCount(0);
+
             if (StringUtils.equals(BootParaInstance.KEY_BOOT_PRAR1, key)) {
                 BootParaInstance.getInstance().saveBootPara1(bootPara);
             } else {
