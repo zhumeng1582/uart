@@ -45,11 +45,12 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private BootPara bootPara;
     private Thread testDeviceThread;
     private ThreadUtils.Task<Object> durTime;
-    private SerialControl serialControl;
+    private SerialControl mLogSerialControl;
     private int testCount = 0;
     private int errorCount = 0;
     private long testTimeLong = 0;
     private int uartRxDataFlag = 0;
+    private static int openLogUartCnt=0;
 
     @Nullable
     @Override
@@ -77,12 +78,19 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         binding.spinnerPortValue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                initLogSerial();
+                openLogUartCnt++;
+                if (openLogUartCnt == 1)
+                    initLogSerial();
+
+                if (openLogUartCnt > 4)
+                    initLogSerial();
+
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                Log.e(TAG,"========>" + openLogUartCnt);
             }
         });
 
@@ -96,12 +104,17 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         binding.spinnerPortRate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                initLogSerial();
+                openLogUartCnt++;
+                if (openLogUartCnt == 1)
+                    initLogSerial();
+
+                if (openLogUartCnt > 4)
+                    initLogSerial();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                Log.e(TAG,"========>" + openLogUartCnt);
             }
         });
     }
@@ -128,6 +141,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             } else {
                 ShutUpDownActivity.startActivity(getActivity(), BootParaInstance.KEY_BOOT_PRAR2);
             }
+            openLogUartCnt = 0;
         } else if (v == binding.imagePlayAndStop) {
             if (binding.imagePlayAndStop.isChecked()) {
                 binding.imagePlayAndStop.setChecked(false);
@@ -322,7 +336,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
         binding.textErrorDetails.setText("");
 
-        SerialControl serialControl = new SerialControl() {
+        SerialControl mErrLogSerialControl = new SerialControl() {
             @Override
             protected void read(byte[] buf, int len) {
                 ThreadUtils.runOnUiThread(() -> {
@@ -385,8 +399,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                 });
             }
         };
+
         String portName = bootPara.getAccessPort().getPort();
-        if (serialControl.init(portName, 9600, 8, 'N', 1, 0, 10)) {
+        if (mErrLogSerialControl.init(portName, 9600, 8, 'N', 1, 0, 10)) {
             //ToastUtils.showShort("打开成功:"+portName);
             Toast.makeText(getContext(), "打开成功:" + portName, Toast.LENGTH_LONG).show();
         } else {
@@ -398,14 +413,14 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
     //初始化日志串口
     private void initLogSerial() {
-        if (serialControl != null) {
-            serialControl.close();
-            serialControl = null;
+        if (mLogSerialControl != null) {
+            mLogSerialControl.close();
+            mLogSerialControl = null;
         }
         int portRate = Integer.parseInt(binding.spinnerPortRate.getSelectedItem().toString());
         Log.d(TAG, "portRate:" + portRate);
         binding.textLogDetails.setText("");
-        serialControl = new SerialControl() {
+        mLogSerialControl = new SerialControl() {
             @Override
             protected void read(final byte[] buf, final int len) {
 
@@ -430,7 +445,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             }
         };
         String portName = (String) binding.spinnerPortValue.getSelectedItem();
-        if (serialControl.init(portName, portRate, 8, 'N', 1, 0, 0)) {
+        if (mLogSerialControl.init(portName, portRate, 8, 'N', 1, 0, 0)) {
             //ToastUtils.showShort("打开成功:"+portName);
             Toast.makeText(getContext(), "打开成功:" + portName, Toast.LENGTH_LONG).show();
         } else {
