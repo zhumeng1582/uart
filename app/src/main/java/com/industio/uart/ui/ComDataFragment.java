@@ -58,6 +58,15 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         return binding.getRoot();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        binding.imagePlayAndStop.setChecked(false);
+        if (testDeviceThread != null) {
+            testDevThreadRunFlag = false;
+        }
+    }
+
     private void init() {
         if (StringUtils.equals(getTag(), "1")) {
             bootPara = BootParaInstance.getInstance().getBootPara1();
@@ -122,6 +131,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 while (testDevThreadRunFlag) {
+                    Log.e(TAG,"testDeviceThread running...");
                     try {
                         uartRxDataFlag = 0;
                         timeCnt = 0;
@@ -178,10 +188,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             }
                         } else  if (testDevThreadRunFlag) {
                             timeCnt = 0;
-                            while(uartRxDataFlag != 2) {
+                            while(uartRxDataFlag == 0) {
                                 Thread.sleep(1000);
                                 timeCnt++;
-
                                 if (bootPara.getFullShutUpDur() == timeCnt) {//超时判断
                                     if (uartRxDataFlag == 0 && bootPara.isErrorContinue() == false) {
                                         //testDeviceThread.interrupt();
@@ -199,6 +208,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                         if (bootPara.isAlarmSound()) {
                                             playAlarmSound();
                                         }
+                                    } else  if (uartRxDataFlag == 0 && bootPara.isErrorContinue()) {
+                                        break;
                                     }
                                 }
                             }
@@ -244,25 +255,29 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
     //初始化错误串口
     private void initErrorInfoSerial() {
-
         binding.textErrorDetails.setText("");
         SerialControl serialControl = new SerialControl() {
             @Override
             protected void read(byte[] buf, int len) {
                 ThreadUtils.runOnUiThread(() -> {
-                    Log.d(TAG, "ErrorInfoSerial rx:" + len);
-                    if (buf[0] == DataProtocol.START_FRAME && buf[3] == DataProtocol.END_FRAME) {
-                        //不为END 即代表出错，判断是否需要终止线程
-                        if (buf[1] == DataProtocol.OK) {
-                            Log.d(TAG, "Test ok!!!");
+                    Log.d(TAG, "ErrorInfoSerial rx:" + len+","+bytesToHexString(buf,len));
+                    if (binding.imagePlayAndStop.isChecked() && (buf[0]&0xFF) == DataProtocol.START_FRAME && (buf[3]&0xFF) == DataProtocol.END_FRAME) {
+                        if ((buf[1]&0xFF) == DataProtocol.OK) {
                             uartRxDataFlag = 2;//接收到OK协议
-                        } else if (buf[1] != DataProtocol.OK) {//收到错误码
+                            ThreadUtils.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    binding.textErrorDetails.setText("测试通过！");
+                                }
+                            });
+                        } else if ((buf[1]&0xFF) != DataProtocol.OK) {//收到错误码
+                            Log.d(TAG,"err codec:" + bytesToHexString(buf,len));
                             ThreadUtils.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     errorCount++;
                                     binding.textTestErrorTimesValue.setText(errorCount + "次");
-                                    binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
+                                    binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1]&0xFF, buf[2]&0xFF));
                                 }
                             });
 
@@ -270,7 +285,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                             if (bootPara.isErrorContinue() == false) {
                                 if (testDeviceThread != null) {
-                                    //testDeviceThread.interrupt();
                                     testDevThreadRunFlag = false;
                                     durTime.cancel();
                                     ThreadUtils.runOnUiThread(new Runnable() {
@@ -280,6 +294,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                         }
                                     });
                                 }
+                            } else {
+                                uartRxDataFlag = 3;
                             }
 
                             if (bootPara.isAlarmSound()) {
@@ -292,8 +308,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                 binding.imagePlayAndStop.setChecked(false);
                             }
                         }
+                    } else {
+                        Log.d(TAG,"not process err code:" + bytesToHexString(buf,len));
                     }
-
                 });
             }
         };
@@ -380,7 +397,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
 
     public void playAlarmSound() {
-
         try {
             AssetFileDescriptor fdLeft = getActivity().getAssets().openFd("alarm_sound.wav");
             MediaPlayer mpLeft = new MediaPlayer();
@@ -392,6 +408,22 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String bytesToHexString(byte[] src, int len) {
+        StringBuilder stringBuilder = new StringBuilder("");
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        for (int i = 0; i < len; i++) {
+            int v = src[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                stringBuilder.append(0);
+            }
+            stringBuilder.append(hv);
+        }
+        return stringBuilder.toString().toUpperCase();
     }
 
 }
