@@ -26,7 +26,7 @@
         android:id="@+id/textTotalTestTimesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
         android:text="总测试次数："
         android:textColor="@color/black"
         android:textSize="@dimen/sp_18"
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0次"
-        android:textColor="@color/grey"
+        android:textColor="@color/red"
         android:textSize="@dimen/sp_18"
         app:layout_constraintStart_toEndOf="@+id/textTotalTestErrorTimesTitle"
         app:layout_constraintTop_toTopOf="@+id/textTotalTestErrorTimesTitle" />
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
         android:text="0天0时0分0秒"
-        android:textColor="@color/grey"
+        android:textColor="@android:color/holo_blue_light"
         android:textSize="@dimen/sp_18"
         app:layout_constraintTop_toBottomOf="@+id/textTotalTestDurationTitle" />
 
@@ -86,7 +86,7 @@
         android:id="@+id/textTestTimesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_30"
         android:text="本次测试次数："
         android:textColor="@color/black"
         android:textSize="@dimen/sp_18"
@@ -97,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0次"
-        android:textColor="@color/grey"
+        android:textColor="@color/red"
         android:textSize="@dimen/sp_18"
         app:layout_constraintStart_toEndOf="@+id/textTestTimesTitle"
         app:layout_constraintTop_toTopOf="@+id/textTestTimesTitle" />
@@ -138,7 +138,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
         android:text="0天0时0分0秒"
-        android:textColor="@color/grey"
+        android:textColor="@android:color/holo_blue_light"
         android:textSize="@dimen/sp_18"
         app:layout_constraintTop_toBottomOf="@+id/textTestDurationTitle" />
 

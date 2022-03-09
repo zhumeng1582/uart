@@ -105,12 +105,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         } else if (v == binding.imagePlayAndStop) {
             if (binding.imagePlayAndStop.isChecked()) {
                 binding.imagePlayAndStop.setChecked(false);
-                if (testDeviceThread != null) {
-                    //testDeviceThread.interrupt();
-                    testDevThreadRunFlag = false;
-                }
+                testDevThreadRunFlag = false;
                 durTime.cancel();
-            } else {
+            } else if(!testDevThreadRunFlag) {
                 testDevThreadRunFlag = true;
                 testDevice();
                 binding.imagePlayAndStop.setChecked(true);
@@ -307,7 +304,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                     binding.textTestErrorTimesValue.setText(errorCount + "次");
                                     binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "次");
-                                    binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
+                                    String errorText = DataAnalysis.analysis(buf[1], buf[2]) + "\n";
+                                    binding.textErrorDetails.setText(binding.textErrorDetails.getText().toString() + errorText);
                                 }
                             });
 
