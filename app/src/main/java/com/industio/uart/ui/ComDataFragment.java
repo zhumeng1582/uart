@@ -446,10 +446,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                         binding.textLogDetails.setText(log);
                         if (bootPara.isSaveLog()) {
                             SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
-                            if (FileUtils.createOrExistsDir("/sdcard/test/")) {
-                                String filePath = "/sdcard/test/" + bootPara.getDeviceName() + "/";
+                            if (FileUtils.createOrExistsDir("/sdcard/test")) {
+                                String filePath = "/sdcard/test/" + bootPara.getDeviceName();
                                 if (FileUtils.createOrExistsDir(filePath)) {
-                                    String fileName = filePath + bootPara.getDeviceName() + TimeUtils.getNowString(simpleDateFormat) + ".log";
+                                    String fileName = filePath + "/" + bootPara.getDeviceName() + TimeUtils.getNowString(simpleDateFormat) + ".log";
                                     FileIOUtils.writeFileFromString(fileName, log, true);
                                 }
                             }
