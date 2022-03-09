@@ -114,7 +114,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         binding.textTotalTestTimesValue.setText(bootPara.getTestCount() + "");
         binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
         binding.textTotalTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(bootPara.getTestTimeLong()));
-
     }
 
     @Override
@@ -215,81 +214,57 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             }
 
                             if (binding.imagePlayAndStop.isChecked() && uartRxDataFlag == 0) {//超时判断
-                                if (uartRxDataFlag == 0 && bootPara.isErrorContinue() == false) {
-                                    durTime.cancel();
-
-                                    if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
-                                        playAlarmSound();
-                                    }
-
-                                    ThreadUtils.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            errorCount++;
-                                            binding.imagePlayAndStop.setChecked(false);
-                                            binding.textErrorDetails.setText("超时错误！\n");
-                                            binding.textTestErrorTimesValue.setText(errorCount + "");
-                                        }
-                                    });
-
-                                } else if (uartRxDataFlag == 0 && bootPara.isErrorContinue()) {
-                                    if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
-                                        playAlarmSound();
-                                    }
-
-                                    ThreadUtils.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            errorCount++;
-                                            binding.textErrorDetails.setText("超时错误！\n");
-                                            binding.textTestErrorTimesValue.setText(errorCount + "");
-                                        }
-                                    });
+                                if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
+                                    playAlarmSound();
                                 }
+
+                                ThreadUtils.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        errorCount++;
+                                        if (bootPara.isErrorContinue() == false) {
+                                            durTime.cancel();
+                                            binding.imagePlayAndStop.setChecked(false);
+                                        }
+
+                                        binding.textErrorDetails.setText("超时错误！\n");
+                                        binding.textTestErrorTimesValue.setText(errorCount + "");
+                                    }
+                                });
+                                if (bootPara.isErrorContinue() == false)
+                                    Thread.sleep(200);
                             } else if (!binding.imagePlayAndStop.isChecked()) {//被手动停止
                                 break;
                             }
-                        } else {
+                        } else {//非足额上电
                             timeCnt = 0;
                             while (uartRxDataFlag == 0) {
-                                Thread.sleep(1000);
                                 timeCnt++;
 
-                                if (bootPara.getFullShutUpDur() == timeCnt) {//超时判断
-                                    if (uartRxDataFlag == 0 && bootPara.isErrorContinue() == false) {
-                                        durTime.cancel();
-
-                                        if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
-                                            playAlarmSound();
-                                        }
-
-                                        ThreadUtils.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                errorCount = 10000;
-                                                binding.imagePlayAndStop.setChecked(false);
-                                                binding.textErrorDetails.setText("超时错误！\n");
-                                                binding.textTestErrorTimesValue.setText(errorCount + "");
-                                            }
-                                        });
-
-                                    } else if (uartRxDataFlag == 0 && bootPara.isErrorContinue()) {
-                                        if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
-                                            playAlarmSound();
-                                        }
-
-                                        ThreadUtils.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                errorCount++;
-                                                binding.textErrorDetails.setText("超时错误！\n");
-                                                binding.textTestErrorTimesValue.setText(errorCount + "");
-                                            }
-                                        });
+                                if (timeCnt >= bootPara.getFullShutUpDur() && uartRxDataFlag == 0) {//超时判断
+                                    if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
+                                        playAlarmSound();
                                     }
+
+                                    ThreadUtils.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (bootPara.isErrorContinue() == false) {
+                                                durTime.cancel();
+                                                binding.imagePlayAndStop.setChecked(false);
+                                            }
+
+                                            errorCount++;
+                                            binding.textErrorDetails.setText("超时错误！\n");
+                                            binding.textTestErrorTimesValue.setText(errorCount + "");
+                                        }
+                                    });
+                                    uartRxDataFlag = -1;
                                 } else if (!binding.imagePlayAndStop.isChecked()) {//被手动停止
-                                    break;
+                                    uartRxDataFlag = -1;
+                                   // break;
                                 }
+                                Thread.sleep(1000);
                             }
                         }
                     } catch (InterruptedException e) {
@@ -352,7 +327,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             protected void read(byte[] buf, int len) {
                 ThreadUtils.runOnUiThread(() -> {
                     Log.d(TAG, "ErrorInfoSerial rx:" + len + "," + bytesToHexString(buf, len));
-                    if (/*binding.imagePlayAndStop.isChecked() && */(buf[0] & 0xFF) == DataProtocol.START_FRAME && (buf[3] & 0xFF) == DataProtocol.END_FRAME) {
+                    if ((buf[0] & 0xFF) == DataProtocol.START_FRAME && (buf[3] & 0xFF) == DataProtocol.END_FRAME) {
                         if ((buf[1] & 0xFF) == DataProtocol.OK) {
                             uartRxDataFlag = 2;//接收到OK协议
                             ThreadUtils.runOnUiThread(new Runnable() {
@@ -371,34 +346,23 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     binding.textTestErrorTimesValue.setText(errorCount + "");
                                     binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
                                     String errorText = DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF) + "\n";
-                                    if (binding.textErrorDetails.getText().toString().contains("测试通过")) {
+                                    if (binding.textErrorDetails.getText().toString().contains("测试通过"))
                                         binding.textErrorDetails.setText("");
-                                    }
+
+                                    if (binding.textErrorDetails.getText().length() > 80) //内容过多清屏
+                                        binding.textErrorDetails.setText("");
+
                                     binding.textErrorDetails.setText(binding.textErrorDetails.getText().toString() + errorText);
                                 }
                             });
 
                             uartRxDataFlag = 1;//接收到错误协议
 
-                            if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
+                            if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound())
                                 playAlarmSound();
-                            }
 
-                            if (bootPara.isErrorContinue() == false) {
-                                if (testDeviceThread != null) {
-                                    durTime.cancel();
-                                    ThreadUtils.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            binding.imagePlayAndStop.setChecked(false);
-                                        }
-                                    });
-                                }
-                            } else {
-                                uartRxDataFlag = 3;
-                            }
 
-                            if (!bootPara.isErrorContinue() && testDeviceThread != null) {
+                            if (bootPara.isErrorContinue() == false && testDeviceThread != null) {
                                 durTime.cancel();
                                 ThreadUtils.runOnUiThread(new Runnable() {
                                     @Override
@@ -406,6 +370,12 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                         binding.imagePlayAndStop.setChecked(false);
                                     }
                                 });
+
+                                if (bootPara.isErrorContinue() == false)
+                                    try {
+                                        Thread.sleep(100);//等待binding.imagePlayAndStop.setChecked(false);更新
+                                    } catch (Exception e) {
+                                    }
                             }
                         }
                     } else {
@@ -424,7 +394,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), "打开失败:" + portName, Toast.LENGTH_LONG).show();
             LogUtils.d("打开失败:" + portName);
         }
-        serialControl.close();
     }
 
     //初始化日志串口
