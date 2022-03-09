@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.blankj.utilcode.util.StringUtils;
 import com.industio.uart.bean.BootPara;
 import com.industio.uart.cache.AccessParaContent;
+import com.industio.uart.cache.AccessParaContent1;
+import com.industio.uart.cache.AccessParaContent2;
 import com.industio.uart.cache.BootParaInstance;
 import com.industio.uart.databinding.ActivityOffOnSettingBinding;
 
@@ -18,6 +20,7 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
     private ActivityOffOnSettingBinding binding;
     private String key;
     private BootPara bootPara;
+    private AccessParaContent accessParaContent;
 
     public static void startActivity(Activity activity, String key) {
         Intent intent = new Intent(activity, ShutUpDownActivity.class);
@@ -40,17 +43,19 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
         key = intent.getStringExtra("key");
         if (StringUtils.equals(BootParaInstance.KEY_BOOT_PRAR1, key)) {
             bootPara = BootParaInstance.getInstance().getBootPara1();
+            accessParaContent = new AccessParaContent1();
         } else {
             bootPara = BootParaInstance.getInstance().getBootPara2();
+            accessParaContent = new AccessParaContent2();
         }
 
         binding.textDeviceNameValue.setText(bootPara.getDeviceName());
 
-        binding.rbAccess1.setText(AccessParaContent.accessPara1.getName());
-        binding.rbAccess2.setText(AccessParaContent.accessPara2.getName());
-        binding.rbAccess3.setText(AccessParaContent.accessPara3.getName());
-        binding.rbAccess4.setText(AccessParaContent.accessPara4.getName());
-        binding.rbAccess5.setText(AccessParaContent.accessPara5.getName());
+        binding.rbAccess1.setText(accessParaContent.accessPara1().getName());
+        binding.rbAccess2.setText(accessParaContent.accessPara2().getName());
+        binding.rbAccess3.setText(accessParaContent.accessPara3().getName());
+        binding.rbAccess4.setText(accessParaContent.accessPara4().getName());
+        binding.rbAccess5.setText(accessParaContent.accessPara5().getName());
 
         binding.rbAccess1.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(),binding.rbAccess1.getText().toString()));
         binding.rbAccess2.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(),binding.rbAccess2.getText().toString()));
@@ -76,15 +81,15 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
         if (view == binding.btnSure) {
             bootPara.setDeviceName(binding.textDeviceNameValue.getText().toString());
             if(binding.rbAccess1.isChecked()){
-                bootPara.setAccessPort(AccessParaContent.accessPara1);
+                bootPara.setAccessPort(accessParaContent.accessPara1());
             }else if(binding.rbAccess2.isChecked()){
-                bootPara.setAccessPort(AccessParaContent.accessPara2);
+                bootPara.setAccessPort(accessParaContent.accessPara2());
             }else if(binding.rbAccess3.isChecked()){
-                bootPara.setAccessPort(AccessParaContent.accessPara3);
+                bootPara.setAccessPort(accessParaContent.accessPara3());
             }else if(binding.rbAccess4.isChecked()){
-                bootPara.setAccessPort(AccessParaContent.accessPara4);
+                bootPara.setAccessPort(accessParaContent.accessPara4());
             }else if(binding.rbAccess5.isChecked()){
-                bootPara.setAccessPort(AccessParaContent.accessPara5);
+                bootPara.setAccessPort(accessParaContent.accessPara5());
             }
             bootPara.setShutTimesSwitch(binding.cbShutTimesSwitch.isChecked());
 

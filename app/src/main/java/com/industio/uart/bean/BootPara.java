@@ -1,12 +1,16 @@
 package com.industio.uart.bean;
 
-import com.industio.uart.cache.AccessParaContent;
 
 import java.io.Serializable;
 
 public class BootPara implements Serializable {
     private String deviceName = "EVB3568";
-    private AccessPara accessPort = AccessParaContent.accessPara1;
+    private AccessPara accessPort;
+
+    public BootPara(AccessPara accessPort) {
+        this.accessPort = accessPort;
+    }
+
     private boolean shutTimesSwitch = true;
     private int shutTimes = 5;
     private int shutUpDur = 1000;

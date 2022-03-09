@@ -11,12 +11,12 @@ public class BootParaInstance {
     private BootPara bootPara1;
     private BootPara bootPara2;
 
-    private BootParaInstance(){
-        bootPara1 = (BootPara) CacheDiskUtils.getInstance().getSerializable(KEY_BOOT_PRAR1,new BootPara());
-        bootPara2 = (BootPara) CacheDiskUtils.getInstance().getSerializable(KEY_BOOT_PRAR2,new BootPara());
+    private BootParaInstance() {
+        bootPara1 = (BootPara) CacheDiskUtils.getInstance().getSerializable(KEY_BOOT_PRAR1, new BootPara(new AccessParaContent1().accessPara1()));
+        bootPara2 = (BootPara) CacheDiskUtils.getInstance().getSerializable(KEY_BOOT_PRAR2, new BootPara(new AccessParaContent2().accessPara1()));
     }
 
-    public static BootParaInstance getInstance(){
+    public static BootParaInstance getInstance() {
         if (instance == null) {
             instance = new BootParaInstance();
         }
@@ -29,7 +29,7 @@ public class BootParaInstance {
 
     public void saveBootPara1(BootPara bootPara1) {
         this.bootPara1 = bootPara1;
-        CacheDiskUtils.getInstance().put(KEY_BOOT_PRAR1,bootPara1);
+        CacheDiskUtils.getInstance().put(KEY_BOOT_PRAR1, bootPara1);
     }
 
     public BootPara getBootPara2() {
@@ -38,6 +38,6 @@ public class BootParaInstance {
 
     public void saveBootPara2(BootPara bootPara2) {
         this.bootPara2 = bootPara2;
-        CacheDiskUtils.getInstance().put(KEY_BOOT_PRAR2,bootPara2);
+        CacheDiskUtils.getInstance().put(KEY_BOOT_PRAR2, bootPara2);
     }
 }
