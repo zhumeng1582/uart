@@ -3,14 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+    <TextView
+        android:id="@+id/textTerminal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="控制台"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/dp_20"
-        android:padding="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
         android:background="@drawable/bg_terminal"
+        android:padding="@dimen/dp_10"
         tools:ignore="MissingConstraints">
 
         <ImageView
@@ -163,11 +173,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
-            android:padding="@dimen/dp_10"
             android:background="@color/text_background"
+            android:padding="@dimen/dp_10"
+            android:scrollbars="vertical"
             android:textColor="@color/red"
             android:textSize="16sp"
-            android:scrollbars="vertical"
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toStartOf="@+id/textErrorDetailsTitle"
             app:layout_constraintTop_toBottomOf="@+id/textErrorDetailsTitle"
@@ -187,9 +197,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/text_background"
-            android:textColor="@color/black"
             android:padding="@dimen/dp_10"
             android:scrollbars="vertical"
+            android:textColor="@color/black"
             app:layout_constraintHeight_percent="0.6"
             app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
             app:layout_constraintTop_toTopOf="@+id/textErrorDetails"
@@ -252,9 +262,9 @@
             android:id="@+id/textCmdInput"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="@dimen/dp_10"
             android:layout_marginStart="@dimen/dp_20"
             android:background="@color/text_background"
+            android:padding="@dimen/dp_10"
             android:textColor="@color/black"
             app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toEndOf="@+id/spinnerPortValue"
