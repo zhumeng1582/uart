@@ -9,20 +9,32 @@ public class BootPara implements Serializable {
 
     public BootPara(AccessPara accessPort) {
         this.accessPort = accessPort;
+        shutTimesSwitch = true;
+        shutTimes = 5;
+        shutUpDur = 1000;
+        shutDownDur = 1000;
+        fullShutUp = true;
+        fullShutUpDur = 60;
+        errorContinue = false;
+        alarmSound = true;
+        saveLog = true;
+        testCount = 0;
+        errorCount = 0;
+        testTimeLong = 0;
     }
 
-    private boolean shutTimesSwitch = true;
-    private int shutTimes = 5;
-    private int shutUpDur = 1000;
-    private int shutDownDur = 1000;
-    private boolean fullShutUp = true;
-    private int fullShutUpDur = 60;
-    private boolean errorContinue = false;
-    private boolean alarmSound = true;
-    private boolean saveLog = true;
-    private int testCount = 0;
-    private int errorCount = 0;
-    private long testTimeLong = 0;
+    private boolean shutTimesSwitch;
+    private int shutTimes;
+    private int shutUpDur;
+    private int shutDownDur;
+    private boolean fullShutUp;
+    private int fullShutUpDur;
+    private boolean errorContinue;
+    private boolean alarmSound;
+    private boolean saveLog;
+    private int testCount;
+    private int errorCount;
+    private long testTimeLong;
 
     public int getTestCount() {
         return testCount;
