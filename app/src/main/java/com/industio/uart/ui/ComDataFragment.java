@@ -47,8 +47,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private int errorCount = 0;
     private long testTimeLong = 0;
 
-    private int uartRxDataFlag=0;
-    private boolean testDevThreadRunFlag=false;
+    private int uartRxDataFlag = 0;
+    private boolean testDevThreadRunFlag = false;
 
     @Nullable
     @Override
@@ -80,6 +80,16 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        binding.textTotalTestTimesValue.setText(bootPara.getTestCount() + "次");
+        binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "次");
+        binding.textTotalTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(bootPara.getTestTimeLong()));
+
+    }
+
+    @Override
     public void onClick(View v) {
         if (v == binding.imageSetting) {
             if (binding.imagePlayAndStop.isChecked()) {
@@ -107,18 +117,26 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (durTime != null && !durTime.isCanceled()) {
+            durTime.cancel();
+
+        }
+        if (testDeviceThread != null && testDeviceThread.isInterrupted()) {
+            testDeviceThread.interrupt();
+        }
+    }
+
     private void testDevice() {
-        /*testCount = 0;
-        binding.textTestTimesValue.setText(testCount+"次");
-        errorCount = 0;
-        binding.textTestErrorTimesValue.setText(errorCount + "次");
-        testTimeLong = 0;
-        binding.textTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(testTimeLong));
-    */
+        clearCount();
+
         initErrorInfoSerial();
 
         testDeviceThread = new Thread(new Runnable() {
             int timeCnt;
+
             @Override
             public void run() {
                 while (testDevThreadRunFlag) {
@@ -141,8 +159,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                         ThreadUtils.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                testCount ++;
-                                binding.textTestTimesValue.setText(testCount+"次");
+                                testCount++;
+                                bootPara.setTestCount(bootPara.getTestCount() + 1);
+                                binding.textTestTimesValue.setText(testCount + "次");
+                                binding.textTotalTestTimesValue.setText(bootPara.getTestCount() + "次");
                             }
                         });
 
@@ -151,8 +171,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                         if (bootPara.isFullShutUp()) {
                             timeCnt = bootPara.getFullShutUpDur();
-                            while(timeCnt-- > 0) {
-                                Thread.sleep( 1000);
+                            while (timeCnt-- > 0) {
+                                Thread.sleep(1000);
                                 if (testDevThreadRunFlag == false) {//被手动停止
                                     timeCnt = 0;
                                     break;
@@ -167,18 +187,21 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     @Override
                                     public void run() {
                                         errorCount++;
+                                        bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                         binding.imagePlayAndStop.setChecked(false);
                                         binding.textErrorDetails.setText("超时错误！");
                                         binding.textTestErrorTimesValue.setText(errorCount + "次");
+                                        binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "次");
+
                                     }
                                 });
                                 if (bootPara.isAlarmSound()) {
                                     playAlarmSound();
                                 }
                             }
-                        } else  if (testDevThreadRunFlag) {
+                        } else if (testDevThreadRunFlag) {
                             timeCnt = 0;
-                            while(uartRxDataFlag != 2) {
+                            while (uartRxDataFlag != 2) {
                                 Thread.sleep(1000);
                                 timeCnt++;
 
@@ -209,7 +232,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                 }
                 try {
                     Thread.sleep(1000);
-                }catch (Exception e) {
+                } catch (Exception e) {
                 }
             }
         });
@@ -223,6 +246,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSuccess(Object result) {
                 testTimeLong++;
+                bootPara.setTestTimeLong(bootPara.getTestTimeLong() + 1);
+                binding.textTotalTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(bootPara.getTestTimeLong()));
                 binding.textTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(testTimeLong));
             }
 
@@ -239,6 +264,15 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
         testDeviceThread.start();
         ThreadUtils.executeByCachedAtFixRate(durTime, 1, TimeUnit.SECONDS);
+    }
+
+    private void clearCount() {
+        testCount = 0;
+        binding.textTestTimesValue.setText(testCount + "次");
+        errorCount = 0;
+        binding.textTestErrorTimesValue.setText(errorCount + "次");
+        testTimeLong = 0;
+        binding.textTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(testTimeLong));
     }
 
 
@@ -261,7 +295,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                 @Override
                                 public void run() {
                                     errorCount++;
+                                    bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                     binding.textTestErrorTimesValue.setText(errorCount + "次");
+                                    binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "次");
                                     binding.textErrorDetails.setText(DataAnalysis.analysis(buf[1], buf[2]));
                                 }
                             });
