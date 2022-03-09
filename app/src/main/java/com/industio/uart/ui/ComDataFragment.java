@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
@@ -436,8 +437,13 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                         binding.textLogDetails.setText(log);
                         if (bootPara.isSaveLog()) {
                             SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
-                            String fileName = "/sdcard/test/项目名/" + bootPara.getDeviceName() + TimeUtils.getNowString(simpleDateFormat) + ".log";
-                            FileIOUtils.writeFileFromString(fileName, log, true);
+                            if (FileUtils.createOrExistsDir("/sdcard/test/")) {
+                                String filePath = "/sdcard/test/"+bootPara.getDeviceName()+"/";
+                                if (FileUtils.createOrExistsDir(filePath)) {
+                                    String fileName = filePath + bootPara.getDeviceName() + TimeUtils.getNowString(simpleDateFormat) + ".log";
+                                    FileIOUtils.writeFileFromString(fileName, log, true);
+                                }
+                            }
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
