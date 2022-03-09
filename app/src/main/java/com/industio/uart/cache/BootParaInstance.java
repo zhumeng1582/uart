@@ -12,8 +12,8 @@ public class BootParaInstance {
     private BootPara bootPara2;
 
     private BootParaInstance() {
-        bootPara1 = (BootPara) CacheDiskUtils.getInstance().getSerializable(KEY_BOOT_PRAR1, new BootPara(new AccessParaContent1().accessPara1()));
-        bootPara2 = (BootPara) CacheDiskUtils.getInstance().getSerializable(KEY_BOOT_PRAR2, new BootPara(new AccessParaContent2().accessPara1()));
+        bootPara1 = (BootPara) CacheDiskUtils.getInstance().getSerializable(KEY_BOOT_PRAR1);
+        bootPara2 = (BootPara) CacheDiskUtils.getInstance().getSerializable(KEY_BOOT_PRAR2);
     }
 
     public static BootParaInstance getInstance() {
@@ -24,6 +24,9 @@ public class BootParaInstance {
     }
 
     public BootPara getBootPara1() {
+        if (bootPara1 == null) {
+            bootPara1 =  new BootPara(new AccessParaContent1().accessPara1());
+        }
         return bootPara1;
     }
 
@@ -33,6 +36,9 @@ public class BootParaInstance {
     }
 
     public BootPara getBootPara2() {
+        if (bootPara2 == null) {
+            bootPara2 =  new BootPara(new AccessParaContent2().accessPara2());
+        }
         return bootPara2;
     }
 
