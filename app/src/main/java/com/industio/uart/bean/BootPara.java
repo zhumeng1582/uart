@@ -8,12 +8,12 @@ public class BootPara implements Serializable {
     private String deviceName = "EVB3568";
     private AccessPara accessPort = AccessParaContent.accessPara1;
     private boolean shutTimesSwitch = true;
-    private int shutTimes = 10;
+    private int shutTimes = 5;
     private int shutUpDur = 1000;
     private int shutDownDur = 1000;
     private boolean fullShutUp = true;
     private int fullShutUpDur = 60;
-    private boolean errorContinue = true;
+    private boolean errorContinue = false;
     private boolean alarmSound = true;
     private boolean saveLog = true;
     private int testCount = 0;
