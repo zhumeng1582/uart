@@ -195,7 +195,7 @@
             android:padding="@dimen/dp_10"
             android:scrollbars="vertical"
             android:textColor="@color/black"
-            app:layout_constraintHeight_percent="0.65"
+            app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
             app:layout_constraintTop_toTopOf="@+id/llErrorDetails"
             app:layout_constraintWidth_percent="0.6">
@@ -245,13 +245,12 @@
         <EditText
             android:id="@+id/textCmdInput"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/dp_80"
             android:layout_marginStart="@dimen/dp_20"
             android:background="@color/text_background"
             android:padding="@dimen/dp_10"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_16"
-            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toEndOf="@+id/spinnerPortValue"
             app:layout_constraintTop_toTopOf="@+id/textPortRateTitle"
             app:layout_constraintWidth_percent="0.3" />
