@@ -52,6 +52,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private long testTimeLong = 0;
     private int uartRxDataFlag = 0;
     private static int openLogUartCnt = 0;
+    private StringBuffer textLogDetail = new StringBuffer();
+    private StringBuffer textErrorDetail = new StringBuffer();
 
     @Nullable
     @Override
@@ -241,7 +243,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                             durTime.cancel();
                                             binding.imagePlayAndStop.setChecked(false);
                                         }
-
+                                        textErrorDetail = new StringBuffer();
                                         binding.textErrorDetails.setText("超时错误！\n");
                                         binding.textTestErrorTimesValue.setText(errorCount + "");
                                     }
@@ -270,6 +272,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                             }
 
                                             errorCount++;
+                                            textErrorDetail = new StringBuffer();
                                             binding.textErrorDetails.setText("超时错误！\n");
                                             binding.textTestErrorTimesValue.setText(errorCount + "");
                                         }
@@ -334,25 +337,27 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
     //初始化错误串口
     private void initErrorInfoSerial() {
-
+        textErrorDetail = new StringBuffer();
         binding.textErrorDetails.setText("");
 
         SerialControl mErrLogSerialControl = new SerialControl() {
             @Override
             protected void read(byte[] buf, int len) {
                 ThreadUtils.runOnUiThread(() -> {
-                    Log.d(TAG, "ErrorInfoSerial rx:" + len + "," + bytesToHexString(buf, len));
+                    String bytesToHexString = bytesToHexString(buf, len);
+                    Log.d(TAG, "ErrorInfoSerial rx:" + len + "," + bytesToHexString);
                     if ((buf[0] & 0xFF) == DataProtocol.START_FRAME && (buf[3] & 0xFF) == DataProtocol.END_FRAME) {
                         if ((buf[1] & 0xFF) == DataProtocol.OK) {
                             uartRxDataFlag = 2;//接收到OK协议
                             ThreadUtils.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    textErrorDetail = new StringBuffer();
                                     binding.textErrorDetails.setText("测试通过！\n");
                                 }
                             });
                         } else if ((buf[1] & 0xFF) != DataProtocol.OK) {//收到错误码
-                            Log.d(TAG, "err codec:" + bytesToHexString(buf, len));
+                            Log.d(TAG, "err codec:" + bytesToHexString);
                             ThreadUtils.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -360,14 +365,17 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                     binding.textTestErrorTimesValue.setText(errorCount + "");
                                     binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
-                                    String errorText = DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF) + "\n";
-                                    if (binding.textErrorDetails.getText().toString().contains("测试通过"))
-                                        binding.textErrorDetails.setText("");
 
-                                    if (binding.textErrorDetails.getText().length() > 80) //内容过多清屏
+                                    if (binding.textErrorDetails.getText().toString().contains("测试通过")) {
                                         binding.textErrorDetails.setText("");
-
-                                    binding.textErrorDetails.setText(binding.textErrorDetails.getText().toString() + errorText);
+                                        textErrorDetail = new StringBuffer();
+                                    }
+                                    if (binding.textErrorDetails.getText().length() > 80) { //内容过多清屏
+                                        binding.textErrorDetails.setText("");
+                                        textErrorDetail = new StringBuffer();
+                                    }
+                                    textErrorDetail.append(DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF)).append("\n");
+                                    binding.textErrorDetails.setText(textErrorDetail.toString());
                                 }
                             });
 
@@ -420,6 +428,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         }
         int portRate = Integer.parseInt(binding.spinnerPortRate.getSelectedItem().toString());
         Log.d(TAG, "portRate:" + portRate);
+        textLogDetail = new StringBuffer();
         binding.textLogDetails.setText("");
         mLogSerialControl = new SerialControl() {
             @Override
@@ -427,8 +436,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                 ThreadUtils.runOnUiThread(() -> {
                     try {
-                        String log = new String(buf, "UTF-8") + "\n";
-                        binding.textLogDetails.setText(binding.textLogDetails.getText() + log);
+                        String log = new String(buf, "UTF-8");
+                        textLogDetail.append(log).append("\n");
+                        binding.textLogDetails.setText(textLogDetail.toString());
+
                         if (bootPara.isSaveLog()) {
                             SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
                             String filePath = PathUtils.getAppDataPathExternalFirst();
