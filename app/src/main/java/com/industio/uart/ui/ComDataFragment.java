@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
@@ -25,6 +26,8 @@ import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.industio.uart.adapter.ErrorInfoAdapter;
+import com.industio.uart.adapter.LogInfoAdapter;
 import com.industio.uart.bean.BootPara;
 import com.industio.uart.cache.BootParaInstance;
 import com.industio.uart.databinding.FragmentComDataBinding;
@@ -52,8 +55,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private long testTimeLong = 0;
     private int uartRxDataFlag = 0;
     private static int openLogUartCnt = 0;
-    private StringBuffer textLogDetail = new StringBuffer();
-    private StringBuffer textErrorDetail = new StringBuffer();
+    private final ErrorInfoAdapter errorInfoAdapter = new ErrorInfoAdapter();
+    private final LogInfoAdapter logInfoAdapter = new LogInfoAdapter();
 
     @Nullable
     @Override
@@ -97,8 +100,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        binding.textErrorDetails.setMovementMethod(ScrollingMovementMethod.getInstance());
-        binding.textLogDetails.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         String[] portRate = {"1500000", "115200"};
         ArrayAdapter<String> adapterPortRate = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, portRate);
@@ -120,6 +121,11 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                 Log.e(TAG, "========>" + openLogUartCnt);
             }
         });
+        binding.recyclerViewLogDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerViewLogDetails.setAdapter(logInfoAdapter);
+
+        binding.recycleViewErrorDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recycleViewErrorDetails.setAdapter(errorInfoAdapter);
     }
 
     @Override
@@ -243,8 +249,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                             durTime.cancel();
                                             binding.imagePlayAndStop.setChecked(false);
                                         }
-                                        textErrorDetail = new StringBuffer();
-                                        binding.textErrorDetails.setText("超时错误！\n");
+                                        errorInfoAdapter.errorInfo("超时错误");
                                         binding.textTestErrorTimesValue.setText(errorCount + "");
                                     }
                                 });
@@ -272,8 +277,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                             }
 
                                             errorCount++;
-                                            textErrorDetail = new StringBuffer();
-                                            binding.textErrorDetails.setText("超时错误！\n");
+                                            errorInfoAdapter.errorInfo("超时错误");
                                             binding.textTestErrorTimesValue.setText(errorCount + "");
                                         }
                                     });
@@ -337,9 +341,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
     //初始化错误串口
     private void initErrorInfoSerial() {
-        textErrorDetail = new StringBuffer();
-        binding.textErrorDetails.setText("");
-
+        errorInfoAdapter.clearAll();
         SerialControl mErrLogSerialControl = new SerialControl() {
             @Override
             protected void read(byte[] buf, int len) {
@@ -352,8 +354,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             ThreadUtils.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    textErrorDetail = new StringBuffer();
-                                    binding.textErrorDetails.setText("测试通过！\n");
+                                    errorInfoAdapter.errorInfo("测试通过");
                                 }
                             });
                         } else if ((buf[1] & 0xFF) != DataProtocol.OK) {//收到错误码
@@ -366,16 +367,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     binding.textTestErrorTimesValue.setText(errorCount + "");
                                     binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
 
-                                    if (binding.textErrorDetails.getText().toString().contains("测试通过")) {
-                                        binding.textErrorDetails.setText("");
-                                        textErrorDetail = new StringBuffer();
+                                    if (errorInfoAdapter.getItemCount() > 80) { //内容过多清屏
+                                        errorInfoAdapter.clearAll();
                                     }
-                                    if (binding.textErrorDetails.getText().length() > 80) { //内容过多清屏
-                                        binding.textErrorDetails.setText("");
-                                        textErrorDetail = new StringBuffer();
-                                    }
-                                    textErrorDetail.append(DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF)).append("\n");
-                                    binding.textErrorDetails.setText(textErrorDetail.toString());
+                                    errorInfoAdapter.add(DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF));
                                 }
                             });
 
@@ -428,17 +423,16 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         }
         int portRate = Integer.parseInt(binding.spinnerPortRate.getSelectedItem().toString());
         Log.d(TAG, "portRate:" + portRate);
-        textLogDetail = new StringBuffer();
-        binding.textLogDetails.setText("");
+        logInfoAdapter.clearAll();
         mLogSerialControl = new SerialControl() {
             @Override
             protected void read(final byte[] buf, final int len) {
 
                 ThreadUtils.runOnUiThread(() -> {
                     try {
+
                         String log = new String(buf, "UTF-8");
-                        textLogDetail.append(log).append("\n");
-                        binding.textLogDetails.setText(textLogDetail.toString());
+                        logInfoAdapter.add(log);
 
                         if (bootPara.isSaveLog()) {
                             SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");

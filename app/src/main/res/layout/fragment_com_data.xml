@@ -168,8 +168,8 @@
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/textTestTimesValue" />
 
-        <TextView
-            android:id="@+id/textErrorDetails"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewErrorDetails"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
@@ -182,7 +182,6 @@
             app:layout_constraintStart_toStartOf="@+id/textErrorDetailsTitle"
             app:layout_constraintTop_toBottomOf="@+id/textErrorDetailsTitle"
             app:layout_constraintWidth_percent="0.2" />
-
         <TextView
             android:id="@+id/textLogDetailsTitle"
             android:layout_width="wrap_content"
@@ -190,10 +189,9 @@
             android:layout_marginStart="@dimen/dp_50"
             android:text="LOG详情"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/textErrorDetails" />
-
-        <TextView
-            android:id="@+id/textLogDetails"
+            app:layout_constraintStart_toEndOf="@+id/recycleViewErrorDetails" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewLogDetails"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/text_background"
@@ -202,17 +200,16 @@
             android:textColor="@color/black"
             app:layout_constraintHeight_percent="0.65"
             app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
-            app:layout_constraintTop_toTopOf="@+id/textErrorDetails"
-            app:layout_constraintWidth_percent="0.6" />
-
+            app:layout_constraintTop_toTopOf="@+id/recycleViewErrorDetails"
+            app:layout_constraintWidth_percent="0.6"/>
         <TextView
             android:id="@+id/textPortRateTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
             android:text="@string/string_port_rate1"
-            app:layout_constraintStart_toStartOf="@+id/textLogDetails"
-            app:layout_constraintTop_toBottomOf="@+id/textLogDetails" />
+            app:layout_constraintStart_toStartOf="@+id/recyclerViewLogDetails"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewLogDetails" />
 
         <Spinner
             android:id="@+id/spinnerPortRate"
@@ -229,7 +226,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
             android:text="@string/string_port"
-            app:layout_constraintStart_toStartOf="@+id/textLogDetails"
+            app:layout_constraintStart_toStartOf="@+id/recyclerViewLogDetails"
             app:layout_constraintTop_toBottomOf="@+id/textPortRateTitle" />
 
         <Spinner
