@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
@@ -386,7 +387,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     if (errorInfoAdapter.getItemCount() > 80) { //内容过多清屏
                                         errorInfoAdapter.clearAll();
                                     }
-                                    errorInfoAdapter.add(binding.recycleViewErrorDetails,DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF));
+                                    errorInfoAdapter.add(binding.recycleViewErrorDetails, DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF));
                                 }
                             });
 
@@ -433,7 +434,22 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     }
 
 
+//    private int count = 0;
+
     private void refreshLog() {
+//        ThreadUtils.executeByCachedAtFixRate(new ThreadUtils.SimpleTask<Object>() {
+//            @Override
+//            public Object doInBackground() throws Throwable {
+//                count++;
+//                return null;
+//            }
+//
+//            @Override
+//            public void onSuccess(Object result) {
+//                logInfoAdapter.add("" + count);
+//            }
+//        }, 10, TimeUnit.MILLISECONDS);
+
         ThreadUtils.executeByCachedAtFixRate(new ThreadUtils.SimpleTask<Object>() {
             @Override
             public Object doInBackground() throws Throwable {
@@ -468,7 +484,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                         String log = new String(buf, "UTF-8");
                         logInfoAdapter.add(log);
-
 
                         if (bootPara.isSaveLog() && !StringUtils.isEmpty(filePath)) {
                             FileIOUtils.writeFileFromString(filePath, log, true);

@@ -163,10 +163,6 @@
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
             android:background="@color/text_background"
-            android:padding="@dimen/dp_10"
-            android:scrollbars="vertical"
-            android:textColor="@color/red"
-            android:textSize="16sp"
             app:layout_constraintHeight_percent="0.9"
             app:layout_constraintStart_toStartOf="@+id/textErrorDetailsTitle"
             app:layout_constraintTop_toBottomOf="@+id/textErrorDetailsTitle"
@@ -175,7 +171,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycleViewErrorDetails"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:scrollbars="vertical"
+                android:scrollbarThumbVertical="@color/grey"/>
         </FrameLayout>
 
         <TextView
@@ -192,9 +191,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/text_background"
-            android:padding="@dimen/dp_10"
-            android:scrollbars="vertical"
-            android:textColor="@color/black"
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
             app:layout_constraintTop_toTopOf="@+id/llErrorDetails"
@@ -203,7 +199,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewLogDetails"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:scrollbarThumbVertical="@color/grey"
+                android:scrollbars="vertical"/>
         </FrameLayout>
 
         <TextView

@@ -7,17 +7,20 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.CloneUtils;
+import com.blankj.utilcode.util.CollectionUtils;
 import com.industio.uart.R;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LogInfoAdapter extends RecyclerView.Adapter<LogInfoAdapter.ViewHolder> {
 
-
-
-    private boolean isNeedRefresh;
     private final List<String> stringList = new ArrayList<>();
+    private final List<String> temp = new CopyOnWriteArrayList<>();
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView text;
@@ -29,15 +32,15 @@ public class LogInfoAdapter extends RecyclerView.Adapter<LogInfoAdapter.ViewHold
     }
 
     public void add(String log) {
-        isNeedRefresh = true;
-        stringList.add(log);
+        temp.add(log);
     }
 
     public void refresh(RecyclerView recyclerView) {
         //滑动到底部了
         if (!recyclerView.canScrollVertically(1)) {
-            if (isNeedRefresh) {
-                isNeedRefresh = false;
+            if (!temp.isEmpty()) {
+                stringList.addAll(temp);
+                temp.clear();
                 notifyDataSetChanged();
             }
             recyclerView.scrollToPosition(getItemCount() - 1);
