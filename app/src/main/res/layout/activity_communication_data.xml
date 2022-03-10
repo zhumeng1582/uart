@@ -37,11 +37,11 @@
         android:layout_marginBottom="@dimen/dp_20"
         android:layout_height="0dp"
         android:layout_weight="1" />
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment2"
-        android:name="com.industio.uart.ui.ComDataFragment"
-        android:tag="2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/fragment2"-->
+<!--        android:name="com.industio.uart.ui.ComDataFragment"-->
+<!--        android:tag="2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1" />-->
 </LinearLayout>

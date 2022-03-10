@@ -74,7 +74,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             bootPara = BootParaInstance.getInstance().getBootPara2();
         }
 
-        binding.textTerminal.setText("控制台" + getTag());
         binding.imageSetting.setOnClickListener(this);
         binding.imagePlayAndStop.setOnClickListener(this);
 
