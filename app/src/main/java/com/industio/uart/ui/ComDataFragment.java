@@ -250,7 +250,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                             binding.imagePlayAndStop.setChecked(false);
                                         }
                                         errorInfoAdapter.errorInfo("超时错误");
+                                        bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                         binding.textTestErrorTimesValue.setText(errorCount + "");
+                                        binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
                                     }
                                 });
                                 if (bootPara.isErrorContinue() == false)
@@ -278,7 +280,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                                             errorCount++;
                                             errorInfoAdapter.errorInfo("超时错误");
+                                            bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                             binding.textTestErrorTimesValue.setText(errorCount + "");
+                                            binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
                                         }
                                     });
                                     uartRxDataFlag = -1;
@@ -346,8 +350,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             @Override
             protected void read(byte[] buf, int len) {
                 ThreadUtils.runOnUiThread(() -> {
-                    String bytesToHexString = bytesToHexString(buf, len);
-                    Log.d(TAG, "ErrorInfoSerial rx:" + len + "," + bytesToHexString);
+                    Log.d(TAG, "ErrorInfoSerial rx:" + len + "," + bytesToHexString(buf, len));
                     if ((buf[0] & 0xFF) == DataProtocol.START_FRAME && (buf[3] & 0xFF) == DataProtocol.END_FRAME) {
                         if ((buf[1] & 0xFF) == DataProtocol.OK) {
                             uartRxDataFlag = 2;//接收到OK协议
@@ -358,12 +361,15 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                 }
                             });
                         } else if ((buf[1] & 0xFF) != DataProtocol.OK) {//收到错误码
-                            Log.d(TAG, "err codec:" + bytesToHexString);
+                            Log.d(TAG, "err codec:" + bytesToHexString(buf, len));
                             ThreadUtils.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    errorCount++;
-                                    bootPara.setErrorCount(bootPara.getErrorCount() + 1);
+                                    if (binding.imagePlayAndStop.isChecked()) {
+                                        errorCount++;
+                                        bootPara.setErrorCount(bootPara.getErrorCount() + 1);
+                                    }
+
                                     binding.textTestErrorTimesValue.setText(errorCount + "");
                                     binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
 
@@ -433,7 +439,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                         String log = new String(buf, "UTF-8");
                         logInfoAdapter.add(log);
-
                         if (bootPara.isSaveLog()) {
                             SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
                             String filePath = PathUtils.getAppDataPathExternalFirst();
