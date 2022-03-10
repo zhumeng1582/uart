@@ -57,6 +57,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private static int openLogUartCnt = 0;
     private final ErrorInfoAdapter errorInfoAdapter = new ErrorInfoAdapter();
     private final LogInfoAdapter logInfoAdapter = new LogInfoAdapter();
+    private String filePath;
 
     @Nullable
     @Override
@@ -135,6 +136,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         binding.recycleViewErrorDetails.setLayoutManager(errorLinearLayoutManager);
         binding.recycleViewErrorDetails.setAdapter(errorInfoAdapter);
     }
+
 
     @Override
     public void onResume() {
@@ -354,6 +356,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     //初始化错误串口
     private void initErrorInfoSerial() {
         errorInfoAdapter.clearAll();
+
         SerialControl mErrLogSerialControl = new SerialControl() {
             @Override
             protected void read(byte[] buf, int len) {
@@ -433,12 +436,14 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
     //初始化日志串口
     private void initLogSerial() {
         if (mLogSerialControl != null) {
             mLogSerialControl.close();
             mLogSerialControl = null;
         }
+        createDir();
         int portRate = Integer.parseInt(binding.spinnerPortRate.getSelectedItem().toString());
         Log.d(TAG, "portRate:" + portRate);
         logInfoAdapter.clearAll();
@@ -456,24 +461,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             binding.recyclerViewLogDetails.scrollToPosition(logInfoAdapter.getItemCount() - 1);
                         }
 
-                        if (bootPara.isSaveLog()) {
-                            SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
-                            String filePath = PathUtils.getAppDataPathExternalFirst();
-                            if (StringUtils.isEmpty(filePath)) {
-                                filePath = PathUtils.getExternalAppDataPath();
-                            }
-                            if (StringUtils.isEmpty(filePath)) {
-                                filePath = PathUtils.getDataPath();
-                            }
+                        if (bootPara.isSaveLog() && !StringUtils.isEmpty(filePath)) {
+                            FileIOUtils.writeFileFromString(filePath, log, true);
 
-                            filePath = filePath + "/test";
-                            if (FileUtils.createOrExistsDir(filePath)) {
-                                filePath = filePath + "/" + bootPara.getDeviceName();
-                                if (FileUtils.createOrExistsDir(filePath)) {
-                                    String fileName = filePath + "/" + bootPara.getDeviceName() + TimeUtils.getNowString(simpleDateFormat) + ".log";
-                                    FileIOUtils.writeFileFromString(fileName, log, true);
-                                }
-                            }
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -492,6 +482,25 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void createDir(){
+        SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
+        filePath = PathUtils.getAppDataPathExternalFirst();
+        if (StringUtils.isEmpty(filePath)) {
+            filePath = PathUtils.getExternalAppDataPath();
+        }
+        if (StringUtils.isEmpty(filePath)) {
+            filePath = PathUtils.getDataPath();
+        }
+
+        filePath = filePath + "/test";
+        if (FileUtils.createOrExistsDir(filePath)) {
+            filePath = filePath + "/" + bootPara.getDeviceName();
+        }
+
+        if (FileUtils.createOrExistsDir(filePath)) {
+            filePath = filePath + "/" + bootPara.getDeviceName() + TimeUtils.getNowString(simpleDateFormat) + ".log";
+        }
+    }
     //上下电设置
     private void setPower(boolean on) {
         ThreadUtils.runOnUiThread(new Runnable() {
