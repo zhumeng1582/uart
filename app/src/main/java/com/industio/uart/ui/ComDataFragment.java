@@ -141,7 +141,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-
         //设置数据后需要刷新页面计数信息
         binding.textTotalTestTimesValue.setText(bootPara.getTestCount() + "");
         binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
@@ -387,11 +386,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     if (errorInfoAdapter.getItemCount() > 80) { //内容过多清屏
                                         errorInfoAdapter.clearAll();
                                     }
-                                    errorInfoAdapter.add(DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF));
-                                    //滑动到底部了
-                                    if (!binding.recycleViewErrorDetails.canScrollVertically(1)) {
-                                        binding.recycleViewErrorDetails.scrollToPosition(errorInfoAdapter.getItemCount() - 1);
-                                    }
+                                    errorInfoAdapter.add(binding.recycleViewErrorDetails,DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF));
                                 }
                             });
 
@@ -434,6 +429,22 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), "打开失败:" + portName, Toast.LENGTH_LONG).show();
             LogUtils.d("打开失败:" + portName);
         }
+
+    }
+
+
+    private void refreshLog() {
+        ThreadUtils.executeByCachedAtFixRate(new ThreadUtils.SimpleTask<Object>() {
+            @Override
+            public Object doInBackground() throws Throwable {
+                return null;
+            }
+
+            @Override
+            public void onSuccess(Object result) {
+                logInfoAdapter.refresh(binding.recyclerViewLogDetails);
+            }
+        }, 100, TimeUnit.MILLISECONDS);
     }
 
 
@@ -457,10 +468,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                         String log = new String(buf, "UTF-8");
                         logInfoAdapter.add(log);
-                        //滑动到底部了
-                        if (!binding.recyclerViewLogDetails.canScrollVertically(1)) {
-                            binding.recyclerViewLogDetails.scrollToPosition(logInfoAdapter.getItemCount() - 1);
-                        }
+
 
                         if (bootPara.isSaveLog() && !StringUtils.isEmpty(filePath)) {
                             FileIOUtils.writeFileFromString(filePath, log, true);
@@ -481,6 +489,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), "打开失败:" + portName, Toast.LENGTH_LONG).show();
             LogUtils.d("打开失败:" + portName);
         }
+        refreshLog();
     }
 
 

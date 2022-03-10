@@ -26,7 +26,7 @@ public class ErrorInfoAdapter extends RecyclerView.Adapter<ErrorInfoAdapter.View
             text = view.findViewById(R.id.text);
         }
     }
-    public void add(String log){
+    public void add(RecyclerView recyclerView,String log){
         if (isErrorInfo) {
             stringList.clear();
         }
@@ -34,6 +34,11 @@ public class ErrorInfoAdapter extends RecyclerView.Adapter<ErrorInfoAdapter.View
         isErrorInfo = false;
         stringList.add(log);
         notifyItemInserted(stringList.size()-1);
+
+        //滑动到底部了
+        if (!recyclerView.canScrollVertically(1)) {
+            recyclerView.scrollToPosition(getItemCount() - 1);
+        }
     }
     public void clearAll(){
         isErrorInfo = false;

@@ -14,6 +14,9 @@ import java.util.List;
 
 public class LogInfoAdapter extends RecyclerView.Adapter<LogInfoAdapter.ViewHolder> {
 
+
+
+    private boolean isNeedRefresh;
     private final List<String> stringList = new ArrayList<>();
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -24,11 +27,24 @@ public class LogInfoAdapter extends RecyclerView.Adapter<LogInfoAdapter.ViewHold
             text = view.findViewById(R.id.text);
         }
     }
-    public void add(String log){
+
+    public void add(String log) {
+        isNeedRefresh = true;
         stringList.add(log);
-        notifyItemInserted(stringList.size()-1);
     }
-    public void clearAll(){
+
+    public void refresh(RecyclerView recyclerView) {
+        //滑动到底部了
+        if (!recyclerView.canScrollVertically(1)) {
+            if (isNeedRefresh) {
+                isNeedRefresh = false;
+                notifyDataSetChanged();
+            }
+            recyclerView.scrollToPosition(getItemCount() - 1);
+        }
+    }
+
+    public void clearAll() {
         stringList.clear();
         notifyDataSetChanged();
     }
