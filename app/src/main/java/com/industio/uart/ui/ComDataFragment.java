@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -50,7 +51,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private int errorCount = 0;
     private long testTimeLong = 0;
     private int uartRxDataFlag = 0;
-    private static int openLogUartCnt=0;
+    private static int openLogUartCnt = 0;
 
     @Nullable
     @Override
@@ -90,7 +91,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Log.e(TAG,"========>" + openLogUartCnt);
+                Log.e(TAG, "========>" + openLogUartCnt);
             }
         });
 
@@ -114,7 +115,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Log.e(TAG,"========>" + openLogUartCnt);
+                Log.e(TAG, "========>" + openLogUartCnt);
             }
         });
     }
@@ -280,7 +281,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     uartRxDataFlag = -1;
                                 } else if (!binding.imagePlayAndStop.isChecked()) {//被手动停止
                                     uartRxDataFlag = -1;
-                                   // break;
+                                    // break;
                                 }
                                 Thread.sleep(1000);
                             }
@@ -434,12 +435,21 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                 ThreadUtils.runOnUiThread(() -> {
                     try {
-                        String log = new String(buf, "UTF-8");
-                        binding.textLogDetails.setText(log);
+                        String log = new String(buf, "UTF-8") + "\n";
+                        binding.textLogDetails.setText(binding.textLogDetails.getText() + log);
                         if (bootPara.isSaveLog()) {
                             SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
-                            if (FileUtils.createOrExistsDir("/sdcard/test")) {
-                                String filePath = "/sdcard/test/" + bootPara.getDeviceName();
+                            String filePath = PathUtils.getAppDataPathExternalFirst();
+                            if (StringUtils.isEmpty(filePath)) {
+                                filePath = PathUtils.getExternalAppDataPath();
+                            }
+                            if (StringUtils.isEmpty(filePath)) {
+                                filePath = PathUtils.getDataPath();
+                            }
+
+                            filePath = filePath + "/test";
+                            if (FileUtils.createOrExistsDir(filePath)) {
+                                filePath = filePath + "/" + bootPara.getDeviceName();
                                 if (FileUtils.createOrExistsDir(filePath)) {
                                     String fileName = filePath + "/" + bootPara.getDeviceName() + TimeUtils.getNowString(simpleDateFormat) + ".log";
                                     FileIOUtils.writeFileFromString(fileName, log, true);
