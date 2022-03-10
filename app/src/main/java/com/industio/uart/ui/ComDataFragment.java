@@ -33,6 +33,7 @@ import com.industio.uart.cache.BootParaInstance;
 import com.industio.uart.databinding.FragmentComDataBinding;
 import com.industio.uart.utils.DataAnalysis;
 import com.industio.uart.utils.DataProtocol;
+import com.industio.uart.utils.LogFileUtils;
 
 import org.ido.iface.SerialControl;
 
@@ -442,7 +443,8 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             mLogSerialControl.close();
             mLogSerialControl = null;
         }
-        createDir();
+        filePath = LogFileUtils.createDir(bootPara.getDeviceName());
+
         int portRate = Integer.parseInt(binding.spinnerPortRate.getSelectedItem().toString());
         Log.d(TAG, "portRate:" + portRate);
         logInfoAdapter.clearAll();
@@ -481,25 +483,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void createDir(){
-        SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
-        filePath = PathUtils.getAppDataPathExternalFirst();
-        if (StringUtils.isEmpty(filePath)) {
-            filePath = PathUtils.getExternalAppDataPath();
-        }
-        if (StringUtils.isEmpty(filePath)) {
-            filePath = PathUtils.getDataPath();
-        }
 
-        filePath = filePath + "/test";
-        if (FileUtils.createOrExistsDir(filePath)) {
-            filePath = filePath + "/" + bootPara.getDeviceName();
-        }
-
-        if (FileUtils.createOrExistsDir(filePath)) {
-            filePath = filePath + "/" + bootPara.getDeviceName() + TimeUtils.getNowString(simpleDateFormat) + ".log";
-        }
-    }
     //上下电设置
     private void setPower(boolean on) {
         ThreadUtils.runOnUiThread(new Runnable() {
