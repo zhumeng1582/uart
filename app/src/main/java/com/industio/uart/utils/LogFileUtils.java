@@ -23,7 +23,7 @@ public class LogFileUtils {
 
         if (FileUtils.createOrExistsDir(filePath)) {
             try {
-                if (Long.parseLong(FileUtils.getSize(filePath)) > 100 * 1024 * 1024) {
+                if (FileUtils.getLength(filePath) > 100 * 1024 * 1024) {
                     FileUtils.deleteAllInDir(filePath);
                 }
             } catch (NumberFormatException ignored) {
