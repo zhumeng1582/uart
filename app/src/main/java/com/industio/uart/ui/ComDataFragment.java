@@ -121,10 +121,18 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                 Log.e(TAG, "========>" + openLogUartCnt);
             }
         });
-        binding.recyclerViewLogDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager logLinearLayoutManager = new LinearLayoutManager(getContext());
+        logLinearLayoutManager.setStackFromEnd(true);
+        logLinearLayoutManager.scrollToPositionWithOffset(logInfoAdapter.getItemCount() - 1, Integer.MIN_VALUE);
+        binding.recyclerViewLogDetails.setLayoutManager(logLinearLayoutManager);
         binding.recyclerViewLogDetails.setAdapter(logInfoAdapter);
+        binding.recyclerViewLogDetails.setLayoutManager(logLinearLayoutManager);
 
-        binding.recycleViewErrorDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        LinearLayoutManager errorLinearLayoutManager = new LinearLayoutManager(getContext());
+        errorLinearLayoutManager.setStackFromEnd(true);
+        errorLinearLayoutManager.scrollToPositionWithOffset(errorInfoAdapter.getItemCount() - 1, Integer.MIN_VALUE);
+        binding.recycleViewErrorDetails.setLayoutManager(errorLinearLayoutManager);
         binding.recycleViewErrorDetails.setAdapter(errorInfoAdapter);
     }
 
@@ -377,6 +385,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                         errorInfoAdapter.clearAll();
                                     }
                                     errorInfoAdapter.add(DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF));
+                                    //滑动到底部了
+                                    if (!binding.recycleViewErrorDetails.canScrollVertically(1)) {
+                                        binding.recycleViewErrorDetails.scrollToPosition(errorInfoAdapter.getItemCount() - 1);
+                                    }
                                 }
                             });
 
@@ -439,6 +451,11 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                         String log = new String(buf, "UTF-8");
                         logInfoAdapter.add(log);
+                        //滑动到底部了
+                        if (!binding.recyclerViewLogDetails.canScrollVertically(1)) {
+                            binding.recyclerViewLogDetails.scrollToPosition(logInfoAdapter.getItemCount() - 1);
+                        }
+
                         if (bootPara.isSaveLog()) {
                             SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
                             String filePath = PathUtils.getAppDataPathExternalFirst();

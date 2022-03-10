@@ -11,9 +11,9 @@
         android:id="@+id/textTerminal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="控制台"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_18" />
+        android:textSize="@dimen/sp_18"
+        tools:text="控制台" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -168,8 +168,8 @@
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/textTestTimesValue" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleViewErrorDetails"
+        <FrameLayout
+            android:id="@+id/llErrorDetails"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
@@ -181,7 +181,14 @@
             app:layout_constraintHeight_percent="0.9"
             app:layout_constraintStart_toStartOf="@+id/textErrorDetailsTitle"
             app:layout_constraintTop_toBottomOf="@+id/textErrorDetailsTitle"
-            app:layout_constraintWidth_percent="0.2" />
+            app:layout_constraintWidth_percent="0.2">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleViewErrorDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
         <TextView
             android:id="@+id/textLogDetailsTitle"
             android:layout_width="wrap_content"
@@ -189,9 +196,10 @@
             android:layout_marginStart="@dimen/dp_50"
             android:text="LOG详情"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/recycleViewErrorDetails" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewLogDetails"
+            app:layout_constraintStart_toEndOf="@+id/llErrorDetails" />
+
+        <FrameLayout
+            android:id="@+id/llLogDetails"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/text_background"
@@ -200,16 +208,23 @@
             android:textColor="@color/black"
             app:layout_constraintHeight_percent="0.65"
             app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
-            app:layout_constraintTop_toTopOf="@+id/recycleViewErrorDetails"
-            app:layout_constraintWidth_percent="0.6"/>
+            app:layout_constraintTop_toTopOf="@+id/llErrorDetails"
+            app:layout_constraintWidth_percent="0.6">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewLogDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
         <TextView
             android:id="@+id/textPortRateTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
             android:text="@string/string_port_rate1"
-            app:layout_constraintStart_toStartOf="@+id/recyclerViewLogDetails"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerViewLogDetails" />
+            app:layout_constraintStart_toStartOf="@+id/llLogDetails"
+            app:layout_constraintTop_toBottomOf="@+id/llLogDetails" />
 
         <Spinner
             android:id="@+id/spinnerPortRate"
@@ -226,7 +241,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
             android:text="@string/string_port"
-            app:layout_constraintStart_toStartOf="@+id/recyclerViewLogDetails"
+            app:layout_constraintStart_toStartOf="@+id/llLogDetails"
             app:layout_constraintTop_toBottomOf="@+id/textPortRateTitle" />
 
         <Spinner
@@ -251,15 +266,16 @@
             app:layout_constraintStart_toEndOf="@+id/spinnerPortValue"
             app:layout_constraintTop_toTopOf="@+id/textPortRateTitle"
             app:layout_constraintWidth_percent="0.3" />
+
         <TextView
             android:id="@+id/textCMDTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/string_cmd"
             android:layout_marginLeft="@dimen/dp_10"
-            app:layout_constraintTop_toTopOf="@+id/textCmdInput"
+            android:text="@string/string_cmd"
             app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
-            app:layout_constraintStart_toEndOf="@+id/textCmdInput"/>
+            app:layout_constraintStart_toEndOf="@+id/textCmdInput"
+            app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
 
         <Spinner
             android:id="@+id/spinnerCMDValue"
