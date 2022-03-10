@@ -460,7 +460,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(Object result) {
                 logInfoAdapter.refresh(binding.recyclerViewLogDetails);
             }
-        }, 100, TimeUnit.MILLISECONDS);
+        }, 25, TimeUnit.MILLISECONDS);
     }
 
 
