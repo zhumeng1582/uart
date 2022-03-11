@@ -34,9 +34,9 @@
         android:id="@+id/llLogDetails"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
+        android:layout_marginBottom="@dimen/dp_20"
         android:background="@color/text_background"
-        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintBottom_toTopOf="@+id/conSend"
         app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
         app:layout_constraintTop_toBottomOf="@+id/textLogDetailsTitle">
 
@@ -49,83 +49,88 @@
             android:scrollbars="vertical" />
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/textPortRateTitle"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/conSend"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:text="@string/string_port_rate1"
-        app:layout_constraintStart_toStartOf="@+id/llLogDetails"
-        app:layout_constraintTop_toBottomOf="@+id/llLogDetails" />
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <Spinner
-        android:id="@+id/spinnerPortRate"
-        android:layout_width="@dimen/dp_150"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_10"
-        android:minWidth="@dimen/dp_100"
-        app:layout_constraintStart_toEndOf="@+id/textPortRateTitle"
-        app:layout_constraintTop_toTopOf="@+id/textPortRateTitle" />
+        <TextView
+            android:id="@+id/textPortRateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/string_port_rate1" />
 
-    <TextView
-        android:id="@+id/textPortTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:text="@string/string_port"
-        app:layout_constraintStart_toStartOf="@+id/llLogDetails"
-        app:layout_constraintTop_toBottomOf="@+id/textPortRateTitle" />
+        <Spinner
+            android:id="@+id/spinnerPortRate"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:minWidth="@dimen/dp_100"
+            app:layout_constraintStart_toEndOf="@+id/textPortRateTitle"
+            app:layout_constraintTop_toTopOf="@+id/textPortRateTitle" />
 
-    <Spinner
-        android:id="@+id/spinnerPortValue"
-        android:layout_width="@dimen/dp_150"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_10"
-        android:minWidth="@dimen/dp_100"
-        app:layout_constraintStart_toEndOf="@+id/textPortTitle"
-        app:layout_constraintTop_toTopOf="@+id/textPortTitle" />
+        <TextView
+            android:id="@+id/textPortTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/string_port"
+            app:layout_constraintTop_toBottomOf="@+id/textPortRateTitle" />
 
-    <EditText
-        android:id="@+id/textCmdInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_20"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:inputType="text"
-        android:imeOptions="actionSend"
-        android:background="@color/text_background"
-        android:padding="@dimen/dp_10"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintEnd_toStartOf="@+id/textCMDTitle"
-        app:layout_constraintStart_toEndOf="@+id/spinnerPortValue"
-        app:layout_constraintTop_toTopOf="@+id/textPortRateTitle" />
+        <Spinner
+            android:id="@+id/spinnerPortValue"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:minWidth="@dimen/dp_100"
+            app:layout_constraintStart_toEndOf="@+id/textPortTitle"
+            app:layout_constraintTop_toTopOf="@+id/textPortTitle" />
 
-    <TextView
-        android:id="@+id/textCMDTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_10"
-        android:text="@string/string_cmd"
-        app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerCMDValue"
-        app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
+        <EditText
+            android:id="@+id/textCmdInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:background="@color/text_background"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:padding="@dimen/dp_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintEnd_toStartOf="@+id/textCMDTitle"
+            app:layout_constraintStart_toEndOf="@+id/spinnerPortValue"
+            app:layout_constraintTop_toTopOf="@+id/textPortRateTitle" />
 
-    <com.industio.uart.view.CKDateSpinner
-        android:id="@+id/spinnerCMDValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_20"
-        app:layout_constraintEnd_toStartOf="@+id/btnSend"
-        app:layout_constraintTop_toTopOf="@+id/textCMDTitle" />
+        <TextView
+            android:id="@+id/textCMDTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:text="@string/string_cmd"
+            app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
+            app:layout_constraintEnd_toStartOf="@+id/spinnerCMDValue"
+            app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_corner"
-        android:text="发送"
-        app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
+        <com.industio.uart.view.CKDateSpinner
+            android:id="@+id/spinnerCMDValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_20"
+            app:layout_constraintEnd_toStartOf="@+id/btnSend"
+            app:layout_constraintTop_toTopOf="@+id/textCMDTitle" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_corner"
+            android:text="发送"
+            app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
