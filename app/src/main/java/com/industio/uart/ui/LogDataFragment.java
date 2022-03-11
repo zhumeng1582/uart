@@ -158,6 +158,6 @@ public class LogDataFragment extends Fragment {
     }
 
     private String getDeviceName() {
-        return "getDeviceName";
+        return "EVB3568";
     }
 }
