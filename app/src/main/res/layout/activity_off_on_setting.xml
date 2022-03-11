@@ -46,7 +46,7 @@
 
         <EditText
             android:id="@+id/textDeviceNameValue"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_120"
             android:layout_height="wrap_content"
             android:text="EVB3586"
             android:textColor="@color/grey"
