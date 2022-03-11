@@ -61,6 +61,8 @@ public class LogDataFragment extends Fragment {
                     ToastUtils.showShort("请输入命令！");
                     return;
                 }
+
+                cmd += "\r\n";
                 mLogSerialControl.write(cmd.getBytes());
                 ToastUtils.showShort("发送成功：" + cmd);
                 binding.textCmdInput.setText("");
@@ -148,7 +150,7 @@ public class LogDataFragment extends Fragment {
             public void onSuccess(Object result) {
                 logInfoAdapter.refresh(binding.recyclerViewLogDetails);
             }
-        }, 100, TimeUnit.MILLISECONDS);
+        }, 25, TimeUnit.MILLISECONDS);
     }
 
 
