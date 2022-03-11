@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingConstraints">
+    <TextView
+        android:id="@+id/textLogDetailsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_50"
+        android:text="LOG详情"
+        android:textColor="@color/black" />
+
+    <FrameLayout
+        android:id="@+id/llLogDetails"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/text_background"
+        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewLogDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:scrollbarThumbVertical="@color/grey"
+            android:scrollbars="vertical"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textPortRateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/string_port_rate1"
+        app:layout_constraintStart_toStartOf="@+id/llLogDetails"
+        app:layout_constraintTop_toBottomOf="@+id/llLogDetails" />
+
+    <Spinner
+        android:id="@+id/spinnerPortRate"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:minWidth="@dimen/dp_100"
+        app:layout_constraintStart_toEndOf="@+id/textPortRateTitle"
+        app:layout_constraintTop_toTopOf="@+id/textPortRateTitle" />
+
+    <TextView
+        android:id="@+id/textPortTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/string_port"
+        app:layout_constraintStart_toStartOf="@+id/llLogDetails"
+        app:layout_constraintTop_toBottomOf="@+id/textPortRateTitle" />
+
+    <Spinner
+        android:id="@+id/spinnerPortValue"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:minWidth="@dimen/dp_100"
+        app:layout_constraintStart_toEndOf="@+id/textPortTitle"
+        app:layout_constraintTop_toTopOf="@+id/textPortTitle" />
+
+    <EditText
+        android:id="@+id/textCmdInput"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_80"
+        android:layout_marginStart="@dimen/dp_20"
+        android:background="@color/text_background"
+        android:padding="@dimen/dp_10"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintStart_toEndOf="@+id/spinnerPortValue"
+        app:layout_constraintTop_toTopOf="@+id/textPortRateTitle"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <TextView
+        android:id="@+id/textCMDTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:text="@string/string_cmd"
+        app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
+        app:layout_constraintStart_toEndOf="@+id/textCmdInput"
+        app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
+
+    <Spinner
+        android:id="@+id/spinnerCMDValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        app:layout_constraintStart_toEndOf="@+id/textCMDTitle"
+        app:layout_constraintTop_toTopOf="@+id/textCMDTitle" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:background="@drawable/btn_corner"
+        android:text="发送"
+        app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
+        app:layout_constraintStart_toEndOf="@+id/spinnerCMDValue"
+        app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
+</androidx.constraintlayout.widget.ConstraintLayout>
