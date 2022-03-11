@@ -15,17 +15,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ResourceUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.industio.uart.adapter.LogInfoAdapter;
+import com.industio.uart.bean.CMDBean;
 import com.industio.uart.databinding.FragmentLogDataBinding;
 import com.industio.uart.utils.LogFileUtils;
 
 import org.ido.iface.SerialControl;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class LogDataFragment extends Fragment {
@@ -75,9 +81,9 @@ public class LogDataFragment extends Fragment {
             }
         });
         String[] deviceNo = {"/dev/ttyS0", "/dev/ttyS5"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, deviceNo);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerPortValue.setAdapter(adapter);
+        ArrayAdapter<String> adapterPort = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, deviceNo);
+        adapterPort.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerPortValue.setAdapter(adapterPort);
         binding.spinnerPortValue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -88,6 +94,27 @@ public class LogDataFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        String jsonString = ResourceUtils.readAssets2String("cmd.json");
+        CMDBean[] cmdBeans;
+        if (!StringUtils.isEmpty(jsonString)) {
+            cmdBeans = GsonUtils.fromJson(jsonString, GsonUtils.getArrayType(CMDBean.class));
+        } else {
+            cmdBeans = new CMDBean[0];
+        }
+        ArrayAdapter<CMDBean> adapterCmd = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, cmdBeans);
+        adapterCmd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerCMDValue.setAdapter(adapterCmd);
+        binding.spinnerCMDValue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                binding.textCmdInput.setText(cmdBeans[position].getValue());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
 
         LinearLayoutManager logLinearLayoutManager = new LinearLayoutManager(getContext());
         logLinearLayoutManager.setStackFromEnd(true);

@@ -1,0 +1,22 @@
+[
+    {
+        "name": "查看温度",
+        "value": "cat /sys/class/thermal/thermal_zone0/temp"
+    },
+    {
+        "name": "CPU频率",
+        "value": "cat /sys/bus/cpu/devices/cpu0/cpufreq/cpuinfo_cur_freq"
+    },
+    {
+        "name": "DDR当前频率",
+        "value": "cat /sys/class/devfreq/dmc/cur_freq"
+    },
+    {
+        "name": "DDR支持频率",
+        "value": "cat /sys/class/devfreq/dmc/available_frequencies"
+    },
+    {
+        "name": "DDR利用率",
+        "value": "cat /sys/class/devfreq/dmc/load"
+    }
+]
