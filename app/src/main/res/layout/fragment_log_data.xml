@@ -92,6 +92,7 @@
         android:layout_marginStart="@dimen/dp_20"
         android:layout_marginEnd="@dimen/dp_20"
         android:inputType="text"
+        android:imeOptions="actionSend"
         android:background="@color/text_background"
         android:padding="@dimen/dp_10"
         android:textColor="@color/black"
