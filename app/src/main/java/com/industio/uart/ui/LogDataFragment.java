@@ -141,10 +141,10 @@ public class LogDataFragment extends Fragment {
 
     private void sendCmd() {
         String cmd = binding.textCmdInput.getText().toString();
-        if (StringUtils.isEmpty(cmd)) {
+        /*if (StringUtils.isEmpty(cmd)) {
             ToastUtils.showShort("请输入命令！");
             return;
-        }
+        }*/
 
         cmd += "\r\n";
         mLogSerialControl.write(cmd.getBytes());
@@ -176,7 +176,7 @@ public class LogDataFragment extends Fragment {
             public void onSuccess(Object result) {
                 logInfoAdapter.refresh(binding.recyclerViewLogDetails);
             }
-        }, 25, TimeUnit.MILLISECONDS);
+        }, 100, TimeUnit.MILLISECONDS);
     }
 
 
