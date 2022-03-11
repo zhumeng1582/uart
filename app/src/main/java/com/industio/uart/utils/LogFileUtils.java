@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 
 public class LogFileUtils {
     public static String createDir(String deviceName) {
-        SimpleDateFormat simpleDateFormat = com.blankj.utilcode.util.TimeUtils.getSafeDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat simpleDateFormat = com.blankj.utilcode.util.TimeUtils.getSafeDateFormat("MMddHHmmss"/*yyyyMMddHHmmss*/);
         String filePath = PathUtils.getAppDataPathExternalFirst();
         if (StringUtils.isEmpty(filePath)) {
             filePath = PathUtils.getExternalAppDataPath();
@@ -35,7 +35,7 @@ public class LogFileUtils {
 
 
         if (FileUtils.createOrExistsDir(filePath)) {
-            filePath = filePath + "/" + deviceName + TimeUtils.getNowString(simpleDateFormat) + ".log";
+            filePath = filePath + "/" + deviceName+"_" + TimeUtils.getNowString(simpleDateFormat) + ".log";
         }
         return filePath;
     }
