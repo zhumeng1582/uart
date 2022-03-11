@@ -18,6 +18,7 @@ import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.industio.uart.adapter.LogInfoAdapter;
 import com.industio.uart.databinding.FragmentLogDataBinding;
 import com.industio.uart.utils.LogFileUtils;
@@ -46,6 +47,14 @@ public class LogDataFragment extends Fragment {
 
     private void initView() {
         binding.textClear.setOnClickListener(v -> logInfoAdapter.clearAll());
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLogSerialControl.write(binding.textCmdInput.getText().toString().getBytes());
+                ToastUtils.showShort("发送成功：" + binding.textCmdInput.getText().toString());
+                binding.textCmdInput.setText("");
+            }
+        });
         String[] portRate = {"1500000", "115200"};
         ArrayAdapter<String> adapterPortRate = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, portRate);
         adapterPortRate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
