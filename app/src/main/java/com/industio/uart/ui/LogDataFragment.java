@@ -174,7 +174,7 @@ public class LogDataFragment extends Fragment {
             public void onSuccess(Object result) {
                 logInfoAdapter.refresh(binding.recyclerViewLogDetails);
             }
-        }, 60, TimeUnit.MILLISECONDS);
+        }, 100, TimeUnit.MILLISECONDS);
     }
 
 
