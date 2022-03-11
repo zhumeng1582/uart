@@ -28,6 +28,7 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.industio.uart.adapter.LogInfoAdapter;
 import com.industio.uart.bean.CMDBean;
+import com.industio.uart.cache.BootParaInstance;
 import com.industio.uart.databinding.FragmentLogDataBinding;
 import com.industio.uart.utils.LogFileUtils;
 
@@ -224,10 +225,10 @@ public class LogDataFragment extends Fragment {
     }
 
     private boolean isSaveLog() {
-        return true;
+        return BootParaInstance.getInstance().getBootPara1().isSaveLog();
     }
 
     private String getDeviceName() {
-        return "EVB3568";
+        return BootParaInstance.getInstance().getBootPara1().getDeviceName();
     }
 }
