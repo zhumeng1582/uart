@@ -38,7 +38,8 @@
             android:paddingTop="@dimen/dp_30"
             android:paddingRight="@dimen/dp_50"
             android:paddingBottom="@dimen/dp_30"
-            android:text="上下电测试" />
+            android:text="上下电测试"
+            android:textSize="20sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCANTest"
@@ -50,6 +51,7 @@
             android:paddingRight="@dimen/dp_50"
             android:paddingBottom="@dimen/dp_30"
             android:text="CAN  测试"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnAutoTest"
             app:layout_constraintTop_toTopOf="@+id/btnAutoTest" />
@@ -64,6 +66,7 @@
             android:paddingRight="@dimen/dp_50"
             android:paddingBottom="@dimen/dp_30"
             android:text="ETH  测 试"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/btnAutoTest"
             app:layout_constraintTop_toBottomOf="@+id/btnAutoTest" />
 
@@ -76,6 +79,7 @@
             android:paddingRight="@dimen/dp_50"
             android:paddingBottom="@dimen/dp_30"
             android:text="UART 测 试"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/btnCANTest"
             app:layout_constraintTop_toTopOf="@+id/btnETHTest" />
