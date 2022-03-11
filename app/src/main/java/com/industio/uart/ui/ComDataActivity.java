@@ -25,9 +25,7 @@ public class ComDataActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(binding.getRoot());
         binding.imageBack.setOnClickListener(this);
         binding.textLog.setOnClickListener(this);
-
     }
-
 
     @Override
     public void onClick(View view) {
