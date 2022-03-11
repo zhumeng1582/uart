@@ -18,7 +18,7 @@ public class LogFileUtils {
             filePath = PathUtils.getDataPath();
         }
 
-        filePath = filePath + "/log";
+        filePath = filePath + "/logs";
 
 
         if (FileUtils.createOrExistsDir(filePath)) {
