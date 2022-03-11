@@ -50,8 +50,13 @@ public class LogDataFragment extends Fragment {
         binding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLogSerialControl.write(binding.textCmdInput.getText().toString().getBytes());
-                ToastUtils.showShort("发送成功：" + binding.textCmdInput.getText().toString());
+                String cmd = binding.textCmdInput.getText().toString();
+                if (StringUtils.isEmpty(cmd)) {
+                    ToastUtils.showShort("请输入命令！");
+                    return;
+                }
+                mLogSerialControl.write(cmd.getBytes());
+                ToastUtils.showShort("发送成功：" + cmd);
                 binding.textCmdInput.setText("");
             }
         });
