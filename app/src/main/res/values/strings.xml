@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">uart</string>
+    <string name="app_name">综测</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -17,7 +17,7 @@
     <string name="string_check_bit">校验位:</string>
     <string name="string_uart_type">类型:</string>
     <string name="string_start">开始</string>
-    <string name="string_port">串\u3000\u3000口:</string>
+    <string name="string_port">串\u0020\u0020口\u0020\u0020名:</string>
     <string name="string_cmd">快捷命令:</string>
 
 </resources>
