@@ -37,16 +37,9 @@
         <activity
             android:name=".ui.ShutUpDownActivity"
             android:theme="@style/Theme.Uart.NoActionBar"/>
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.industio.uart.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"
-                />
-        </provider>
+        <activity
+            android:name=".ui.LogViewActivity"
+            android:theme="@style/Theme.Uart.NoActionBar"/>
     </application>
 
 </manifest>

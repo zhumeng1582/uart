@@ -1,27 +1,16 @@
 package com.industio.uart.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
-
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.blankj.utilcode.util.FileIOUtils;
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.ThreadUtils;
-import com.industio.uart.adapter.LogInfoAdapter;
+import com.blankj.utilcode.util.CollectionUtils;
 import com.industio.uart.databinding.ActivityCommunicationDataBinding;
 import com.industio.uart.utils.LogFileUtils;
 
-import org.ido.iface.SerialControl;
-
-import java.io.UnsupportedEncodingException;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 public class ComDataActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,5 +38,18 @@ public class ComDataActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == LogFileUtils.REQUESTCODE_FROM_ACTIVITY) {
+                List<String> list = data.getStringArrayListExtra("paths");
+                if (CollectionUtils.isNotEmpty(list)) {
+                    Intent intent = new Intent(ComDataActivity.this,LogViewActivity.class);
+                    intent.putExtra("fileName",list.get(0));
+                    startActivity(intent);
+                }
+            }
+        }
+    }
 }

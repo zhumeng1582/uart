@@ -1,20 +1,18 @@
 package com.industio.uart.utils;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
-
-import androidx.core.content.FileProvider;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.leon.lfilepickerlibrary.LFilePicker;
 
 import java.text.SimpleDateFormat;
 
 public class LogFileUtils {
+    public static int REQUESTCODE_FROM_ACTIVITY = 1000;
+
     public static String createDir(String deviceName) {
         String filePath = getLogFileDir();
 
@@ -29,7 +27,7 @@ public class LogFileUtils {
             filePath = filePath + "/" + deviceName;
         }
 
-        SimpleDateFormat simpleDateFormat = com.blankj.utilcode.util.TimeUtils.getSafeDateFormat("MMddHHmmss"/*yyyyMMddHHmmss*/);
+        SimpleDateFormat simpleDateFormat = TimeUtils.getSafeDateFormat("MMddHHmmss"/*yyyyMMddHHmmss*/);
 
         if (FileUtils.createOrExistsDir(filePath)) {
             filePath = filePath + "/" + deviceName + "_" + TimeUtils.getNowString(simpleDateFormat) + ".log";
@@ -50,6 +48,7 @@ public class LogFileUtils {
         FileUtils.createOrExistsFile(filePath);
         return filePath;
     }
+
     private static String getLogFileDir() {
         String filePath = PathUtils.getAppDataPathExternalFirst();
         if (StringUtils.isEmpty(filePath)) {
@@ -66,26 +65,17 @@ public class LogFileUtils {
 
     public static void openLogFileFolder(Activity activity) {
         String fileDir = getLogFileDir();
-        if (FileUtils.createOrExistsDir(fileDir)) {
 
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Uri uri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".fileprovider", FileUtils.getFileByPath(fileDir));
-            intent.setData(uri);
-            try {
-                activity.startActivity(intent);
-//            startActivity(Intent.createChooser(intent,"选择浏览工具"));
-            } catch (ActivityNotFoundException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-
+        new LFilePicker()
+                .withActivity(activity)
+                .withBackgroundColor("#666666")
+                .withRequestCode(REQUESTCODE_FROM_ACTIVITY)
+                .withStartPath(fileDir)//指定初始显示路径
+                .withIsGreater(false)//过滤文件大小 小于指定大小的文件
+                .withFileFilter(new String[]{".log", ".txt", ".json"})
+//                .withFileSize(500 * 1024)//指定文件大小为500K
+                .withMutilyMode(false)
+                .start();
 
     }
-
-
-
 }
