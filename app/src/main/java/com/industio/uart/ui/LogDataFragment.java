@@ -45,6 +45,7 @@ public class LogDataFragment extends Fragment {
     }
 
     private void initView() {
+        binding.textClear.setOnClickListener(v -> logInfoAdapter.clearAll());
         String[] portRate = {"1500000", "115200"};
         ArrayAdapter<String> adapterPortRate = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, portRate);
         adapterPortRate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
