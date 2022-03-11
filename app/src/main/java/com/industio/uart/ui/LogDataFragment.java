@@ -66,7 +66,9 @@ public class LogDataFragment extends Fragment {
         binding.textCmdInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                LogUtils.d("actionId = "+actionId);
+
+                if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
                     sendCmd();
                     KeyboardUtils.hideSoftInput(getActivity());
                     return true;
