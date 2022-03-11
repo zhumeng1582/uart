@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:ignore="MissingConstraints">
 
     <TextView
         android:id="@+id/textTitle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/dp_12"
@@ -19,72 +18,76 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTerminal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/dp_100"
-        tools:ignore="MissingConstraints">
+        android:layout_margin="@dimen/dp_20"
+        android:text="终端界面"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnAutoTest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnAutoTest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_100"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingTop="@dimen/dp_30"
-            android:paddingRight="@dimen/dp_50"
-            android:paddingBottom="@dimen/dp_30"
-            android:text="上下电测试" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAutoTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_40"
+        android:paddingTop="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_50"
+        android:paddingRight="@dimen/dp_50"
+        android:text="上下电测试"
+        app:layout_constraintBottom_toTopOf="@+id/btnETHTest"
+        app:layout_constraintEnd_toStartOf="@+id/btnCANTest"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTerminal" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCANTest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_50"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingTop="@dimen/dp_30"
-            android:paddingRight="@dimen/dp_50"
-            android:paddingBottom="@dimen/dp_30"
-            android:text="CAN  测试"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnAutoTest"
-            app:layout_constraintTop_toTopOf="@+id/btnAutoTest" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCANTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CAN  测试"
+        android:paddingTop="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_50"
+        android:paddingRight="@dimen/dp_50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAutoTest"
+        app:layout_constraintTop_toTopOf="@+id/btnAutoTest" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnETHTest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_50"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingTop="@dimen/dp_30"
-            android:paddingRight="@dimen/dp_50"
-            android:paddingBottom="@dimen/dp_30"
-            android:text="ETH  测 试"
-            app:layout_constraintStart_toStartOf="@+id/btnAutoTest"
-            app:layout_constraintTop_toBottomOf="@+id/btnAutoTest" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnETHTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_40"
+        android:layout_marginEnd="@dimen/dp_40"
+        android:text="ETH  测 试"
+        android:paddingTop="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_50"
+        android:paddingRight="@dimen/dp_50"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnUARTTest"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAutoTest" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnUARTTest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingTop="@dimen/dp_30"
-            android:paddingRight="@dimen/dp_50"
-            android:paddingBottom="@dimen/dp_30"
-            android:text="UART 测 试"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/btnCANTest"
-            app:layout_constraintTop_toTopOf="@+id/btnETHTest" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnUARTTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UART 测 试"
+        android:paddingTop="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_50"
+        android:paddingRight="@dimen/dp_50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnETHTest"
+        app:layout_constraintTop_toTopOf="@+id/btnETHTest" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5" />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
