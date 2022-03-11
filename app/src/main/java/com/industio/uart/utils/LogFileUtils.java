@@ -73,7 +73,7 @@ public class LogFileUtils {
                 .withStartPath(fileDir)//指定初始显示路径
                 .withIsGreater(false)//过滤文件大小 小于指定大小的文件
                 .withFileFilter(new String[]{".log", ".txt", ".json"})
-//                .withFileSize(500 * 1024)//指定文件大小为500K
+                .withFileSize(500 * 1024)//指定文件大小为500K
                 .withMutilyMode(false)
                 .start();
 
