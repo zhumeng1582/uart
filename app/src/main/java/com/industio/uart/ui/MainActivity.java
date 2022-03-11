@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ClickUtils.applySingleDebouncing(new View[]{binding.btnTerminal,
+        ClickUtils.applySingleDebouncing(new View[]{
                 binding.btnAutoTest,
                 binding.btnUARTTest,
                 binding.btnETHTest,
@@ -40,9 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
             @Override
             public void onGranted() {
-                if (view.getId() == binding.btnTerminal.getId()) {
-
-                } else if (view.getId() == binding.btnAutoTest.getId()) {
+                if (view.getId() == binding.btnAutoTest.getId()) {
                     startActivity(new Intent(MainActivity.this, ComDataActivity.class));
                 } else if (view.getId() == binding.btnUARTTest.getId()) {
                     startActivity(new Intent(MainActivity.this, URATTestActivity.class));

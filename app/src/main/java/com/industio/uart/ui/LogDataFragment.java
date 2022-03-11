@@ -2,11 +2,14 @@ package com.industio.uart.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ResourceUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -56,16 +60,18 @@ public class LogDataFragment extends Fragment {
         binding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cmd = binding.textCmdInput.getText().toString();
-                if (StringUtils.isEmpty(cmd)) {
-                    ToastUtils.showShort("请输入命令！");
-                    return;
+                sendCmd();
+            }
+        });
+        binding.textCmdInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    sendCmd();
+                    KeyboardUtils.hideSoftInput(getActivity());
+                    return true;
                 }
-
-                cmd += "\r\n";
-                mLogSerialControl.write(cmd.getBytes());
-                ToastUtils.showShort("发送成功：" + cmd);
-                binding.textCmdInput.setText("");
+                return false;
             }
         });
         String[] portRate = {"1500000", "115200"};
@@ -96,7 +102,12 @@ public class LogDataFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        String jsonString = ResourceUtils.readAssets2String("cmd.json");
+
+        String jsonString = FileIOUtils.readFile2String(LogFileUtils.getJsonFile());
+        if (StringUtils.isEmpty(jsonString)) {
+            jsonString = ResourceUtils.readAssets2String("cmd.json");
+        }
+
         CMDBean[] cmdBeans;
         if (!StringUtils.isEmpty(jsonString)) {
             cmdBeans = GsonUtils.fromJson(jsonString, GsonUtils.getArrayType(CMDBean.class));
@@ -124,6 +135,19 @@ public class LogDataFragment extends Fragment {
         binding.recyclerViewLogDetails.setLayoutManager(logLinearLayoutManager);
         binding.recyclerViewLogDetails.setAdapter(logInfoAdapter);
         binding.recyclerViewLogDetails.setLayoutManager(logLinearLayoutManager);
+    }
+
+    private void sendCmd() {
+        String cmd = binding.textCmdInput.getText().toString();
+        if (StringUtils.isEmpty(cmd)) {
+            ToastUtils.showShort("请输入命令！");
+            return;
+        }
+
+        cmd += "\r\n";
+        mLogSerialControl.write(cmd.getBytes());
+        ToastUtils.showShort("发送成功：" + cmd);
+        binding.textCmdInput.setText("");
     }
 
     private void refreshLog() {

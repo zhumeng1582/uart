@@ -91,6 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_20"
         android:layout_marginEnd="@dimen/dp_20"
+        android:inputType="text"
         android:background="@color/text_background"
         android:padding="@dimen/dp_10"
         android:textColor="@color/black"
@@ -109,7 +110,7 @@
         app:layout_constraintEnd_toStartOf="@+id/spinnerCMDValue"
         app:layout_constraintTop_toTopOf="@+id/textCmdInput" />
 
-    <Spinner
+    <com.industio.uart.view.CKDateSpinner
         android:id="@+id/spinnerCMDValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

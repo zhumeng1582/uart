@@ -35,15 +35,17 @@ public class ComDataActivity extends AppCompatActivity implements View.OnClickLi
         binding = ActivityCommunicationDataBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.imageBack.setOnClickListener(this);
+        binding.textLog.setOnClickListener(this);
 
     }
-
 
 
     @Override
     public void onClick(View view) {
         if (view == binding.imageBack) {
             finish();
+        } else if (view == binding.textLog) {
+            LogFileUtils.openLogFileFolder(this);
         }
     }
 
