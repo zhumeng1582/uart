@@ -32,6 +32,10 @@ public class LogInfoAdapter extends RecyclerView.Adapter<LogInfoAdapter.ViewHold
     }
 
     public void add(String log) {
+        if (temp.size() > 10000) {
+            temp.clear();
+        }
+
         temp.add(log);
     }
 
