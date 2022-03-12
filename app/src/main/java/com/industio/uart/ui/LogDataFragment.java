@@ -53,7 +53,15 @@ public class LogDataFragment extends Fragment {
         binding = FragmentLogDataBinding.inflate(getLayoutInflater());
         initView();
         return binding.getRoot();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mLogSerialControl != null) {
+            mLogSerialControl.close();
+            mLogSerialControl = null;
+        }
     }
 
     private void initView() {
@@ -147,9 +155,9 @@ public class LogDataFragment extends Fragment {
             return;
         }*/
 
-        cmd += "\r\n";
+        cmd += "\n";
         mLogSerialControl.write(cmd.getBytes());
-        ToastUtils.showShort("发送成功：" + cmd);
+      //  ToastUtils.showShort("发送成功：" + cmd);
         binding.textCmdInput.setText("");
     }
 
@@ -177,7 +185,7 @@ public class LogDataFragment extends Fragment {
             public void onSuccess(Object result) {
                 logInfoAdapter.refresh(binding.recyclerViewLogDetails);
             }
-        }, 100, TimeUnit.MILLISECONDS);
+        }, 50, TimeUnit.MILLISECONDS);
     }
 
 
@@ -215,7 +223,7 @@ public class LogDataFragment extends Fragment {
         String portName = (String) binding.spinnerPortValue.getSelectedItem();
         if (mLogSerialControl.init(portName, portRate, 8, 'N', 1, 0, 0)) {
             //ToastUtils.showShort("打开成功:"+portName);
-            Toast.makeText(getContext(), "打开成功:" + portName, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "打开成功:" + portName, Toast.LENGTH_SHORT).show();
         } else {
             // ToastUtils.showLong("打开失败:"+portName);
             Toast.makeText(getContext(), "打开失败:" + portName, Toast.LENGTH_LONG).show();
