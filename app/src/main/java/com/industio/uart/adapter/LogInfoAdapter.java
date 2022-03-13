@@ -32,14 +32,14 @@ public class LogInfoAdapter extends RecyclerView.Adapter<LogInfoAdapter.ViewHold
     }
 
     public void add(String log) {
-        if (temp.size() > 10000) {
-            temp.clear();
-        }
-
         temp.add(log);
     }
 
     public void refresh(RecyclerView recyclerView) {
+        if (stringList.size() > 10000) {
+            clearAll();
+        }
+
         //滑动到底部了
         if (!recyclerView.canScrollVertically(1)) {
             if (!temp.isEmpty()) {
