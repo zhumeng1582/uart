@@ -67,6 +67,8 @@ public class ErrorInfoAdapter extends RecyclerView.Adapter<ErrorInfoAdapter.View
             holder.text.setTextColor(Color.BLUE);
         } else if(holder.text.getText().toString().contains("超时错误")) {
             holder.text.setTextColor(Color.YELLOW);
+        } else {
+            holder.text.setTextColor(Color.RED);
         }
     }
 
