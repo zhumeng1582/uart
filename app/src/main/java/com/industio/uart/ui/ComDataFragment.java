@@ -57,6 +57,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private int uartRxDataFlag = 0;
 
     private final ErrorInfoAdapter errorInfoAdapter = new ErrorInfoAdapter();
+    private final int MAX_ERR_CODE_CLEN_VIEW = 50;
 
     @Nullable
     @Override
@@ -156,6 +157,15 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                         uartRxDataFlag = 0;
                         timeCnt = 0;
 
+                        ThreadUtils.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (errorInfoAdapter.getItemCount() > MAX_ERR_CODE_CLEN_VIEW) { //内容过多清屏
+                                    errorInfoAdapter.clearAll();
+                                }
+                            }
+                        });
+
                         if (bootPara.isShutTimesSwitch()) {   //电源波动
                             for (int i = 0; i < bootPara.getShutTimes(); i++) {
                                 setPower(true);
@@ -204,7 +214,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                             durTime.cancel();
                                             binding.imagePlayAndStop.setChecked(false);
                                         }
-                                        errorInfoAdapter.errorInfo("超时错误");
+                                        errorInfoAdapter.add(binding.recycleViewErrorDetails, "超时错误");
                                         bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                         binding.textTestErrorTimesValue.setText(errorCount + "");
                                         binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
@@ -234,7 +244,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                             }
 
                                             errorCount++;
-                                            errorInfoAdapter.errorInfo("超时错误");
+                                            errorInfoAdapter.add(binding.recycleViewErrorDetails, "超时错误");
                                             bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                             binding.textTestErrorTimesValue.setText(errorCount + "");
                                             binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
@@ -310,12 +320,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                     if ((buf[0] & 0xFF) == DataProtocol.START_FRAME && (buf[3] & 0xFF) == DataProtocol.END_FRAME) {
                         if ((buf[1] & 0xFF) == DataProtocol.OK) {
                             uartRxDataFlag = 2;//接收到OK协议
-                            ThreadUtils.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    errorInfoAdapter.errorInfo("测试通过");
-                                }
-                            });
+                            errorInfoAdapter.add(binding.recycleViewErrorDetails, "测试通过");
                         } else if ((buf[1] & 0xFF) != DataProtocol.OK) {//收到错误码
                             Log.d(TAG, "err codec:" + bytesToHexString(buf, len));
                             ThreadUtils.runOnUiThread(new Runnable() {
@@ -329,7 +334,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                     binding.textTestErrorTimesValue.setText(errorCount + "");
                                     binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
 
-                                    if (errorInfoAdapter.getItemCount() > 80) { //内容过多清屏
+                                    if (errorInfoAdapter.getItemCount() > MAX_ERR_CODE_CLEN_VIEW) { //内容过多清屏
                                         errorInfoAdapter.clearAll();
                                     }
                                     errorInfoAdapter.add(binding.recycleViewErrorDetails, DataAnalysis.analysis(buf[1] & 0xFF, buf[2] & 0xFF));
@@ -343,12 +348,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
                             if (bootPara.isErrorContinue() == false && testDeviceThread != null) {
                                 durTime.cancel();
-                                ThreadUtils.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        binding.imagePlayAndStop.setChecked(false);
-                                    }
-                                });
+                                binding.imagePlayAndStop.setChecked(false);
 
                                 if (bootPara.isErrorContinue() == false)
                                     try {
