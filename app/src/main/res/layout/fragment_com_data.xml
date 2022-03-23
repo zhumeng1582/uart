@@ -149,10 +149,10 @@
         android:id="@+id/textErrorDetailsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_50"
+        android:layout_marginStart="@dimen/dp_80"
         android:text="错误详情"
         android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/textTestTimesValue" />
+        app:layout_constraintStart_toEndOf="@+id/imagePlayAndStop" />
 
     <FrameLayout
         android:id="@+id/llErrorDetails"
