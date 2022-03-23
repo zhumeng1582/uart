@@ -16,7 +16,6 @@ public class ComDataActivity extends AppCompatActivity implements View.OnClickLi
 
     private ActivityCommunicationDataBinding binding;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -72,12 +72,10 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
         binding.cbErrorContinue.setChecked(bootPara.isErrorContinue());
         binding.cbAlarmSound.setChecked(bootPara.isAlarmSound());
         binding.cbSaveLog.setChecked(bootPara.isSaveLog());
-
     }
 
     @Override
     public void onClick(View view) {
-
         if (view == binding.btnSure) {
             bootPara.setDeviceName(binding.textDeviceNameValue.getText().toString());
             if(binding.rbAccess1.isChecked()){

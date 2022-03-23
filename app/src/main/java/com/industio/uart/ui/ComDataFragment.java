@@ -1,5 +1,7 @@
 package com.industio.uart.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -64,6 +66,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentComDataBinding.inflate(getLayoutInflater());
         init();
+        if(MainActivity.getIdoCheck() == false) {
+            Toast.makeText(getContext(), "授权失败！！！", Toast.LENGTH_LONG).show();
+            return null;
+        }
         return binding.getRoot();
     }
 
@@ -77,14 +83,12 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         binding.imageSetting.setOnClickListener(this);
         binding.imagePlayAndStop.setOnClickListener(this);
 
-
         LinearLayoutManager errorLinearLayoutManager = new LinearLayoutManager(getContext());
         errorLinearLayoutManager.setStackFromEnd(true);
         errorLinearLayoutManager.scrollToPositionWithOffset(errorInfoAdapter.getItemCount() - 1, Integer.MIN_VALUE);
         binding.recycleViewErrorDetails.setLayoutManager(errorLinearLayoutManager);
         binding.recycleViewErrorDetails.setAdapter(errorInfoAdapter);
     }
-
 
     @Override
     public void onResume() {
@@ -137,7 +141,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             BootParaInstance.getInstance().saveBootPara1(bootPara);
         } else {
             BootParaInstance.getInstance().saveBootPara2(bootPara);
-
         }
     }
 
@@ -191,7 +194,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                         //持续上电
                         setPower(true);
 
-                        if (bootPara.isFullShutUp()) {
+                        if (bootPara.isFullShutUp()) {//足额上电
                             timeCnt = bootPara.getFullShutUpDur();
                             while (timeCnt-- > 0) {
                                 Thread.sleep(1000);
@@ -202,26 +205,29 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                             }
 
                             if (binding.imagePlayAndStop.isChecked() && uartRxDataFlag == 0) {//超时判断
-                                if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
-                                    playAlarmSound();
-                                }
-
                                 ThreadUtils.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
+                                            playAlarmSound();
+                                        }
+
                                         errorCount++;
                                         if (bootPara.isErrorContinue() == false) {
                                             durTime.cancel();
                                             binding.imagePlayAndStop.setChecked(false);
                                         }
+
                                         errorInfoAdapter.add(binding.recycleViewErrorDetails, "超时错误");
                                         bootPara.setErrorCount(bootPara.getErrorCount() + 1);
                                         binding.textTestErrorTimesValue.setText(errorCount + "");
                                         binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
                                     }
                                 });
+
                                 if (bootPara.isErrorContinue() == false)
                                     Thread.sleep(200);
+
                             } else if (!binding.imagePlayAndStop.isChecked()) {//被手动停止
                                 break;
                             }
@@ -231,13 +237,13 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                                 timeCnt++;
 
                                 if (timeCnt >= bootPara.getFullShutUpDur() && uartRxDataFlag == 0) {//超时判断
-                                    if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
-                                        playAlarmSound();
-                                    }
-
                                     ThreadUtils.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            if (binding.imagePlayAndStop.isChecked() && bootPara.isAlarmSound()) {
+                                                playAlarmSound();
+                                            }
+
                                             if (bootPara.isErrorContinue() == false) {
                                                 durTime.cancel();
                                                 binding.imagePlayAndStop.setChecked(false);
@@ -285,12 +291,10 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onCancel() {
-
             }
 
             @Override
             public void onFail(Throwable t) {
-
             }
         };
 
@@ -306,7 +310,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         testTimeLong = 0;
         binding.textTestDurationValue.setText(com.industio.uart.utils.TimeUtils.getDurTime(testTimeLong));
     }
-
 
     //初始化错误串口
     private void initErrorInfoSerial() {
@@ -377,12 +380,6 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
 
     }
 
-
-//    private int count = 0;
-
-
-
-
     //上下电设置
     private void setPower(boolean on) {
         ThreadUtils.runOnUiThread(new Runnable() {
@@ -447,5 +444,4 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
         }
         return stringBuilder.toString().toUpperCase();
     }
-
 }
