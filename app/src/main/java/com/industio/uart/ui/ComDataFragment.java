@@ -27,7 +27,6 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ThreadUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.industio.uart.adapter.ErrorInfoAdapter;
 import com.industio.uart.adapter.LogInfoAdapter;
@@ -37,6 +36,7 @@ import com.industio.uart.databinding.FragmentComDataBinding;
 import com.industio.uart.utils.DataAnalysis;
 import com.industio.uart.utils.DataProtocol;
 import com.industio.uart.utils.LogFileUtils;
+import com.industio.uart.utils.TimeUtils;
 
 import org.ido.iface.SerialControl;
 
@@ -45,6 +45,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class ComDataFragment extends Fragment implements View.OnClickListener {
@@ -66,7 +67,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentComDataBinding.inflate(getLayoutInflater());
         init();
-        if(MainActivity.getIdoCheck() == false) {
+        if (MainActivity.getIdoCheck() == false) {
             Toast.makeText(getContext(), "授权失败！！！", Toast.LENGTH_LONG).show();
             return null;
         }
@@ -170,11 +171,22 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                         });
 
                         if (bootPara.isShutTimesSwitch()) {   //电源波动
+
                             for (int i = 0; i < bootPara.getShutTimes(); i++) {
                                 setPower(true);
-                                Thread.sleep(bootPara.getShutUpDur());
+                                if (bootPara.isShoutUpRandom()) {
+                                    Thread.sleep(TimeUtils.getRandomTime(100, 1000));
+                                } else {
+                                    Thread.sleep(bootPara.getShutUpDur());
+                                }
+
                                 setPower(false);
-                                Thread.sleep(bootPara.getShutDownDur());
+                                if (bootPara.isShoutUpRandom()) {
+                                    Thread.sleep(TimeUtils.getRandomTime(100, 1000));
+                                } else {
+                                    Thread.sleep(bootPara.getShutDownDur());
+                                }
+
                                 if (!binding.imagePlayAndStop.isChecked()) {//被手动停止
                                     break;
                                 }

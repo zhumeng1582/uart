@@ -48,9 +48,9 @@
             android:id="@+id/textDeviceNameValue"
             android:layout_width="@dimen/dp_120"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_50"
             android:text="EVB3586"
             android:textColor="@color/grey"
-            android:layout_marginLeft="@dimen/dp_50"
             app:layout_constraintBottom_toBottomOf="@+id/textProjectNameTitle"
             app:layout_constraintStart_toEndOf="@+id/textProjectNameTitle"
             app:layout_constraintTop_toTopOf="@+id/textProjectNameTitle" />
@@ -126,23 +126,32 @@
             android:layout_width="@dimen/dp_50"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_20"
-            android:text="10"
-            android:maxLength="6"
-            android:maxEms="6"
             android:inputType="number"
             android:lines="1"
+            android:maxEms="6"
+            android:maxLength="6"
+            android:text="10"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textPeriodCount"
             app:layout_constraintStart_toEndOf="@+id/textPeriodCount"
             app:layout_constraintTop_toTopOf="@+id/textPeriodCount" />
 
+        <CheckBox
+            android:id="@+id/cbShoutUpRandom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="随机"
+            app:layout_constraintStart_toStartOf="@+id/textPeriodCount"
+            app:layout_constraintTop_toBottomOf="@+id/textPeriodCount" />
+
         <TextView
             android:id="@+id/textShoutUpTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_10"
             android:text="上电时间"
-            app:layout_constraintStart_toStartOf="@+id/textPeriodCount"
+            app:layout_constraintStart_toEndOf="@+id/cbShoutUpRandom"
             app:layout_constraintTop_toBottomOf="@+id/textPeriodCount" />
 
         <EditText
@@ -150,11 +159,11 @@
             android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_20"
-            android:text="10"
             android:inputType="number"
-            android:maxLength="6"
-            android:maxEms="6"
             android:lines="1"
+            android:maxEms="6"
+            android:maxLength="6"
+            android:text="10"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
             app:layout_constraintStart_toEndOf="@+id/textShoutUpTime"
@@ -186,11 +195,11 @@
             android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_20"
-            android:text="10"
-            android:maxLength="6"
-            android:maxEms="6"
             android:inputType="number"
             android:lines="1"
+            android:maxEms="6"
+            android:maxLength="6"
+            android:text="10"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
             app:layout_constraintStart_toEndOf="@+id/textShoutDownTime"
@@ -213,23 +222,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_40"
             android:text="持续上电"
-            app:layout_constraintTop_toBottomOf="@+id/cbShutTimesSwitch"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/cbShutTimesSwitch" />
 
         <EditText
             android:id="@+id/editFullShutUpDur"
             android:layout_width="@dimen/dp_50"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
-            android:text="10"
             android:inputType="number"
             android:lines="1"
-            android:maxLength="6"
             android:maxEms="6"
+            android:maxLength="6"
+            android:text="10"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpDurTime"
             app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
             app:layout_constraintTop_toTopOf="@+id/textShoutUpDurTime" />
+
         <TextView
             android:id="@+id/textShoutUpDurTimeS"
             android:layout_width="wrap_content"
@@ -314,6 +324,7 @@
             app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
             app:layout_constraintTop_toTopOf="@+id/textLog" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSure"
         android:layout_width="wrap_content"

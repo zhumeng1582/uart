@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +15,8 @@ import com.industio.uart.cache.AccessParaContent1;
 import com.industio.uart.cache.AccessParaContent2;
 import com.industio.uart.cache.BootParaInstance;
 import com.industio.uart.databinding.ActivityOffOnSettingBinding;
+
+import java.util.Random;
 
 public class ShutUpDownActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,6 +38,10 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
         setContentView(binding.getRoot());
         binding.btnSure.setOnClickListener(this);
         binding.imageBack.setOnClickListener(this);
+        binding.cbShoutUpRandom.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.textShoutUpDurValue.setEnabled(!isChecked);
+            binding.textShoutDownDurValue.setEnabled(!isChecked);
+        });
         init();
     }
 
@@ -57,48 +64,55 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
         binding.rbAccess4.setText(accessParaContent.accessPara4().getName());
         binding.rbAccess5.setText(accessParaContent.accessPara5().getName());
 
-        binding.rbAccess1.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(),binding.rbAccess1.getText().toString()));
-        binding.rbAccess2.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(),binding.rbAccess2.getText().toString()));
-        binding.rbAccess3.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(),binding.rbAccess3.getText().toString()));
-        binding.rbAccess4.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(),binding.rbAccess4.getText().toString()));
-        binding.rbAccess5.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(),binding.rbAccess5.getText().toString()));
+        binding.rbAccess1.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(), binding.rbAccess1.getText().toString()));
+        binding.rbAccess2.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(), binding.rbAccess2.getText().toString()));
+        binding.rbAccess3.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(), binding.rbAccess3.getText().toString()));
+        binding.rbAccess4.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(), binding.rbAccess4.getText().toString()));
+        binding.rbAccess5.setChecked(StringUtils.equals(bootPara.getAccessPort().getName(), binding.rbAccess5.getText().toString()));
 
         binding.cbShutTimesSwitch.setChecked(bootPara.isShutTimesSwitch());
-        binding.textShutTimes.setText(""+bootPara.getShutTimes());
-        binding.textShoutUpDurValue.setText(""+bootPara.getShutUpDur());
-        binding.textShoutDownDurValue.setText(""+bootPara.getShutDownDur());
+        binding.textShutTimes.setText("" + bootPara.getShutTimes());
+        binding.textShoutUpDurValue.setText("" + bootPara.getShutUpDur());
+        binding.textShoutDownDurValue.setText("" + bootPara.getShutDownDur());
         binding.cbFullShutUp.setChecked(bootPara.isFullShutUp());
-        binding.editFullShutUpDur.setText(""+bootPara.getFullShutUpDur());
+        binding.editFullShutUpDur.setText("" + bootPara.getFullShutUpDur());
         binding.cbErrorContinue.setChecked(bootPara.isErrorContinue());
         binding.cbAlarmSound.setChecked(bootPara.isAlarmSound());
         binding.cbSaveLog.setChecked(bootPara.isSaveLog());
+
+        binding.cbShoutUpRandom.setChecked(bootPara.isShoutUpRandom());
     }
 
     @Override
     public void onClick(View view) {
         if (view == binding.btnSure) {
             bootPara.setDeviceName(binding.textDeviceNameValue.getText().toString());
-            if(binding.rbAccess1.isChecked()){
+            if (binding.rbAccess1.isChecked()) {
                 bootPara.setAccessPort(accessParaContent.accessPara1());
-            }else if(binding.rbAccess2.isChecked()){
+            } else if (binding.rbAccess2.isChecked()) {
                 bootPara.setAccessPort(accessParaContent.accessPara2());
-            }else if(binding.rbAccess3.isChecked()){
+            } else if (binding.rbAccess3.isChecked()) {
                 bootPara.setAccessPort(accessParaContent.accessPara3());
-            }else if(binding.rbAccess4.isChecked()){
+            } else if (binding.rbAccess4.isChecked()) {
                 bootPara.setAccessPort(accessParaContent.accessPara4());
-            }else if(binding.rbAccess5.isChecked()){
+            } else if (binding.rbAccess5.isChecked()) {
                 bootPara.setAccessPort(accessParaContent.accessPara5());
             }
             bootPara.setShutTimesSwitch(binding.cbShutTimesSwitch.isChecked());
 
             bootPara.setShutTimes(Integer.parseInt(binding.textShutTimes.getText().toString()));
-            bootPara.setShutUpDur(Integer.parseInt(binding.textShoutUpDurValue.getText().toString()));
-            bootPara.setShutDownDur(Integer.parseInt(binding.textShoutDownDurValue.getText().toString()));
+
             bootPara.setFullShutUp(binding.cbFullShutUp.isChecked());
             bootPara.setFullShutUpDur(Integer.parseInt(binding.editFullShutUpDur.getText().toString()));
             bootPara.setErrorContinue(binding.cbErrorContinue.isChecked());
             bootPara.setAlarmSound(binding.cbAlarmSound.isChecked());
             bootPara.setSaveLog(binding.cbSaveLog.isChecked());
+
+            bootPara.setShoutUpRandom(binding.cbShoutUpRandom.isChecked());
+            if (!binding.cbShoutUpRandom.isChecked()) {
+                bootPara.setShutUpDur(Integer.parseInt(binding.textShoutUpDurValue.getText().toString()));
+                bootPara.setShutDownDur(Integer.parseInt(binding.textShoutDownDurValue.getText().toString()));
+            }
 
             bootPara.setTestTimeLong(0);
             bootPara.setTestCount(0);
@@ -110,7 +124,7 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
                 BootParaInstance.getInstance().saveBootPara2(bootPara);
             }
             finish();
-        }else if(view == binding.imageBack){
+        } else if (view == binding.imageBack) {
             finish();
         }
     }

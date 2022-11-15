@@ -11,6 +11,7 @@ public class BootPara implements Serializable {
         this.accessPort = accessPort;
         shutTimesSwitch = true;
         shutTimes = 5;
+        shoutUpRandom = true;
         shutUpDur = 1000;
         shutDownDur = 1000;
         fullShutUp = false;
@@ -25,6 +26,7 @@ public class BootPara implements Serializable {
 
     private boolean shutTimesSwitch;
     private int shutTimes;
+    private boolean shoutUpRandom;
     private int shutUpDur;
     private int shutDownDur;
     private boolean fullShutUp;
@@ -146,5 +148,13 @@ public class BootPara implements Serializable {
 
     public void setSaveLog(boolean saveLog) {
         this.saveLog = saveLog;
+    }
+
+    public boolean isShoutUpRandom() {
+        return shoutUpRandom;
+    }
+
+    public void setShoutUpRandom(boolean shoutUpRandom) {
+        this.shoutUpRandom = shoutUpRandom;
     }
 }
