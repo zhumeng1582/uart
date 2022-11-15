@@ -140,6 +140,7 @@
             android:id="@+id/cbShoutUpRandom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
             android:text="随机"
             app:layout_constraintStart_toStartOf="@+id/textPeriodCount"
             app:layout_constraintTop_toBottomOf="@+id/textPeriodCount" />
@@ -148,11 +149,11 @@
             android:id="@+id/textShoutUpTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_20"
             android:text="上电时间"
+            app:layout_constraintBottom_toBottomOf="@+id/cbShoutUpRandom"
             app:layout_constraintStart_toEndOf="@+id/cbShoutUpRandom"
-            app:layout_constraintTop_toBottomOf="@+id/textPeriodCount" />
+            app:layout_constraintTop_toTopOf="@+id/cbShoutUpRandom" />
 
         <EditText
             android:id="@+id/textShoutUpDurValue"
@@ -161,8 +162,8 @@
             android:layout_marginStart="@dimen/dp_20"
             android:inputType="number"
             android:lines="1"
-            android:maxEms="6"
-            android:maxLength="6"
+            android:maxEms="8"
+            android:maxLength="8"
             android:text="10"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
@@ -197,8 +198,8 @@
             android:layout_marginStart="@dimen/dp_20"
             android:inputType="number"
             android:lines="1"
-            android:maxEms="6"
-            android:maxLength="6"
+            android:maxEms="8"
+            android:maxLength="8"
             android:text="10"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
