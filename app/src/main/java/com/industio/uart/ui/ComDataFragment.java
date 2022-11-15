@@ -320,7 +320,7 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
             protected void read(byte[] buf, int len) {
                 ThreadUtils.runOnUiThread(() -> {
                     Log.d(TAG, "ErrorInfoSerial rx:" + len + "," + bytesToHexString(buf, len));
-                    if ((buf[0] & 0xFF) == DataProtocol.START_FRAME && (buf[3] & 0xFF) == DataProtocol.END_FRAME) {
+                    if ((len == 4) && ((buf[0] & 0xFF) == DataProtocol.START_FRAME) && ((buf[3] & 0xFF) == DataProtocol.END_FRAME)) {
                         if ((buf[1] & 0xFF) == DataProtocol.OK) {
                             uartRxDataFlag = 2;//接收到OK协议
                             errorInfoAdapter.add(binding.recycleViewErrorDetails, "测试通过");
