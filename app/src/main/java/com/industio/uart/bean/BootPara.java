@@ -10,10 +10,10 @@ public class BootPara implements Serializable {
     public BootPara(AccessPara accessPort) {
         this.accessPort = accessPort;
         shutTimesSwitch = true;
-        shutTimes = 5;
+        shutTimes = 10;
         shoutUpRandom = true;
-        shutUpDur = 1000;
-        shutDownDur = 1000;
+        shutUpDur = 100;
+        shutDownDur = 100;
         fullShutUp = false;
         fullShutUpDur = 60;
         errorContinue = false;
