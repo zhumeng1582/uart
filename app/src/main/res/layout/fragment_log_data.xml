@@ -4,37 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/dp_20"
-    android:paddingRight="@dimen/dp_20"
-    android:paddingBottom="@dimen/dp_20"
+    android:paddingLeft="@dimen/dp_12"
+    android:paddingRight="@dimen/dp_12"
+    android:paddingBottom="@dimen/dp_12"
     tools:ignore="MissingConstraints">
 
     <TextView
         android:id="@+id/textLogDetailsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_50"
-        android:paddingTop="@dimen/dp_20"
-        android:paddingBottom="12dp"
+        android:layout_marginStart="@dimen/dp_24"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_8"
         android:text="LOG详情"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14" />
 
     <TextView
         android:id="@+id/textClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dp_50"
-        android:paddingTop="@dimen/dp_20"
-        android:paddingBottom="12dp"
+        android:paddingLeft="@dimen/dp_24"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_8"
         android:text="清屏"
         android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <FrameLayout
         android:id="@+id/llLogDetails"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_12"
         android:background="@color/text_background"
         app:layout_constraintBottom_toTopOf="@+id/conSend"
         app:layout_constraintStart_toStartOf="@+id/textLogDetailsTitle"
@@ -59,15 +61,15 @@
             android:id="@+id/textPortRateTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_8"
             android:text="@string/string_port_rate1" />
 
         <Spinner
             android:id="@+id/spinnerPortRate"
-            android:layout_width="@dimen/dp_150"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:minWidth="@dimen/dp_100"
+            android:layout_marginStart="@dimen/dp_8"
+            android:minWidth="72dp"
             app:layout_constraintStart_toEndOf="@+id/textPortRateTitle"
             app:layout_constraintTop_toTopOf="@+id/textPortRateTitle" />
 
@@ -75,16 +77,16 @@
             android:id="@+id/textPortTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_8"
             android:text="@string/string_port"
             app:layout_constraintTop_toBottomOf="@+id/textPortRateTitle" />
 
         <Spinner
             android:id="@+id/spinnerPortValue"
-            android:layout_width="@dimen/dp_150"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:minWidth="@dimen/dp_100"
+            android:layout_marginStart="@dimen/dp_8"
+            android:minWidth="72dp"
             app:layout_constraintStart_toEndOf="@+id/textPortTitle"
             app:layout_constraintTop_toTopOf="@+id/textPortTitle" />
 
@@ -92,8 +94,8 @@
             android:id="@+id/textCmdInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
             android:background="@color/text_background"
             android:imeOptions="actionSend"
             android:inputType="text"
@@ -108,7 +110,7 @@
             android:id="@+id/textCMDTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_8"
             android:text="@string/string_cmd"
             app:layout_constraintBottom_toBottomOf="@+id/textCmdInput"
             app:layout_constraintEnd_toStartOf="@+id/spinnerCMDValue"
@@ -118,7 +120,7 @@
             android:id="@+id/spinnerCMDValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_12"
             app:layout_constraintEnd_toStartOf="@+id/btnSend"
             app:layout_constraintTop_toTopOf="@+id/textCMDTitle" />
 

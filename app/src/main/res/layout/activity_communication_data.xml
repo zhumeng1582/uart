@@ -17,7 +17,7 @@
             android:id="@+id/imageBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp_20"
+            android:padding="@dimen/dp_12"
             android:src="@mipmap/icon_back" />
 
         <LinearLayout
@@ -33,14 +33,15 @@
                 android:gravity="center_horizontal"
                 android:text="上下电测试控制台"
                 android:textColor="@color/black"
-                android:textSize="34sp" />
+                android:textSize="@dimen/title_bar" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp_20"
+            android:padding="@dimen/dp_12"
+            android:textSize="@dimen/sp_14"
             android:text="查看日志"
             android:textColor="@color/black" />
     </LinearLayout>
@@ -53,7 +54,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_12"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -62,7 +63,7 @@
                 android:name="com.industio.uart.ui.ComDataFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/dp_20"
+                android:layout_marginBottom="@dimen/dp_8"
                 android:layout_weight="1"
                 android:tag="1" />
 

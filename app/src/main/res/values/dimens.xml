@@ -1,12 +1,19 @@
 <resources>
+    <!-- 1280x800 适配：通用 -->
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="sp_14">14sp</dimen>
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_18">18sp</dimen>
+    <dimen name="title_main">40sp</dimen>
+    <dimen name="title_bar">26sp</dimen>
 
     <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_12">12dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
     <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
     <dimen name="dp_30">30dp</dimen>
     <dimen name="dp_40">40dp</dimen>
     <dimen name="dp_48">48dp</dimen>
@@ -15,4 +22,10 @@
     <dimen name="dp_100">100dp</dimen>
     <dimen name="dp_120">120dp</dimen>
     <dimen name="dp_150">150dp</dimen>
+    <!-- 1280x800 紧凑间距 -->
+    <dimen name="margin_block">48dp</dimen>
+    <dimen name="margin_btn">24dp</dimen>
+    <dimen name="margin_section">24dp</dimen>
+    <dimen name="padding_btn_v">20dp</dimen>
+    <dimen name="padding_btn_h">28dp</dimen>
 </resources>

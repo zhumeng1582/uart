@@ -9,7 +9,7 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="0.6" />
 
     <TextView
         android:id="@+id/textTitle"
@@ -19,41 +19,38 @@
         android:padding="@dimen/dp_12"
         android:text="@string/string_home_title"
         android:textColor="#2196F3"
-        android:textSize="60sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="@dimen/title_main" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_100"
+        android:layout_marginTop="@dimen/margin_block"
         tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAutoTest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_100"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingTop="@dimen/dp_30"
-            android:paddingRight="@dimen/dp_50"
-            android:paddingBottom="@dimen/dp_30"
+            android:layout_margin="@dimen/margin_block"
+            android:paddingLeft="@dimen/padding_btn_h"
+            android:paddingTop="@dimen/padding_btn_v"
+            android:paddingRight="@dimen/padding_btn_h"
+            android:paddingBottom="@dimen/padding_btn_v"
             android:text="上下电测试"
-            android:textSize="20sp" />
+            android:textSize="@dimen/sp_16" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCANTest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_50"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingTop="@dimen/dp_30"
-            android:paddingRight="@dimen/dp_50"
-            android:paddingBottom="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/margin_btn"
+            android:paddingLeft="@dimen/padding_btn_h"
+            android:paddingTop="@dimen/padding_btn_v"
+            android:paddingRight="@dimen/padding_btn_h"
+            android:paddingBottom="@dimen/padding_btn_v"
             android:text="CAN  测试"
-            android:textSize="20sp"
+            android:textSize="@dimen/sp_16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnAutoTest"
             app:layout_constraintTop_toTopOf="@+id/btnAutoTest" />
@@ -62,13 +59,13 @@
             android:id="@+id/btnETHTest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_50"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingTop="@dimen/dp_30"
-            android:paddingRight="@dimen/dp_50"
-            android:paddingBottom="@dimen/dp_30"
+            android:layout_marginTop="@dimen/margin_btn"
+            android:paddingLeft="@dimen/padding_btn_h"
+            android:paddingTop="@dimen/padding_btn_v"
+            android:paddingRight="@dimen/padding_btn_h"
+            android:paddingBottom="@dimen/padding_btn_v"
             android:text="ETH  测 试"
-            android:textSize="20sp"
+            android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="@+id/btnAutoTest"
             app:layout_constraintTop_toBottomOf="@+id/btnAutoTest" />
 
@@ -76,12 +73,12 @@
             android:id="@+id/btnUARTTest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingTop="@dimen/dp_30"
-            android:paddingRight="@dimen/dp_50"
-            android:paddingBottom="@dimen/dp_30"
+            android:paddingLeft="@dimen/padding_btn_h"
+            android:paddingTop="@dimen/padding_btn_v"
+            android:paddingRight="@dimen/padding_btn_h"
+            android:paddingBottom="@dimen/padding_btn_v"
             android:text="UART 测 试"
-            android:textSize="20sp"
+            android:textSize="@dimen/sp_16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/btnCANTest"
             app:layout_constraintTop_toTopOf="@+id/btnETHTest" />
@@ -90,5 +87,5 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2" />
+        android:layout_weight="1" />
 </LinearLayout>

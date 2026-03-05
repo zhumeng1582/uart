@@ -15,7 +15,7 @@
             android:id="@+id/imageBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp_20"
+            android:padding="@dimen/dp_12"
             android:layout_centerVertical="true"
             android:src="@mipmap/icon_back" />
 
@@ -27,17 +27,17 @@
             android:text="查看日志"
             android:lines="1"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
 
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp_20"
-        android:paddingRight="@dimen/dp_20"
-        android:paddingBottom="@dimen/dp_20">
+        android:fillViewport="true"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_12">
 
         <TextView
             android:id="@+id/textLog"

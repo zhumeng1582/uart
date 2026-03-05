@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/dp_20"
+    android:padding="@dimen/dp_12"
     tools:ignore="MissingConstraints">
 
     <LinearLayout
@@ -27,14 +27,20 @@
             android:gravity="center"
             android:text="上下电设置"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="@dimen/sp_16" />
 
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_12"
         tools:ignore="MissingConstraints">
 
         <TextView
@@ -48,7 +54,7 @@
             android:id="@+id/textDeviceNameValue"
             android:layout_width="@dimen/dp_120"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_50"
+            android:layout_marginStart="@dimen/dp_24"
             android:text="EVB3586"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textProjectNameTitle"
@@ -59,7 +65,7 @@
             android:id="@+id/textAccessSelectTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginTop="@dimen/margin_section"
             android:text="通道选择："
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/textProjectNameTitle" />
@@ -116,7 +122,7 @@
             android:id="@+id/textPeriodCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginTop="@dimen/margin_section"
             android:text="周期次数"
             app:layout_constraintStart_toStartOf="@+id/textDeviceNameValue"
             app:layout_constraintTop_toBottomOf="@+id/textAccessSelectTitle" />
@@ -125,7 +131,7 @@
             android:id="@+id/textShutTimes"
             android:layout_width="@dimen/dp_50"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_12"
             android:inputType="number"
             android:lines="1"
             android:maxEms="6"
@@ -159,7 +165,7 @@
             android:id="@+id/textShoutUpDurValue"
             android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_12"
             android:inputType="number"
             android:lines="1"
             android:maxEms="8"
@@ -174,7 +180,7 @@
             android:id="@+id/textShoutUpTimeUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_8"
             android:text="毫秒"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
@@ -195,7 +201,7 @@
             android:id="@+id/textShoutDownDurValue"
             android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_12"
             android:inputType="number"
             android:lines="1"
             android:maxEms="8"
@@ -210,7 +216,7 @@
             android:id="@+id/textShoutDownTimeUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_8"
             android:text="毫秒"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpTime"
@@ -221,7 +227,7 @@
             android:id="@+id/textShoutUpDurTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginTop="@dimen/margin_section"
             android:text="持续上电"
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/cbShutTimesSwitch" />
@@ -230,7 +236,7 @@
             android:id="@+id/editFullShutUpDur"
             android:layout_width="@dimen/dp_50"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_8"
             android:inputType="number"
             android:lines="1"
             android:maxEms="6"
@@ -245,7 +251,7 @@
             android:id="@+id/textShoutUpDurTimeS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_8"
             android:text="秒"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="@+id/textShoutUpDurTime"
@@ -257,7 +263,7 @@
             android:id="@+id/textIsShoutUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginTop="@dimen/margin_section"
             android:text="足额上电："
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/textShoutUpDurTime" />
@@ -275,7 +281,7 @@
             android:id="@+id/textError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginTop="@dimen/margin_section"
             android:text="失败继续："
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/textIsShoutUp" />
@@ -293,7 +299,7 @@
             android:id="@+id/textSound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginTop="@dimen/margin_section"
             android:text="报警声音："
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/textError" />
@@ -311,7 +317,7 @@
             android:id="@+id/textLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginTop="@dimen/margin_section"
             android:text="LOG保存："
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/textSound" />
@@ -326,11 +332,13 @@
             app:layout_constraintTop_toTopOf="@+id/textLog" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </ScrollView>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_12"
         android:background="@drawable/btn_corner"
         android:text="保存" />
 </LinearLayout>
