@@ -10,27 +10,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.ClickUtils;
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.PermissionUtils;
 import com.industio.uart.databinding.ActivityMainBinding;
-import com.industio.uart.utils.DataProtocol;
+import com.industio.uart.utils.PermissionHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityMainBinding binding;
     private Context mContext;
+    private PermissionHelper permissionHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getIdoCheck() == false) {
+        if (getIdoCheck() == false) {
             Toast.makeText(this, "授权失败！！！", Toast.LENGTH_LONG).show();
             this.finish();
         }
@@ -45,17 +43,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }, this);
 
         mContext = this;
+        permissionHelper = new PermissionHelper(this);
     }
 
     @Override
     public void onClick(View view) {
-        PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
+        permissionHelper.requestStorage(new PermissionHelper.Callback() {
             @Override
             public void onGranted() {
                 if (view.getId() == binding.btnAutoTest.getId()) {
                     startActivity(new Intent(MainActivity.this, ComDataActivity.class));
                 } else if (view.getId() == binding.btnUARTTest.getId()) {
-                    if(getIdoCheck() == true) {
+                    if (getIdoCheck() == true) {
                         startActivity(new Intent(MainActivity.this, URATTestActivity.class));
                     } else {
                         Toast.makeText(mContext, "授权失败！！！", Toast.LENGTH_LONG).show();
@@ -68,9 +67,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onDenied() {
-
+                Log.e("ido", "用户拒绝存储权限时的处理（可选：提示或不再执行）");
+                // 用户拒绝存储权限时的处理（可选：提示或不再执行）
             }
-        }).request();
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissionHelper != null) {
+            permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     public static boolean getIdoCheck() {
