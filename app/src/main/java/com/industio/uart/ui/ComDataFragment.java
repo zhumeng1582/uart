@@ -1,5 +1,6 @@
 package com.industio.uart.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -15,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -62,6 +65,29 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
     private final ErrorInfoAdapter errorInfoAdapter = new ErrorInfoAdapter();
     private final int MAX_ERR_CODE_CLEN_VIEW = 50;
 
+    /** 设置页保存成功后清空错误列表并刷新统计（与 ShutUpDownActivity RESULT_OK 对应） */
+    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() != Activity.RESULT_OK || getContext() == null) {
+                    return;
+                }
+                errorInfoAdapter.clearAll();
+                if (StringUtils.equals(getTag(), "1")) {
+                    bootPara = BootParaInstance.getInstance().getBootPara1();
+                } else {
+                    bootPara = BootParaInstance.getInstance().getBootPara2();
+                }
+                if (binding != null) {
+                    binding.textTotalTestTimesValue.setText(bootPara.getTestCount() + "");
+                    binding.textTotalTestErrorTimesValue.setText(bootPara.getErrorCount() + "");
+                    binding.textTotalTestDurationValue.setText(TimeUtils.getDurTime(bootPara.getTestTimeLong()));
+                    if (!binding.imagePlayAndStop.isChecked()) {
+                        clearCount();
+                    }
+                }
+            });
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -108,9 +134,9 @@ public class ComDataFragment extends Fragment implements View.OnClickListener {
                 return;
             }
             if (StringUtils.equals(getTag(), "1")) {
-                ShutUpDownActivity.startActivity(getActivity(), BootParaInstance.KEY_BOOT_PRAR1);
+                settingsLauncher.launch(ShutUpDownActivity.createIntent(requireActivity(), BootParaInstance.KEY_BOOT_PRAR1));
             } else {
-                ShutUpDownActivity.startActivity(getActivity(), BootParaInstance.KEY_BOOT_PRAR2);
+                settingsLauncher.launch(ShutUpDownActivity.createIntent(requireActivity(), BootParaInstance.KEY_BOOT_PRAR2));
             }
         } else if (v == binding.imagePlayAndStop) {
             if (binding.imagePlayAndStop.isChecked()) {

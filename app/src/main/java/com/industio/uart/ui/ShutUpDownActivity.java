@@ -25,10 +25,14 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
     private BootPara bootPara;
     private AccessParaContent accessParaContent;
 
-    public static void startActivity(Activity activity, String key) {
+
+    /**
+     * 用于 Fragment ActivityResultLauncher 启动
+     */
+    public static Intent createIntent(Activity activity, String key) {
         Intent intent = new Intent(activity, ShutUpDownActivity.class);
         intent.putExtra("key", key);
-        activity.startActivity(intent);
+        return intent;
     }
 
     @Override
@@ -123,8 +127,10 @@ public class ShutUpDownActivity extends AppCompatActivity implements View.OnClic
             } else {
                 BootParaInstance.getInstance().saveBootPara2(bootPara);
             }
+            setResult(Activity.RESULT_OK);
             finish();
         } else if (view == binding.imageBack) {
+            setResult(Activity.RESULT_CANCELED);
             finish();
         }
     }
